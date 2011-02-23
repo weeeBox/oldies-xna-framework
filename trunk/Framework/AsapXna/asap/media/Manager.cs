@@ -5,7 +5,7 @@ using System.IO;
 
 
 
-namespace java.asap.media
+namespace asap.media
 {
     public class Manager
      {

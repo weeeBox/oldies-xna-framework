@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace java.asap.util
+namespace asap.util
 {
     public class StringWrapper
      {

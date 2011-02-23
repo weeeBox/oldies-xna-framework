@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 
 
-namespace java.asap.media
+namespace asap.media
 {
     abstract public class ManagerImpl
     {

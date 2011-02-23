@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 
 
-namespace java.asap.rms
+namespace asap.rms
 {
     abstract public class RecordStorage
      {

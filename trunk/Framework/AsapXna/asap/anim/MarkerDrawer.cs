@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.graphics;
+using asap.graphics;
 
-namespace java.asap.anim
+namespace asap.anim
 {
     /** 
      * Лучше был бы интерфейсом, но проблемы будут с бравой.

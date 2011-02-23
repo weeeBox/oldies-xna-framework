@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.graphics;
-using java.asap.anim;
+using asap.graphics;
+using asap.anim;
 using System.Diagnostics;
 
-namespace java.asap.resources
+namespace asap.resources
 {
     public class DefaultResManager : ResManager
      {

@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.graphics;
+using asap.graphics;
 using System.Diagnostics;
 
-namespace java.asap.app
+namespace asap.app
 {
     public class App
      {

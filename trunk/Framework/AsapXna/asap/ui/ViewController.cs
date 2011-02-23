@@ -2,10 +2,10 @@ using System;
 
 using System.Collections.Generic;
 
-using java.asap.core;
+using asap.core;
 using System.Diagnostics;
 
-namespace java.asap.ui
+namespace asap.ui
 {
     public class ViewController : KeyListener, PointerListener
      {

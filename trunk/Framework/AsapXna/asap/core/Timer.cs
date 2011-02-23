@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 
 
-namespace java.asap.core
+namespace asap.core
 {
     public class Timer
      {

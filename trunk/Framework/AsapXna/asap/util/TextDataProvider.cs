@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace java.asap.util
+namespace asap.util
 {
     /** 
      * Класс для предоставления информации о тексте, который мы форматируем в StringWrapper.

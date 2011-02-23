@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 
 
-namespace java.asap.sound
+namespace asap.sound
 {
     public class SoundPlayer
      {

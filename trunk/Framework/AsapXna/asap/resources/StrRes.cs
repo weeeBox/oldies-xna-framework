@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 
 
-namespace java.asap.resources
+namespace asap.resources
 {
     /** 
      * Singleton to get string resources.

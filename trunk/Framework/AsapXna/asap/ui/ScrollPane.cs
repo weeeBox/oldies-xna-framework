@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.core;
-using java.asap.graphics;
+using asap.core;
+using asap.graphics;
 using System.Diagnostics;
 
-namespace java.asap.ui
+namespace asap.ui
 {
     public class ScrollPane : View, KeyListener, PointerListener, TimerListener, FocusListener, Focusable
      {
