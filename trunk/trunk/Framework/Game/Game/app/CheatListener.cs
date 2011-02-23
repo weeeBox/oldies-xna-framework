@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace flipstones
+namespace app
 {
     public interface CheatListener
     {

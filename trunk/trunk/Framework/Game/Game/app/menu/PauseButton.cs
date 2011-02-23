@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 using asap.graphics;
 
-namespace flipstones.menu
+namespace app.menu
 {
     public class PauseButton : Button
      {

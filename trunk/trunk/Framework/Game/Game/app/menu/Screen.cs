@@ -8,7 +8,7 @@ using asap.core;
 using asap.app;
 using asap.graphics;
 
-namespace flipstones.menu
+namespace app.menu
 {
     /** 
      * Fullscreen view, a single item of screens flow

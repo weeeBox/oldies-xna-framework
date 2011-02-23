@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 
 using asap.core;
-using flipstones.menu;
+using app.menu;
 using asap.graphics;
 
-namespace flipstones
+namespace app
 {
     public class CheatManager : MenuListener
      {

@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using asap.ui;
 using asap.core;
 using asap.app;
-using flipstones.menu;
+using app.menu;
 using asap.graphics;
 
-namespace flipstones
+namespace app
 {
     public class FlipstonesApp : DefaultApp, CheatListener
      {
@@ -31,76 +31,20 @@ namespace flipstones
         
         public AppResManager resManager;
         
-        public MenuController menuController;
-        
-        private PlacePlay placePlay;
-        
-        private PlacePlayListener placePlayListener;
+        public MenuController menuController;        
         
         private long lastMobclixTime = 0;
         
         public FlipstonesApp(int width ,int height ,int inputMode) 
          : base(width, height, inputMode)
-        {
-            AudioSession.SilenceOther(false);
+        {            
             cheatManager = new CheatManager();
             cheatManager.AddCheatListener(this);
             screenManager = new ScreenManager(this);
             screensView = new ScreensView();
             resManager = new AppResManager();
             menuController = new MenuController();
-            SetTickListener(menuController);
-            String url = "https://placeplay-api.appspot.com/placeplay";
-            String gameId = "4001";
-            String secretKey = "fa424dfb-6683-4dc1-b1e1-a06bb09a98b6";
-            String leaderboardId = "6001";
-            placePlayListener = new PlacePlayListener();
-            placePlay = new PlacePlay(url , gameId , secretKey , leaderboardId , placePlayListener);
-        }
-        
-        public virtual void TryToStartMobclix()
-        {
-            long currentTime = System.CurrentTimeMillis();
-            if (currentTime > ((lastMobclixTime) + ((2 * 60) * 1000))) 
-            {
-                Mobclix.ShowAd();
-                UpdateLastMobclixTime();
-            } 
-        }
-        
-        public virtual void UpdateLastMobclixTime()
-        {
-            lastMobclixTime = System.CurrentTimeMillis();
-        }
-        
-        public virtual void PrefetchPlacePlay(ShopListener listener)
-        {
-            placePlayListener.SetShopListener(listener);
-            placePlay.Prefetch();
-        }
-        
-        public virtual void PlacePlayStartBeforeGame(ShopListener listener)
-        {
-            placePlayListener.SetShopListener(listener);
-            placePlayListener.ResetBoughtItems();
-            placePlay.StartBeforeGame();
-        }
-        
-        public virtual void PlacePlayStartAfterGame(int score, int stars, ShopListener listener)
-        {
-            placePlayListener.SetShopListener(listener);
-            placePlayListener.ResetBoughtItems();
-            placePlay.StartAfterGame(score, stars);
-        }
-        
-        public virtual void PlacePlayShowLeaderboard()
-        {
-            placePlay.ShowLeaderboard();
-        }
-        
-        public virtual PlacePlayListener GetPlacePlayListener()
-        {
-            return placePlayListener;
+            SetTickListener(menuController);         
         }
         
         public virtual ScreenManager GetScreenManager()
@@ -144,38 +88,12 @@ namespace flipstones
         }
         
         public static bool ButtonPressed(int code)
-        {
-            switch (code)
-            {
-                case ButtonId.SOUND:
-                    bool sound = !(Prefs.GetInstance().IsSoundEnabled());
-                    Prefs.GetInstance().SetSoundEnabled(sound);
-                    ((InfoScreen)(FlipstonesApp.GetScreensView().GetActiveScreen())).UpdateScreen();
-                    return true;
-                case ButtonId.MUSIC:
-                    bool music = !(Prefs.GetInstance().IsMusicEnabled());
-                    Prefs.GetInstance().SetMusicEnabled(music);
-                    if (music)
-                        Sounds.PlayMenuMusic();
-                    
-                    else
-                        Sounds.StopMusic();
-                    
-                    ((InfoScreen)(FlipstonesApp.GetScreensView().GetActiveScreen())).UpdateScreen();
-                    return true;
-                case ButtonId.FLURRY:
-                    bool flurry = !(Prefs.GetInstance().IsFlurryEnabled());
-                    Prefs.GetInstance().SetFlurryEnabled(flurry);
-                    FlurryAdapter.SetFlurryLoggingEnabled(flurry);
-                    ((InfoScreen)(FlipstonesApp.GetScreensView().GetActiveScreen())).UpdateScreen();
-                    return true;
-            }
+        {            
             return false;
         }
         
         public override void Draw(Graphics g)
-        {
-            AtlasRepacker.RepackIfNeeded();
+        {            
             base.Draw(g);
             DrawCheats(g);
         }
@@ -185,24 +103,14 @@ namespace flipstones
             cheatManager.Draw(g);
             if (showFps) 
             {
-                long currentTime = System.CurrentTimeMillis();
+                long currentTime = DateTime.Now.Millisecond;
                 int deltaTime = ((int)(currentTime - (lastTime)));
                 lastTime = currentTime;
                 int fps = 10000 / (deltaTime == 0 ? 1 : deltaTime);
-                String fpsStr = (("fps: " + (fps / 10)) + ".") + (fps % 10);
-                fpsStr = ((fpsStr + ", vram: ") + ((AtlasRepacker.UsedVideoMemory()) / 1024)) + " kb";
+                String fpsStr = (("fps: " + (fps / 10)) + ".") + (fps % 10);                
                 BitmapFont font = AppResManager.GetDefaultFont();
                 font.DrawString(g, fpsStr, 0, 0);
-            } 
-            if (showHeap) 
-            {
-                System.Gc();
-                long freeHeap = (Runtime.GetRuntime().FreeMemory()) / 1024;
-                long totalHeap = (Runtime.GetRuntime().TotalMemory()) / 1024;
-                String heapStr = (("heap: " + (totalHeap - freeHeap)) + "/") + totalHeap;
-                BitmapFont font = AppResManager.GetDefaultFont();
-                font.DrawString(g, heapStr, ((GetWidth()) - (font.GetStringWidth(heapStr))), 0);
-            } 
+            }
         }
         
         public override void PointerPressed(int x, int y, int fingerId)

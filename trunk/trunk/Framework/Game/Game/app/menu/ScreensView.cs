@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 
 
-using flipstones;
+using app;
 using asap.ui;
 using asap.core;
 using asap.graphics;
 
-namespace flipstones.menu
+namespace app.menu
 {
     /** 
      * Provide stack of screens and view of active/visible screens

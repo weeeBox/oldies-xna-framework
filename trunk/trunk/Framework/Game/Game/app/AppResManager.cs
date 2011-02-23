@@ -7,7 +7,7 @@ using asap.resources;
 using asap.graphics;
 using asap.anim;
 
-namespace flipstones
+namespace app
 {
     public class AppResManager : DefaultResManager
      {

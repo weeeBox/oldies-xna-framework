@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using asap.app;
-using flipstones;
+using app;
 using asap.core;
 using Microsoft.Xna.Framework.Graphics;
-using Flipstones2.gfx;
 using Microsoft.Xna.Framework.Content;
-using Flipstones2.app;
+using Flipstones2.gfx;
 using Flipstones2.res;
-using JavaLib;
 
-namespace Flipstones2
+namespace app
 {
-    public class TestApp : JAppImpl
+    public class TestApp : AppImpl
     {
-        private JFlipstonesApp app;
+        private FlipstonesApp app;
         private XnaGraphics appGraphics;
         private bool running;
 
@@ -28,7 +26,7 @@ namespace Flipstones2
 
             loadPacksInfo(content);
 
-            app = new JFlipstonesApp(width, height, 0);
+            app = new FlipstonesApp(width, height, 0);
             app.SetImpl(this);
             appGraphics = new XnaGraphics(width, height);
             running = true;           
@@ -43,7 +41,7 @@ namespace Flipstones2
 		    texManager.AddPackAtlas(manager.Load<Atlas>("COMMON_RESOURCES"));
             texManager.AddPackAtlas(manager.Load<Atlas>("MENU_RESOURCES"));
             texManager.AddPackAtlas(manager.Load<Atlas>("GAME_RESOURCES"));
-            if (JConfig.freeVersion)
+            if (Config.freeVersion)
             {
                 texManager.AddPackAtlas(manager.Load<Atlas>("RESOURCES_FREE"));
                 texManager.AddPackAtlas(manager.Load<Atlas>("GAME_RESOURCES_FREE"));
@@ -73,12 +71,7 @@ namespace Flipstones2
         public bool SetOrientation(int orientation)
         {
             throw new NotImplementedException();
-        }
-
-        public bool PlatformRequest(string url)
-        {
-            throw new NotImplementedException();
-        }
+        }        
 
         public void Tick(int deltaTime)
         {
@@ -102,7 +95,7 @@ namespace Flipstones2
 
         public void BackPressed()
         {
-            app.KeyPressed(JKeyCode.CANCEL, JKeyAction.NONE);
+            app.KeyPressed(KeyCode.CANCEL, KeyAction.NONE);
         }
 
         public void Draw(GraphicsDevice gd)

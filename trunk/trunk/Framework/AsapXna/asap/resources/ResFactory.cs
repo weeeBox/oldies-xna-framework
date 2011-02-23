@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using asap.sound;
 using asap.graphics;
 using System.Diagnostics;
+using asap.anim;
 
 namespace asap.resources
 {
@@ -24,10 +25,14 @@ namespace asap.resources
             ResFactory.instance = this;
         }               
         
-        public abstract Image CreateImage(String path) /* throws Exception */;        
-        public abstract SoundPlayer CreateSoundPlayer(String fileName, bool streaming);
+        public abstract PartSet LoadPartset(String path);
+        public abstract Animation LoadAnimation(String path, String[] partsetPaths);
+        public abstract BitmapFont LoadFont(String path);
+        public abstract Image LoadImage(String path) /* throws Exception */;
+        public abstract StringsPack LoadStrings(string path);
+        public virtual void UnloadResource(object res) {}
         
+        public abstract SoundPlayer CreateSoundPlayer(String fileName, bool streaming);        
     }
-    
     
 }

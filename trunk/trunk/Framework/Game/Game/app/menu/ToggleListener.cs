@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace flipstones.menu
+namespace app.menu
 {
     public interface ToggleListener
     {
