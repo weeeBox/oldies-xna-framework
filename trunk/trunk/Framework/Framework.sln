@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Framework\Framework.csproj", "{243BA040-BA28-4A56-B63C-E5891E9E2EF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game\Game.csproj", "{243BA040-BA28-4A56-B63C-E5891E9E2EF3}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "FrameworkContent", "Framework\FrameworkContent\FrameworkContent.contentproj", "{E1683D69-95EC-44A0-9D0E-48E986DEAE20}"
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "GameContent", "Game\GameContent\GameContent.contentproj", "{E1683D69-95EC-44A0-9D0E-48E986DEAE20}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsapXna", "AsapXna\AsapXna.csproj", "{28BE4C26-3FD5-4362-B217-C2B232EC1901}"
 EndProject
