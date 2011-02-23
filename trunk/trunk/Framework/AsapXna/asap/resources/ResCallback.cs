@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace java.asap.resources
+namespace asap.resources
 {
     public interface ResCallback
     {

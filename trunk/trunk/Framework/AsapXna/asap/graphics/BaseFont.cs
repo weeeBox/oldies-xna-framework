@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace java.asap.graphics
+namespace asap.graphics
 {
     /** 
      * Base class for bitmap and native fonts

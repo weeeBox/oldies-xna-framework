@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.graphics;
+using asap.graphics;
 using System.Diagnostics;
 
-namespace java.asap.anim
+namespace asap.anim
 {
     public class AnimationPlayer
      {

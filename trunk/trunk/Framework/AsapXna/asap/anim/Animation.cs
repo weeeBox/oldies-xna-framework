@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.resources;
+using asap.resources;
 
-namespace java.asap.anim
+namespace asap.anim
 {
     public class Animation
      {

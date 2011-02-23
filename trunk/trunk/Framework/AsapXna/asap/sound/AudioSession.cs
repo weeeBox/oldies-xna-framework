@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace java.asap.sound
+namespace asap.sound
 {
     public class AudioSession
      {

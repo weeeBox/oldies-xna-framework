@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 
 
-namespace java.asap.ui
+namespace asap.ui
 {
     public class ViewIterator
      {

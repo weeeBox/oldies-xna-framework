@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace java.asap.ui
+namespace asap.ui
 {
     public interface ViewComposite
     {

@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.core;
+using asap.core;
 
-namespace java.asap.ui
+namespace asap.ui
 {
     public class ScreenManager : FocusListener
      {

@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 
 
-namespace java.asap.resources
+namespace asap.resources
 {
     public class ResManager
      {

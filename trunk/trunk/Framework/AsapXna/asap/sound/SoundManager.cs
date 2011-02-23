@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.resources;
+using asap.resources;
 using System.Diagnostics;
 
-namespace java.asap.sound
+namespace asap.sound
 {
     public class SoundManager
      {

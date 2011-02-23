@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.graphics;
+using asap.graphics;
 
-namespace java.asap.ui
+namespace asap.ui
 {
     abstract public class View
      {

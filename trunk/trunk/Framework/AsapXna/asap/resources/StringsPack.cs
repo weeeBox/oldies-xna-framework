@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 
 
-namespace java.asap.resources
+namespace asap.resources
 {
     /** 
      * Provides strings set that can be loaded and accessed by id.

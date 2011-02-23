@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace java.asap.graphics
+namespace asap.graphics
 {
     abstract public class Image
      {

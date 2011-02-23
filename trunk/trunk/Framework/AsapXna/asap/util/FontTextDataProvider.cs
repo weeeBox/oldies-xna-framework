@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.graphics;
+using asap.graphics;
 
-namespace java.asap.util
+namespace asap.util
 {
     public class FontTextDataProvider : TextDataProvider
      {

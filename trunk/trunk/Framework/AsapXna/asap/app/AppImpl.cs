@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace java.asap.app
+namespace asap.app
 {
     public interface AppImpl
     {

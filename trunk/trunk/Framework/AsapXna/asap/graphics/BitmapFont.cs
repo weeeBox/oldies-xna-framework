@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.resources;
+using asap.resources;
 
-namespace java.asap.graphics
+namespace asap.graphics
 {
     public class BitmapFont : BaseFont
      {

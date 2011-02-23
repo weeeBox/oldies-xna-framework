@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace java.asap.media
+namespace asap.media
 {
     abstract public class Player
      {

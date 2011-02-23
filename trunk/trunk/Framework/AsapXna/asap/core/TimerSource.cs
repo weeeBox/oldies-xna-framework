@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace java.asap.core
+namespace asap.core
 {
     public interface TimerSource : TickListener
     {

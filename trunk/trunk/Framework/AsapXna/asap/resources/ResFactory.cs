@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.sound;
-using java.asap.graphics;
+using asap.sound;
+using asap.graphics;
 using System.Diagnostics;
 
-namespace java.asap.resources
+namespace asap.resources
 {
     abstract public class ResFactory
      {

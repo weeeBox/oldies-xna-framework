@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 
 
-using java.asap.ui;
-using java.asap.app;
-using java.asap.graphics;
+using asap.ui;
+using asap.app;
+using asap.graphics;
 
-namespace java.asap.core
+namespace asap.core
 {
     public class DefaultApp : App
      {
