@@ -53,12 +53,6 @@ namespace asap.app
             return appImpl.GetProperty(name);
         }
         
-        public virtual bool PlatformRequest(String name)
-        {
-            Debug.Assert(name != null);
-            return appImpl.PlatformRequest(name);
-        }
-        
         public virtual int GetWidth()
         {
             return width;

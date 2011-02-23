@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 
 
-using flipstones;
+using app;
 using asap.ui;
 using asap.graphics;
 
-namespace flipstones.menu
+namespace app.menu
 {
     public class PageNavigator : Container
      {

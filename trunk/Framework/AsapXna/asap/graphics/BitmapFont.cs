@@ -14,59 +14,59 @@ namespace asap.graphics
         /** 
          *
          */
-        private int capHeight;
+        public int capHeight;
         
         /** 
          *
          */
-        private int ascent;
+        public int ascent;
         
         /** 
          *
          */
-        private int tracking;
+        public int tracking;
         
         /** 
          *
          */
-        private int lineHeight;
+        public int lineHeight;
         
         /** 
          *
          */
-        private int descent;
+        public int descent;
         
         /** 
          *
          */
-        private sbyte[] charsAscent;
+        public sbyte[] charsAscent;
         
-        private Dictionary<char, int> charIndices;
+        public Dictionary<char, int> charIndices;
         
         /** 
          * Массив размеров по ширине всех символов
          */
-        private sbyte[] charsW;
+        public sbyte[] charsW;
         
         /** 
          * Массив размеров по высоте всех символов
          */
-        private sbyte[] charsH;
+        public sbyte[] charsH;
         
         /** 
          * Расстояние по X до изображения символа в картинке шрифта.
          */
-        private short[] charsOx;
+        public short[] charsOx;
         
         /** 
          * Расстояние по Y до изображения символа в картинке шрифта.
          */
-        private short[] charsOy;
+        public short[] charsOy;
         
         /** 
          * Изображение шрифта
          */
-        private Image fontImage;       
+        public Image fontImage;       
         
         
         /** 

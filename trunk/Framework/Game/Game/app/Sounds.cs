@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using asap.sound;
 using asap.media;
 
-namespace flipstones
+namespace app
 {
     public class Sounds
      {
@@ -56,43 +56,11 @@ namespace flipstones
         
         public const int BEGINNING = 19;
         
-        public const int LAST_SOUND = BEGINNING;
-        
-        private static Hashtable idsToFilenames = Sounds.InitIdsToFilenames();
-        
-        private static Hashtable cached = new Hashtable();
+        public const int LAST_SOUND = BEGINNING;        
         
         private static int[] ingameOnly = new int[]{ WINGS , START , READY_TRI , READY_SIX , MONEY , FREEZE , FALL , FAIL , EXPLOSION , DROP , DESTROY_TRI , DESTROY_SMALL , DESTROY_SIX , DELETE , COMPLETED , COLLISION , PUSH , BEGINNING };
         
-        private static Player currentMusicPlayer;
-        
-        private static Hashtable InitIdsToFilenames()
-        {
-            Hashtable t = new Hashtable();
-            if (Config.soundEnabled) 
-            {
-                t.Put(new Integer(WINGS), ("wings." + (Config.soundExtension)));
-                t.Put(new Integer(START), ("start." + (Config.soundExtension)));
-                t.Put(new Integer(READY_TRI), ("ready_tri." + (Config.soundExtension)));
-                t.Put(new Integer(READY_SIX), ("ready_six." + (Config.soundExtension)));
-                t.Put(new Integer(MONEY), ("money." + (Config.soundExtension)));
-                t.Put(new Integer(FREEZE), ("freeze." + (Config.soundExtension)));
-                t.Put(new Integer(FALL), ("fall." + (Config.soundExtension)));
-                t.Put(new Integer(FAIL), ("fail." + (Config.soundExtension)));
-                t.Put(new Integer(EXPLOSION), ("explosion." + (Config.soundExtension)));
-                t.Put(new Integer(DROP), ("drop." + (Config.soundExtension)));
-                t.Put(new Integer(DESTROY_TRI), ("destroy_tri." + (Config.soundExtension)));
-                t.Put(new Integer(DESTROY_SMALL), ("destroy_small." + (Config.soundExtension)));
-                t.Put(new Integer(DESTROY_SIX), ("destroy_six." + (Config.soundExtension)));
-                t.Put(new Integer(DELETE), ("delete." + (Config.soundExtension)));
-                t.Put(new Integer(COMPLETED), ("completed." + (Config.soundExtension)));
-                t.Put(new Integer(COLLISION), ("collision." + (Config.soundExtension)));
-                t.Put(new Integer(CLICK), ("click." + (Config.soundExtension)));
-                t.Put(new Integer(PUSH), ("push." + (Config.soundExtension)));
-                t.Put(new Integer(BEGINNING), ("beginning." + (Config.soundExtension)));
-            } 
-            return t;
-        }
+        private static Player currentMusicPlayer;        
         
         public static void LoadIngameSoundEnvironment()
         {
@@ -216,32 +184,14 @@ namespace flipstones
             }
         }
         
-        private static void LoadSound(Integer key)
+        private static void LoadSound(int key)
         {
-            if (Config.soundEnabled) 
-            {
-                String filename = ((String)(Sounds.idsToFilenames.Get(key)));
-                if (filename == null) 
-                {
-                    return ;
-                } 
-                SoundPlayer p = SoundManager.GetInstance().CreatePlayer(filename);
-                if (p != null) 
-                {
-                    Sounds.cached.Put(key, p);
-                } 
-            } 
+            throw new NotImplementedException();
         }
         
-        private static void UnloadSound(Integer key)
+        private static void UnloadSound(int key)
         {
-            if (Config.soundEnabled) 
-            {
-                SoundPlayer p = ((SoundPlayer)(Sounds.cached.Get(key)));
-                System.Diagnostics.Debug.Assert(p != null);
-                SoundManager.GetInstance().DestroyPlayer(p);
-                Sounds.cached.Remove(key);
-            } 
+            throw new NotImplementedException(); 
         }
         
         public static void Play(int ident)

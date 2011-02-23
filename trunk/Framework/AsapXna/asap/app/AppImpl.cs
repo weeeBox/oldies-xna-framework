@@ -10,9 +10,6 @@ namespace asap.app
     {
         String GetProperty(String name);
         void Stop();
-        bool SetOrientation(int orientation);
-        bool PlatformRequest(String url);
-    }
-    
-    
+        bool SetOrientation(int orientation);        
+    }    
 }

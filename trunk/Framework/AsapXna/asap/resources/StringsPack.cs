@@ -13,9 +13,9 @@ namespace asap.resources
      */
     public class StringsPack
      {
-        private String[] strings;
+        public String[] strings;
         
-        private int idBase;
+        public int idBase;
         
         //public virtual void Load(InputStream _is)
         //{

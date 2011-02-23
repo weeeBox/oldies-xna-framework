@@ -8,20 +8,20 @@ using asap.resources;
 namespace asap.anim
 {
     public class Animation
-     {
-        private int boundX;
-        
-        private int boundY;
-        
-        private int boundWidth;
-        
-        private int boundHeight;
-        
-        private PartSet[] partsets;
-        
-        private Frame[] frames;
-        
-        public Animation(String[] partsetPaths) /* throws Exception */ 
+    {
+        public int boundX;
+
+        public int boundY;
+
+        public int boundWidth;
+
+        public int boundHeight;
+
+        public PartSet[] partsets;
+
+        public Frame[] frames;
+
+        public Animation() /* throws Exception */
         {
             //partsets = new PartSet[partsetPaths.Length];
             //for (int i = 0; i < (partsetPaths.Length); i++)
@@ -41,7 +41,7 @@ namespace asap.anim
             //    frameData[frame] = new sbyte[frameSize];
             //    if (frameSize > 0)
             //        stream.ReadFully(frameData[frame]);
-                
+
             //}
             //int LAYER_INFO_SIZE = 10;
             //int layersCount = (stream.ReadByte()) & 255;
@@ -119,43 +119,43 @@ namespace asap.anim
             //}
             throw new NotImplementedException();
         }
-        
+
         public virtual PartSet GetPartset(int partsetIndex)
         {
             return partsets[partsetIndex];
         }
-        
+
         public virtual int GetFramesCount()
         {
             return frames.Length;
         }
-        
+
         public virtual Frame GetFrame(int frameNum)
         {
             return frames[frameNum];
         }
-        
+
         public virtual int GetBoundX()
         {
             return boundX;
         }
-        
+
         public virtual int GetBoundY()
         {
             return boundY;
         }
-        
+
         public virtual int GetBoundWidth()
         {
             return boundWidth;
         }
-        
+
         public virtual int GetBoundHeight()
         {
             return boundHeight;
         }
-        
+
     }
-    
-    
+
+
 }

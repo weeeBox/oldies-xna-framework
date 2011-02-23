@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 
 
-using flipstones;
+using app;
 using asap.core;
 using asap.graphics;
 using asap.anim;
 
-namespace flipstones.menu
+namespace app.menu
 {
     public class MenuButton : Button, TimerListener
      {

@@ -7,7 +7,7 @@ using asap.util;
 using asap.ui;
 using asap.graphics;
 
-namespace flipstones.menu
+namespace app.menu
 {
     public class TextBox : View
      {

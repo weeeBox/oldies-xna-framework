@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 
 
-using flipstones;
+using app;
 using asap.ui;
 
-namespace flipstones.menu
+namespace app.menu
 {
     public class InfoScreen : Screen
      {

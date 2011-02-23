@@ -11,7 +11,7 @@ namespace asap.anim
 {
     public class PartSet
      {
-        private Image image;
+        public Image image;
         
         private const int PART_X = 0;
         
@@ -23,9 +23,9 @@ namespace asap.anim
         
         private const int PART_SIZE = 4;
         
-        private short[] partData;
+        public short[] partData;
         
-        private int partsCount;        
+        public int partsCount;        
         
         public PartSet() /* throws Exception */ 
         {

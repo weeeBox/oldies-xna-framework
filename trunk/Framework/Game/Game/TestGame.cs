@@ -9,12 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
-using flipstones;
-using Flipstones2.app;
-using Flipstones2.gfx;
 using asap.core;
 
-namespace Flipstones2
+namespace app
 {
     /// <summary>
     /// This is the main type for your game

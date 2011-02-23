@@ -2,35 +2,14 @@ using System;
 
 using System.Collections.Generic;
 
-
-using flipstones;
-using com.reaxion.adwhirl;
+using app;
 using asap.core;
-using flipstones.game;
 
-namespace flipstones.menu
+namespace app.menu
 {
-    public class MenuController : TickListener, ShopListener, FlipstonesStoryListener, MenuListener, ToggleListener
-     {
-        private FlipstonesStoryData storyData;
-        
-        private FlipstonesStory story;
-        
-        private Mode mode;
-        
-        private int startLevel;
-        
-        private LoadingState loadingState;
-        
-        private int howToPlayPage;
-        
-        private Boost[] boosts;
-        
-        private bool[] boostButtons = new bool[Boost.BOOSTS_COUNT];
-        
-        private const int HOW_TO_PLAY_SCREENS_COUNT = 4;
-        
-        private bool flagToStartBeforeGame = false;
+    public class MenuController : TickListener, MenuListener
+     {        
+        private LoadingState loadingState;        
         
         private static readonly String[] STARTUP_RESOURCES = new String[]{ "poke_logo.png" , "logo_pp.png" };
         
@@ -51,44 +30,22 @@ namespace flipstones.menu
         public MenuController() 
         {
             LoadPack(STARTUP_RESOURCES);
-            LoadPack(COMMON_RESOURCES);
-            AtlasRepacker.ScheduleRepack();
-            Prefs.GetInstance().Load();
-            FlurryAdapter.SetFlurryLoggingEnabled(Prefs.GetInstance().IsFlurryEnabled());
+            LoadPack(COMMON_RESOURCES);            
+            Prefs.GetInstance().Load();            
             StartScreen(ScreenFactory.CreateStartLoading(this));
             loadingState = LoadingState.APP;
         }
         
         public virtual void Tick(long delta)
-        {
-            if ((Config.freeVersion) && (Mobclix.IsAdShown())) 
-            {
-                return ;
-            } 
-            if (flagToStartBeforeGame) 
-            {
-                flagToStartBeforeGame = false;
-                FlipstonesApp.GetInstance().PlacePlayStartBeforeGame(this);
-                return ;
-            } 
-            if ((FlipstonesApp.GetInstance().GetPlacePlayListener()) != null) 
-            {
-                FlipstonesApp.GetInstance().GetPlacePlayListener().Tick();
-            } 
+        {         
             if ((loadingState) != (LoadingState.NONE)) 
             {
                 if (FlipstonesApp.GetScreensView().GetActiveScreen().WasDrawn())
-                    ProcessLoadingState();
-                
+                    ProcessLoadingState();                
             } 
             else 
-            {
-                if ((story) != null)
-                    story.Tick(delta);
-                
-                else
-                    FlipstonesApp.GetScreensView().Tick(delta);
-                
+            {                    
+                FlipstonesApp.GetScreensView().Tick(delta);              
             }
         }
         
@@ -96,123 +53,28 @@ namespace flipstones.menu
         {
             switch (loadingState)
             {
-                case LoadingState.APP:
-                    
-                    {
-                        LoadResourcesOnStart();
-                        storyData = new FlipstonesStoryData();
-                        storyData.Load();
-                        Sounds.LoadFullEnvironment();
-                        Sounds.PlayMenuMusic();
-                        UnloadPack(STARTUP_RESOURCES);
-                        StartScreen(ScreenFactory.CreateMainMenu(this));
-                        if (Config.freeVersion) 
-                        {
-                            FlipstonesApp.GetInstance().UpdateLastMobclixTime();
-                            AdWhirlAdapter.ShowAd(AdWhirlAdapter.BOTTOM);
-                        } 
-                    }
-                    break;
-                case LoadingState.GAME:
-                    
-                    {
-                        if ((mode) == (Mode.FRENZY)) 
-                        {
-                            FlipstonesApp.GetInstance().PrefetchPlacePlay(this);
-                        } 
-                        else 
-                        {
-                            BackScreen();
-                        }
-                        LoadResourcesBeforeGame();
-                        story = new FlipstonesStory(this , storyData);
-                        FlipstonesApp.GetInstance().GetCheatManager().AddCheatListener(story);
-                        story.SetMode(mode);
-                        if ((mode) == (Mode.FRENZY)) 
-                        {
-                            story.PauseState();
-                        } 
-                        else 
-                        {
-                            if ((startLevel) >= 0)
-                                story.StartLevelWithScreen(startLevel);
-                            
-                            else
-                                story.StartFromSavedState();
-                            
-                        }
-                    }
-                    break;
-                case LoadingState.PREV_MENU:
-                    
-                    {
-                        LoadMenuResources();
-                        if (((mode) == (Mode.ENDLESS)) || ((mode) == (Mode.FRENZY))) 
-                        {
-                            FlipstonesApp.GetScreensView().BackToScreen(ScreenId.MAIN_MENU);
-                        } 
-                        else 
-                        {
-                            FlipstonesApp.GetScreensView().BackToScreen(ScreenId.STORY_CHOOSE_LEVEL);
-                        }
-                        break;
-                    }
-                case LoadingState.MAIN_MENU:
-                    
-                    {
-                        LoadMenuResources();
-                        FlipstonesApp.GetScreensView().ClearScreens();
-                        StartScreen(ScreenFactory.CreateMainMenu(this));
-                        if (Config.freeVersion)
-                            AdWhirlAdapter.ShowAd(AdWhirlAdapter.BOTTOM);
-                        
-                        break;
-                    }
-                case LoadingState.PLAY_FRENZY:
-                    
-                    {
-                        LoadMenuResources();
-                        FlipstonesApp.GetScreensView().ClearScreens();
-                        StartScreen(ScreenFactory.CreateMainMenu(this));
-                        FlurryAdapter.LogFlurryEvent("FRENZY_STARTED_FROM_CHALLENGE_RESULT");
-                        mode = Mode.FRENZY;
-                        StartSelectedMode();
-                        break;
-                    }
-                case LoadingState.FREE_FINISHED:
-                    
-                    {
-                        LoadMenuResources();
-                        FlipstonesApp.GetScreensView().ClearScreens();
-                        StartScreen(ScreenFactory.CreateMainMenu(this));
-                        StartNextScreen(ScreenFactory.CreateBuyFull(this));
-                        break;
-                    }
-                default:
-                    
-                    {
-                        System.Diagnostics.Debug.Assert(false);
-                    }
-                    break;
+                case LoadingState.APP:                    
+                {
+                    LoadResourcesOnStart();                    
+                    Sounds.LoadFullEnvironment();
+                    Sounds.PlayMenuMusic();
+                    UnloadPack(STARTUP_RESOURCES);
+                    StartScreen(ScreenFactory.CreateMainMenu(this));                    
+                }
+                break;                
+                default:                    
+                {
+                    System.Diagnostics.Debug.Assert(false);
+                }
+                break;
             }
             loadingState = LoadingState.NONE;
-        }
-        
-        private void LoadMenuResources()
-        {
-            BackScreen();
-            FlipstonesApp.GetInstance().GetCheatManager().RemoveCheatListener(story);
-            story.UnloadLevelResources();
-            story = null;
-            LoadResourcesAfterGame();
-            Sounds.PlayMenuMusic();
-        }
+        }        
         
         private void LoadResourcesOnStart()
         {
             LoadPack((Config.freeVersion ? RESOURCES_FREE : RESOURCES_FULL));
-            LoadPack(MENU_RESOURCES);
-            AtlasRepacker.ScheduleRepack();
+            LoadPack(MENU_RESOURCES);            
         }
         
         private void LoadResourcesBeforeGame()
@@ -220,8 +82,7 @@ namespace flipstones.menu
             UnloadPack((Config.freeVersion ? RESOURCES_FREE : RESOURCES_FULL));
             UnloadPack(MENU_RESOURCES);
             LoadPack(GAME_RESOURCES);
-            LoadPack((Config.freeVersion ? GAME_RESOURCES_FREE : GAME_RESOURCES_FULL));
-            AtlasRepacker.ScheduleRepack();
+            LoadPack((Config.freeVersion ? GAME_RESOURCES_FREE : GAME_RESOURCES_FULL));            
         }
         
         private void LoadResourcesAfterGame()
@@ -229,8 +90,7 @@ namespace flipstones.menu
             UnloadPack(GAME_RESOURCES);
             UnloadPack((Config.freeVersion ? GAME_RESOURCES_FREE : GAME_RESOURCES_FULL));
             LoadPack((Config.freeVersion ? RESOURCES_FREE : RESOURCES_FULL));
-            LoadPack(MENU_RESOURCES);
-            AtlasRepacker.ScheduleRepack();
+            LoadPack(MENU_RESOURCES);            
         }
         
         private void LoadPack(String[] resources)
@@ -243,303 +103,39 @@ namespace flipstones.menu
         {
             for (int i = 0; i < (resources.Length); i++)
                 AppResManager.GetInstance().Unload(resources[i]);
-        }
-        
-        public virtual void ButtonToggled(int code, bool _checked)
-        {
-            boostButtons[code] = _checked;
-            int count = 0;
-            for (int i = 0; i < (boostButtons.Length); i++) 
-            {
-                if (boostButtons[i]) 
-                {
-                    count++;
-                } 
-            }
-            boosts = new Boost[count];
-            int pos = 0;
-            for (int i = 0; i < (boostButtons.Length); i++) 
-            {
-                if (boostButtons[i]) 
-                {
-                    boosts[pos++] = new Boost(i);
-                } 
-            }
-        }
+        }        
         
         public virtual void PrefetchFinished()
-        {
-            flagToStartBeforeGame = true;
-        }
-        
-        public virtual void PlacePlayPlay()
-        {
-            BackScreen();
-            if ((startLevel) >= 0)
-                story.StartLevelWithScreen(startLevel);
-            
-            else
-                story.StartFromSavedState();
-            
-            story.PlacePlayPlay();
-        }
-        
-        public virtual void PlacePlayMenu()
-        {
-            BackScreen();
-            story.PlacePlayMenu();
-        }
-        
-        public virtual void StartSelectedMode()
-        {
-            if (((mode) == (Mode.ENDLESS)) || ((mode) == (Mode.FRENZY))) 
-            {
-                for (int i = 0; i < (boostButtons.Length); i++)
-                    boostButtons[i] = false;
-                if (Config.usePlacePlay) 
-                {
-                    if (Config.freeVersion)
-                        AdWhirlAdapter.HideAd();
-                    
-                    StartGame(0);
-                } 
-                else 
-                {
-                    boosts = new Boost[0];
-                    StartNextScreen(ScreenFactory.CreateBoostsSelector(this));
-                }
-            } 
-            else if (!(storyData.HasUnfinishedLevel())) 
-            {
-                StartNextScreen(ScreenFactory.CreateChooseLevelMenu(this, storyData));
-            } 
-            else 
-            {
-                StartNextScreen(ScreenFactory.CreateResumeStory(this));
-            }
-        }
+        {            
+        } 
         
         public virtual void ButtonPressed(int code)
         {
             if (FlipstonesApp.ButtonPressed(code))
-                return ;
-            
-            switch (code)
-            {
-                case ButtonId.LEADERBOARD:
-                    FlipstonesApp.GetInstance().PlacePlayShowLeaderboard();
-                    break;
-                case ButtonId.START_FRENZY:
-                case ButtonId.START_CHALLENGE:
-                case ButtonId.START_ENDLESS:
-                    mode = GetModeByButtonId(code);
-                    switch (mode)
-                    {
-                        case Mode.FRENZY:
-                            FlurryAdapter.LogFlurryEvent("FRENZY_STARTED_FROM_MAIN_MENU");
-                            break;
-                        case Mode.CHALLENGE:
-                            FlurryAdapter.LogFlurryEvent("CHALLENGE_STARTED_FROM_MAIN_MENU");
-                            break;
-                        case Mode.ENDLESS:
-                            FlurryAdapter.LogFlurryEvent("ENDLESS_STARTED_FROM_MAIN_MENU");
-                            break;
-                    }
-                    if (Prefs.GetInstance().IsHowToPlayOnStart()) 
-                    {
-                        howToPlayPage = 0;
-                        StartNextScreen(ScreenFactory.CreateHowToPlayScreen(this, 0, HOW_TO_PLAY_SCREENS_COUNT, false));
-                    } 
-                    else 
-                    {
-                        StartSelectedMode();
-                    }
-                    break;
-                case ButtonId.PLAY:
-                    StartGame(0);
-                    break;
-                case ButtonId.MORE_GAMES:
-                    FlurryAdapter.LogFlurryEvent("MORE_GAMES_STARTED");
-                    PlayHaven.LoadCharts();
-                    break;
-                case ButtonId.GET_FULL:
-                    StartNextScreen(ScreenFactory.CreateBuyFull(this));
-                    break;
-                case ButtonId.BUY_FULL_VIA_BROWSER:
-                    FlipstonesApp.GetInstance().BrowseFullVersion();
-                    break;
-                case ButtonId.INFO:
-                    StartNextScreen(ScreenFactory.CreateInfoScreen(this));
-                    break;
-                case ButtonId.APP_EXIT:
-                    FlipstonesApp.GetInstance().Stop();
-                    break;
-                case ButtonId.BACK:
-                    FlipstonesApp.GetInstance().GetCheatManager().SetPossibleActivating(false);
-                    BackScreen();
-                    break;
-                case ButtonId.HOW_TO_PLAY:
-                    FlurryAdapter.LogFlurryEvent("HOW_TO_PLAY_STARTED");
-                    howToPlayPage = 0;
-                    StartNextScreen(ScreenFactory.CreateHowToPlayScreen(this, 0, HOW_TO_PLAY_SCREENS_COUNT, true));
-                    break;
-                case ButtonId.NAVIG_BUTTON_LEFT:
-                    howToPlayPage = (((howToPlayPage) + (HOW_TO_PLAY_SCREENS_COUNT)) - 1) % (HOW_TO_PLAY_SCREENS_COUNT);
-                    StartScreen(ScreenFactory.CreateHowToPlayScreen(this, howToPlayPage, HOW_TO_PLAY_SCREENS_COUNT, true));
-                    break;
-                case ButtonId.NAVIG_BUTTON_RIGHT:
-                    howToPlayPage = ((howToPlayPage) + 1) % (HOW_TO_PLAY_SCREENS_COUNT);
-                    StartScreen(ScreenFactory.CreateHowToPlayScreen(this, howToPlayPage, HOW_TO_PLAY_SCREENS_COUNT, true));
-                    break;
-                case ButtonId.CONTINUE_HOW_TO_PLAY:
-                    if ((howToPlayPage) < ((HOW_TO_PLAY_SCREENS_COUNT) - 1)) 
-                    {
-                        (howToPlayPage)++;
-                        StartScreen(ScreenFactory.CreateHowToPlayScreen(this, howToPlayPage, HOW_TO_PLAY_SCREENS_COUNT, false));
-                    } 
-                    else 
-                    {
-                        Prefs.GetInstance().SetHowToPlayOnStart(false);
-                        BackScreen();
-                        StartSelectedMode();
-                    }
-                    break;
-                case ButtonId.SKIP_HOW_TO_PLAY:
-                    Prefs.GetInstance().SetHowToPlayOnStart(false);
-                    BackScreen();
-                    StartSelectedMode();
-                    break;
-                case ButtonId.ABOUT:
-                    FlipstonesApp.GetInstance().GetCheatManager().SetPossibleActivating(true);
-                    StartNextScreen(ScreenFactory.CreateAboutScreen(this));
-                    FlurryAdapter.LogFlurryEvent("ABOUT_SCREEN_STARTED");
-                    break;
-                case ButtonId.CONTINUE_STORY:
-                    StartGame(-1);
-                    break;
-                case ButtonId.START_NEW_STORY:
-                    StartScreen(ScreenFactory.CreateChooseLevelMenu(this, storyData));
-                    break;
-                default:
-                    if ((code >= (ButtonId.CHOOSE_LEVEL_BASE)) && (code < ((ButtonId.CHOOSE_LEVEL_BASE) + (Settings.GetLevelsCount())))) 
-                    {
-                        StartGame((code - (ButtonId.CHOOSE_LEVEL_BASE)));
-                    } 
-                    else 
-                    {
-                        System.Diagnostics.Debug.Assert(false, "Unknown button in menu controller " + code);
-                    }
-                    break;
-            }
-        }
-        
-        public virtual void StartGame(int levelIndex)
-        {
-            if (Config.freeVersion)
-                AdWhirlAdapter.HideAd();
-            
-            Sounds.StopMusic();
-            startLevel = levelIndex;
-            if ((mode) == (Mode.FRENZY)) 
-            {
-                StartNextScreen(ScreenFactory.CreateLoadingScreen(-2));
-            } 
-            else 
-            {
-                StartNextScreen(ScreenFactory.CreateLoadingScreen(((startLevel) + 1)));
-            }
-            loadingState = LoadingState.GAME;
-        }
-        
-        private Mode GetModeByButtonId(int buttonId)
-        {
-            switch (buttonId)
-            {
-                case ButtonId.START_FRENZY:
-                    return Mode.FRENZY;
-                case ButtonId.START_CHALLENGE:
-                    return Mode.CHALLENGE;
-                case ButtonId.START_ENDLESS:
-                    return Mode.ENDLESS;
-            }
-            System.Diagnostics.Debug.Assert(false);
-            return Mode.ENDLESS;
-        }
-        
-        public virtual void GameExited(ExitGameType exitGameType)
-        {
-            if (Config.freeVersion)
-                AdWhirlAdapter.HideAd();
-            
-            Sounds.StopMusic();
-            StartNextScreen(ScreenFactory.CreateLoadingScreen(-1));
-            switch (exitGameType)
-            {
-                case ExitGameType.PREV_MENU:
-                    loadingState = LoadingState.PREV_MENU;
-                    break;
-                case ExitGameType.MAIN_MENU:
-                    loadingState = LoadingState.MAIN_MENU;
-                    break;
-                case ExitGameType.FREE_FINISHED:
-                    loadingState = LoadingState.FREE_FINISHED;
-                    break;
-                case ExitGameType.PLAY_FRENZY:
-                    loadingState = LoadingState.PLAY_FRENZY;
-                    break;
-            }
-        }
+                return;            
+        }        
         
         private void StartScreen(Screen screen)
         {
-            FlipstonesApp.GetScreensView().StartScreen(screen);
-            if (Config.freeVersion)
-                AdWhirlAdapter.HideAd();
-            
+            FlipstonesApp.GetScreensView().StartScreen(screen);            
         }
         
         private void StartNextScreen(Screen screen)
         {
-            FlipstonesApp.GetScreensView().StartNextScreen(screen);
-            if (Config.freeVersion)
-                AdWhirlAdapter.HideAd();
-            
+            FlipstonesApp.GetScreensView().StartNextScreen(screen);            
         }
         
         private void BackScreen()
         {
-            FlipstonesApp.GetScreensView().BackScreen();
-            if ((FlipstonesApp.GetScreensView().GetActiveScreen().GetId()) == (ScreenId.MAIN_MENU)) 
-            {
-                if (Config.freeVersion)
-                    AdWhirlAdapter.ShowAd(AdWhirlAdapter.BOTTOM);
-                
-            } 
+            FlipstonesApp.GetScreensView().BackScreen();            
         }
         
         public virtual void OnAppExit()
-        {
-            if ((story) != null)
-                story.SaveState();
-            
+        {            
         }
         
         public virtual void Suspend()
-        {
-            if (((story) != null) && (!(story.IsPaused()))) 
-            {
-                story.PauseGame();
-            } 
-        }
-        
-        public virtual void DebugSetStoryAsPassed()
-        {
-            for (int i = 0; i < (Settings.GetLevelsCount()); i++)
-                storyData.SetLevelPassed(i);
-            storyData.SetLevelsProgress(Settings.GetLevelsCount());
-        }
-        
-    }
-    
-    
+        {     
+        }        
+    }        
 }
