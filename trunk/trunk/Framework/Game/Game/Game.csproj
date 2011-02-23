@@ -107,6 +107,42 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="app\AppResManager.cs" />
+    <Compile Include="app\CheatListener.cs" />
+    <Compile Include="app\CheatManager.cs" />
+    <Compile Include="app\FlipstonesApp.cs" />
+    <Compile Include="app\menu\Button.cs" />
+    <Compile Include="app\menu\ButtonId.cs" />
+    <Compile Include="app\menu\ButtonType.cs" />
+    <Compile Include="app\menu\CheatButton.cs" />
+    <Compile Include="app\menu\ExitGameType.cs" />
+    <Compile Include="app\menu\InfoScreen.cs" />
+    <Compile Include="app\menu\LevelButton.cs" />
+    <Compile Include="app\menu\LevelsScreen.cs" />
+    <Compile Include="app\menu\LevelsView.cs" />
+    <Compile Include="app\menu\LoadingState.cs" />
+    <Compile Include="app\menu\MenuButton.cs" />
+    <Compile Include="app\menu\MenuController.cs" />
+    <Compile Include="app\menu\MenuListener.cs" />
+    <Compile Include="app\menu\MissionsView.cs" />
+    <Compile Include="app\menu\NavigButton.cs" />
+    <Compile Include="app\menu\PageNavigator.cs" />
+    <Compile Include="app\menu\PauseButton.cs" />
+    <Compile Include="app\menu\Screen.cs" />
+    <Compile Include="app\menu\ScreenFactory.cs" />
+    <Compile Include="app\menu\ScreenId.cs" />
+    <Compile Include="app\menu\ScreensView.cs" />
+    <Compile Include="app\menu\TextBox.cs" />
+    <Compile Include="app\menu\ToggleButton.cs" />
+    <Compile Include="app\menu\ToggleListener.cs" />
+    <Compile Include="app\Prefs.cs" />
+    <Compile Include="app\Res.cs" />
+    <Compile Include="app\Sounds.cs" />
+    <Compile Include="app\Strings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TestApp.cs" />
+    <Compile Include="TestGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
@@ -115,6 +151,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AsapXna\AsapXna.csproj">
+      <Project>{28BE4C26-3FD5-4362-B217-C2B232EC1901}</Project>
+      <Name>AsapXna</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameContent\GameContent.contentproj">
       <Name>GameContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
