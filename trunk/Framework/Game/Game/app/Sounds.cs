@@ -87,25 +87,26 @@ namespace app
             if (Config.soundEnabled) 
             {
                 Sounds.StopMusic();
-                if (Sounds.IsMusicEnabled()) 
-                {
-                    AudioSession.SilenceOther(true);
-                    try 
-                    {
-                        Sounds.currentMusicPlayer = Manager.CreatePlayer(file);
-                        if ((Sounds.currentMusicPlayer) != null) 
-                        {
-                            Sounds.currentMusicPlayer.Realize();
-                            Sounds.currentMusicPlayer.Prefetch();
-                            Sounds.currentMusicPlayer.Start();
-                            Sounds.currentMusicPlayer.SetLoopCount(0);
-                        } 
-                    }
-                    catch (Exception e) 
-                    {
-                        e.GetBaseException();
-                    }
-                } 
+                //if (Sounds.IsMusicEnabled()) 
+                //{
+                //    AudioSession.SilenceOther(true);
+                //    try 
+                //    {
+                //        Sounds.currentMusicPlayer = Manager.CreatePlayer(file);
+                //        if ((Sounds.currentMusicPlayer) != null) 
+                //        {
+                //            Sounds.currentMusicPlayer.Realize();
+                //            Sounds.currentMusicPlayer.Prefetch();
+                //            Sounds.currentMusicPlayer.Start();
+                //            Sounds.currentMusicPlayer.SetLoopCount(0);
+                //        } 
+                //    }
+                //    catch (Exception e) 
+                //    {
+                //        e.GetBaseException();
+                //    }
+                //} 
+                throw new NotImplementedException();
             } 
         }
         
@@ -128,60 +129,17 @@ namespace app
         
         public static void LoadFullEnvironment()
         {
-            if (Config.soundEnabled) 
-            {
-                for (int ident = FIRST_SOUND; ident <= (LAST_SOUND); ++ident) 
-                {
-                    if (!(Sounds.IsSoundLoaded(ident))) 
-                    {
-                        Sounds.LoadSound(new Integer(ident));
-                    } 
-                }
-            } 
+            throw new NotImplementedException();
         }
         
         private static void LoadSoundEnvironment(bool ingame, int low, int range)
         {
-            if (Config.soundEnabled) 
-            {
-                for (int ident = low; ident <= range; ++ident) 
-                {
-                    bool isIngame = false;
-                    for (int i = 0; i < (Sounds.ingameOnly.Length); ++i) 
-                    {
-                        if ((Sounds.ingameOnly[i]) == ident) 
-                        {
-                            isIngame = true;
-                            break;
-                        } 
-                    }
-                    Integer key = new Integer(ident);
-                    SoundPlayer p = ((SoundPlayer)(Sounds.cached.Get(key)));
-                    if (p != null) 
-                    {
-                        if (isIngame && (!ingame)) 
-                        {
-                            Sounds.UnloadSound(key);
-                        } 
-                    } 
-                    else if (ingame || (!isIngame)) 
-                    {
-                        Sounds.LoadSound(key);
-                    } 
-                }
-            } 
+            throw new NotImplementedException(); 
         }
         
         private static bool IsSoundLoaded(int ident)
         {
-            if (Config.soundEnabled) 
-            {
-                return (Sounds.cached.Get(new Integer(ident))) != null;
-            } 
-            else 
-            {
-                return false;
-            }
+            throw new NotImplementedException(); 
         }
         
         private static void LoadSound(int key)
@@ -201,25 +159,8 @@ namespace app
         
         public static void Play(int ident, bool looped)
         {
-            if ((Config.soundEnabled) && (Sounds.IsSoundEnabled())) 
-            {
-                SoundPlayer p = ((SoundPlayer)(Sounds.cached.Get(new Integer(ident))));
-                if (p != null) 
-                {
-                    p.Play(looped);
-                } 
-            } 
-        }
-        
-        private static bool IsMusicEnabled()
-        {
-            return Prefs.GetInstance().IsMusicEnabled();
-        }
-        
-        private static bool IsSoundEnabled()
-        {
-            return Prefs.GetInstance().IsSoundEnabled();
-        }
+            throw new NotImplementedException(); 
+        }        
         
         public static void Suspend()
         {

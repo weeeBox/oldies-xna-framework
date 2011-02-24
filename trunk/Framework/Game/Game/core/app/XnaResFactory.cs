@@ -17,6 +17,7 @@ using asap.sound;
 using Flipstones2.sfx;
 using asap.anim;
 using asap.graphics;
+using Flipstones2.gfx;
 
 namespace Flipstones2.app
 {

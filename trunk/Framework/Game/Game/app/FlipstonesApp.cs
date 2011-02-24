@@ -11,7 +11,7 @@ using asap.graphics;
 
 namespace app
 {
-    public class FlipstonesApp : DefaultApp, CheatListener
+    public class FlipstonesApp : DefaultApp
      {
         public const String APPLE_ID_FULL = "379345229";
         
@@ -151,36 +151,6 @@ namespace app
                 return ;
             
             base.KeyReleased(keyCode, keyAction);
-        }
-        
-        public virtual void CheatEntered(int cheatCode)
-        {
-            if (cheatCode == 0) 
-            {
-                AtlasRepacker.DumpVideoMemory();
-            } 
-            else if (cheatCode == 1) 
-            {
-                showFps = !(showFps);
-                System._out.Println(("fps: " + (showFps)));
-            } 
-            else if (cheatCode == 2) 
-            {
-                showHeap = !(showHeap);
-                System._out.Println(("heap: " + (showHeap)));
-            } 
-            else if (cheatCode == 6) 
-            {
-                menuController.DebugSetStoryAsPassed();
-            } 
-        }
-        
-        public virtual void BrowseFullVersion()
-        {
-            PlatformRequest((("http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=" + (APPLE_ID_FULL)) + "&amp;mt=8"));
-        }
-        
-    }
-    
-    
+        }                
+    }    
 }

@@ -102,17 +102,18 @@ namespace app.menu
         
         public override void Draw(Graphics g)
         {
-            int a = g.GetAlpha();
-            g.SetAlpha(alpha);
-            int y = 0;
-            for (int i = 0; i < (2 * (linesCount)); i += 2) 
-            {
-                String line = JUtils.Substring(text, lines[i], lines[(i + 1)]);
-                int x = ((GetWidth()) - (font.GetStringWidth(line))) / 2;
-                font.DrawString(g, line, x, y);
-                y += font.GetLineHeight();
-            }
-            g.SetAlpha(a);
+            //int a = g.GetAlpha();
+            //g.SetAlpha(alpha);
+            //int y = 0;
+            //for (int i = 0; i < (2 * (linesCount)); i += 2) 
+            //{
+            //    String line = JUtils.Substring(text, lines[i], lines[(i + 1)]);
+            //    int x = ((GetWidth()) - (font.GetStringWidth(line))) / 2;
+            //    font.DrawString(g, line, x, y);
+            //    y += font.GetLineHeight();
+            //}
+            //g.SetAlpha(a);
+            throw new NotImplementedException();
         }
         
     }

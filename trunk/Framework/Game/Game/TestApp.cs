@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Flipstones2.gfx;
 using Flipstones2.res;
+using Flipstones2.app;
 
 namespace app
 {

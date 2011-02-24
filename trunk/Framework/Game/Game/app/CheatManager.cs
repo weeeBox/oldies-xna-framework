@@ -94,25 +94,11 @@ namespace app
                 else 
                 {
                     activationStage = 0;
-                }
-                if ((activationStage) == 4) 
-                {
-                    System._out.Println("cheats activated");
-                    showActivation = true;
-                    active = true;
-                } 
+                }               
             } 
             else 
             {
-                if (!(engaged)) 
-                {
-                    if ((x >= (screenWidth - (TAP_REGION))) && (y <= (TAP_REGION))) 
-                    {
-                        EngageCheats();
-                        screenShowed = true;
-                        FlipstonesApp.GetScreensView().StartNextScreen(ScreenFactory.CreateCheatsScreen(this));
-                    } 
-                } 
+               
             }
             return false;
         }

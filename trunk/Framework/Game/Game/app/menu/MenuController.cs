@@ -31,7 +31,6 @@ namespace app.menu
         {
             LoadPack(STARTUP_RESOURCES);
             LoadPack(COMMON_RESOURCES);            
-            Prefs.GetInstance().Load();            
             StartScreen(ScreenFactory.CreateStartLoading(this));
             loadingState = LoadingState.APP;
         }
@@ -73,23 +72,23 @@ namespace app.menu
         
         private void LoadResourcesOnStart()
         {
-            LoadPack((Config.freeVersion ? RESOURCES_FREE : RESOURCES_FULL));
+            LoadPack(RESOURCES_FULL);
             LoadPack(MENU_RESOURCES);            
         }
         
         private void LoadResourcesBeforeGame()
         {
-            UnloadPack((Config.freeVersion ? RESOURCES_FREE : RESOURCES_FULL));
+            UnloadPack(RESOURCES_FULL);
             UnloadPack(MENU_RESOURCES);
             LoadPack(GAME_RESOURCES);
-            LoadPack((Config.freeVersion ? GAME_RESOURCES_FREE : GAME_RESOURCES_FULL));            
+            LoadPack(GAME_RESOURCES_FULL);            
         }
         
         private void LoadResourcesAfterGame()
         {
             UnloadPack(GAME_RESOURCES);
-            UnloadPack((Config.freeVersion ? GAME_RESOURCES_FREE : GAME_RESOURCES_FULL));
-            LoadPack((Config.freeVersion ? RESOURCES_FREE : RESOURCES_FULL));
+            UnloadPack(GAME_RESOURCES_FULL);
+            LoadPack(RESOURCES_FULL);
             LoadPack(MENU_RESOURCES);            
         }
         
