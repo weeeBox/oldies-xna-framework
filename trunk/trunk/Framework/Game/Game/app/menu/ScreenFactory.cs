@@ -27,12 +27,28 @@ namespace app.menu
             container.AddView(new MenuButton(ButtonType.PLAY_FRENZY , ButtonId.START_FRENZY , listener));
             container.AddView(new MenuButton(ButtonType.PLAY_CHALLENGE , ButtonId.START_CHALLENGE , listener));
             ScreenFactory.AddAndLayoutButtons(screen, container, 150);
-            container = new Container();
-            container.AddView(new MenuButton(ButtonType.MORE_GAMES_GREEN , "Leaderboard" , ButtonId.LEADERBOARD , listener));
-            container.AddView(new MenuButton(ButtonType.MORE_GAMES_RED , ButtonId.MORE_GAMES , listener));
-            container.AddView(new MenuButton(ButtonType.MISC , StrRes.Get(Strings.INFO) , ButtonId.INFO , listener));
+            container = new Container();            
             ScreenFactory.AddAndLayoutButtons(screen, container, 310);
             screen.SetBackListener(listener, ButtonId.APP_EXIT);
+            return screen;
+        }
+
+        public static Screen CreateStartLoading(MenuListener listener)
+        {
+            Screen screen = new Screen(ScreenId.START_LOADING);
+            screen.AddView(new ImageView(ScreenFactory.GetImage("menu_background.png")));
+            Container content = new Container();
+            content.SetSize(screen.GetWidth(), screen.GetHeight());
+            content.AddView(new ImageView(ScreenFactory.GetImage("poke_logo.png")));
+            Container spacer = new Container();
+            content.AddView(spacer);            
+            spacer = new Container();
+            spacer.SetSize(0, 10);
+            content.AddView(spacer);
+            content.AddView(new TextBox("Loading", ScreenFactory.GetFont("font_menu_mini.fnt"), ((screen.GetWidth()) - 20)));
+            content.SpreadVertically();
+            content.AlignCenterAll();
+            screen.AddView(content);
             return screen;
         }
         

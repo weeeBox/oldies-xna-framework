@@ -135,10 +135,6 @@
     <Compile Include="app\menu\Button.cs" />
     <Compile Include="app\menu\ButtonId.cs" />
     <Compile Include="app\menu\ButtonType.cs" />
-    <Compile Include="app\menu\CheatButton.cs" />
-    <Compile Include="app\menu\ExitGameType.cs" />
-    <Compile Include="app\menu\InfoScreen.cs" />
-    <Compile Include="app\menu\LevelButton.cs" />
     <Compile Include="app\menu\LoadingState.cs" />
     <Compile Include="app\menu\MenuButton.cs" />
     <Compile Include="app\menu\MenuController.cs" />
@@ -153,7 +149,6 @@
     <Compile Include="app\menu\TextBox.cs" />
     <Compile Include="app\menu\ToggleButton.cs" />
     <Compile Include="app\menu\ToggleListener.cs" />
-    <Compile Include="app\Prefs.cs" />
     <Compile Include="app\Res.cs" />
     <Compile Include="app\Sounds.cs" />
     <Compile Include="app\Strings.cs" />

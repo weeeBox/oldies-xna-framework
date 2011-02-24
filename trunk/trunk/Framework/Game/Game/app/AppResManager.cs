@@ -27,18 +27,7 @@ namespace app
         {
             if (_getType(path).Equals(TYPE_ANIMATION)) 
             {
-                try 
-                {
-                    sbyte[] animData = LoadBinary(path);
-                    Animation anim = new Animation(new ByteArrayInputStream(animData) , PARTSET_NAMES);
-                    AddRes(path, anim);
-                    System._out.Println(("Animation loaded: " + path));
-                    return anim;
-                }
-                catch (Exception e) 
-                {
-                    System.Diagnostics.Debug.Assert(false);
-                }
+                throw new NotImplementedException();
             } 
             return base.Load(path, callback);
         }
