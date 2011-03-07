@@ -36,27 +36,6 @@ namespace app
         private void loadPacksInfo(ContentManager content)
         {
             TextureManager texManager = new TextureManager(content);
-
-            ContentManager manager = new ContentManager(content.ServiceProvider, "Content");
-        	texManager.AddPackAtlas(manager.Load<Atlas>("STARTUP_RESOURCES"));
-		    texManager.AddPackAtlas(manager.Load<Atlas>("COMMON_RESOURCES"));
-            texManager.AddPackAtlas(manager.Load<Atlas>("MENU_RESOURCES"));
-            texManager.AddPackAtlas(manager.Load<Atlas>("GAME_RESOURCES"));
-            if (Config.freeVersion)
-            {
-                texManager.AddPackAtlas(manager.Load<Atlas>("RESOURCES_FREE"));
-                texManager.AddPackAtlas(manager.Load<Atlas>("GAME_RESOURCES_FREE"));
-                texManager.AddPackAtlas(manager.Load<Atlas>("GAME_BACKGROUNDS_FREE"));
-            }
-            else
-            {
-                texManager.AddPackAtlas(manager.Load<Atlas>("RESOURCES_FULL"));
-                texManager.AddPackAtlas(manager.Load<Atlas>("GAME_RESOURCES_FULL"));
-                texManager.AddPackAtlas(manager.Load<Atlas>("GAME_BACKGROUNDS_FULL"));
-            }
-
-            manager = null;
-            System.GC.Collect();
         }
 
         public string GetProperty(string name)

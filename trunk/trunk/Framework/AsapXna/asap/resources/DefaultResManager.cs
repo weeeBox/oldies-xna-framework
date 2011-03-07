@@ -30,6 +30,11 @@ namespace asap.resources
         {
             String type = _getType(path);
             
+            if (type.Equals(TYPE_IMAGE))
+            {
+                return ResFactory.GetInstance().LoadImage(path);                
+            }
+            
             //if (type.Equals(TYPE_IMAGE)) 
             //{
             //    Image image = ResFactory.GetInstance().CreateImage(path);
@@ -81,8 +86,7 @@ namespace asap.resources
             //    Debug.WriteLine(("Partset loaded: " + path));
             //    return partset;
             //} 
-            //return base.Load(path, callback);
-            throw new NotImplementedException();            
+            return base.Load(path, callback);            
         }
         
         public override void Unload(String path)
