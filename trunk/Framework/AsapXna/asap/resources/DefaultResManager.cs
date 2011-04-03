@@ -40,7 +40,7 @@ namespace asap.resources
             //    Image image = ResFactory.GetInstance().CreateImage(path);
             //    if (image == null) 
             //    {
-            //        sbyte[] imageData = LoadBinary(path);
+            //        byte[] imageData = LoadBinary(path);
             //        ByteArrayInputStream stream = new ByteArrayInputStream(imageData);
             //        image = ResFactory.GetInstance().CreateImage(stream, imageData.Length);
             //    } 
@@ -71,7 +71,7 @@ namespace asap.resources
             //} 
             //else if (type.Equals(TYPE_ANIMATION)) 
             //{
-            //    sbyte[] animData = LoadBinary(path);
+            //    byte[] animData = LoadBinary(path);
             //    Animation anim = new Animation(new ByteArrayInputStream(animData) , null);
             //    AddRes(path, anim);
             //    Debug.WriteLine(("Animation loaded: " + path));
