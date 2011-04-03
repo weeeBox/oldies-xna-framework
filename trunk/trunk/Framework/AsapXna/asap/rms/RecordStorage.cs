@@ -22,9 +22,9 @@ namespace asap.rms
             RecordStorage.instance = this;
         }
         
-        public abstract bool Save(String name, sbyte[] data);
+        public abstract bool Save(String name, byte[] data);
         
-        public abstract sbyte[] Load(String name);
+        public abstract byte[] Load(String name);
         
     }
     
