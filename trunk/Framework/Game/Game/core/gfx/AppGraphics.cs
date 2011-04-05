@@ -237,6 +237,18 @@ namespace Flipstones2.gfx
             AddTransform(r);
         }
 
+        public static void Transform(ref Matrix m)
+        {
+            matrix = Matrix.Identity;
+            AddTransform(m);
+        }
+
+        public static void ClearTransform()
+        {
+            EndBatch();
+            matrix = Matrix.Identity;
+        }
+
         public static void ClipRect(int x, int y, int width, int height)
         {
             if (!(x == scissorRect.X && y == scissorRect.Y && width == scissorRect.Width && height == scissorRect.Height))
@@ -375,7 +387,7 @@ namespace Flipstones2.gfx
         {
             GetSpriteBatch(BatchMode.Geometry);
 
-            int numVertex = 10;
+            int numVertex = 200;
             VertexPositionColor[] vertexData = new VertexPositionColor[numVertex];
             float da = MathHelper.TwoPi / (numVertex - 1);
             float angle = 0;

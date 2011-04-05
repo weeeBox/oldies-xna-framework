@@ -15,8 +15,7 @@ namespace app
 {
     public class TestApp : AppImpl
     {
-        private FlipstonesApp app;
-        private XnaGraphics appGraphics;
+        private FlipstonesApp app;        
         private bool running;
 
         public TestApp(int width, int height, ContentManager content)
@@ -28,8 +27,7 @@ namespace app
             loadPacksInfo(content);
 
             app = new FlipstonesApp(width, height, 0);
-            app.SetImpl(this);
-            appGraphics = new XnaGraphics(width, height);
+            app.SetImpl(this);            
             running = true;           
         }
 
@@ -78,11 +76,9 @@ namespace app
             app.KeyPressed(KeyCode.CANCEL, KeyAction.NONE);
         }
 
-        public void Draw(GraphicsDevice gd)
-        {
-            appGraphics.Begin(gd);
-            app.Draw(appGraphics);
-            appGraphics.End();
+        public void Draw(XnaGraphics g)
+        {           
+            app.Draw(g);           
         }
 
         public bool isRunning()
