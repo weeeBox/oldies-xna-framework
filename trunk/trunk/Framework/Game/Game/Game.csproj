@@ -118,9 +118,7 @@
     <Compile Include="core\res\AtlasReader.cs" />
     <Compile Include="core\res\BitmapFontReader.cs" />
     <Compile Include="core\res\JManagedBitmapFont.cs" />
-    <Compile Include="core\res\PartsetReader.cs" />
     <Compile Include="core\res\StringsPackReader.cs" />
-    <Compile Include="core\res\JManagedPartSet.cs" />
     <Compile Include="core\sfx\MusicPlayer.cs" />
     <Compile Include="core\sfx\WaveSoundPlayer.cs" />
     <Compile Include="core\res\XnaImage.cs" />
@@ -136,7 +134,6 @@
     <Compile Include="app\menu\ButtonId.cs" />
     <Compile Include="app\menu\ButtonType.cs" />
     <Compile Include="app\menu\LoadingState.cs" />
-    <Compile Include="app\menu\MenuButton.cs" />
     <Compile Include="app\menu\MenuController.cs" />
     <Compile Include="app\menu\MenuListener.cs" />
     <Compile Include="app\menu\NavigButton.cs" />
@@ -168,6 +165,10 @@
     <ProjectReference Include="..\..\AsapXna\AsapXna.csproj">
       <Project>{28BE4C26-3FD5-4362-B217-C2B232EC1901}</Project>
       <Name>AsapXna</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ContentExtension\ContentExtension.csproj">
+      <Project>{8EE01ED5-0AEF-4A35-9C45-6016B2F58CE1}</Project>
+      <Name>ContentExtension</Name>
     </ProjectReference>
     <ProjectReference Include="..\GameContent\GameContent.contentproj">
       <Name>GameContent %28Content%29</Name>

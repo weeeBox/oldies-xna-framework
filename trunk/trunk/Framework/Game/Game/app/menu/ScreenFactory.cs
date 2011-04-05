@@ -81,15 +81,6 @@ namespace app.menu
             int contIndex = ScreenFactory.AddAndLayoutButtons(parentCont, buttonsCont, 0);
             parentCont.SetViewY(contIndex, (((parentCont.GetHeight()) - (buttonsCont.GetHeight())) - 12));
             return contIndex;
-        } 
-        
-        public static void AddMenuBackBottomButton(Screen screen, MenuListener listener)
-        {
-            Container buttonsContainer = new Container();
-            MenuButton backButton = new MenuButton(ButtonType.BACK , ButtonId.BACK , listener);
-            buttonsContainer.AddView(backButton);
-            screen.SetBackButton(backButton);
-            ScreenFactory.AddAndLayoutMenuBottomButtons(screen, buttonsContainer);
-        }
+        }        
     }    
 }

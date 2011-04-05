@@ -1,15 +1,12 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+
+using Flipstones2.gfx;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
-using asap.core;
+using asap.anim;
+using AsapXna.asap.anim;
 
 namespace app
 {
@@ -18,8 +15,10 @@ namespace app
     /// </summary>
     public class TestGame : Microsoft.Xna.Framework.Game
     {
-        private const int WIDTH = 320;
-        private const int HEIGHT = 480;
+        private const int WIDTH = 1280;
+        private const int HEIGHT = 720;
+
+        private XnaGraphics appGraphics;
 
         GraphicsDeviceManager graphics;
         TestApp app;        
@@ -64,7 +63,8 @@ namespace app
         /// all of your content.
         /// </summary>
         protected override void LoadContent()
-        {            
+        {
+            appGraphics = new XnaGraphics(WIDTH, HEIGHT);
             app = new TestApp(WIDTH, HEIGHT, Content);
         }
 
@@ -84,8 +84,8 @@ namespace app
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            updateInput();
-                        
+            updateInput();            
+
             if (app.isRunning())
             {
                 int deltaTime = (int)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -164,8 +164,12 @@ namespace app
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            app.Draw(GraphicsDevice);
-            base.Draw(gameTime);
+
+            appGraphics.Begin(GraphicsDevice);
+            app.Draw(appGraphics);
+            appGraphics.End();
+            
+            base.Draw(gameTime);            
         }
     }
 }

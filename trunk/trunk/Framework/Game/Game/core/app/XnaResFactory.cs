@@ -70,28 +70,7 @@ namespace Flipstones2.app
                 return new WaveSoundPlayer(effect, fileName);
             }
         }
-
-        public override PartSet LoadPartset(string path)
-        {
-            return content.Load<PartSet>("ps_" + getSimpleName(path));
-        }
-
-        public override Animation LoadAnimation(string path, string[] partsetPaths)
-        {
-            using (ContentManager manager = new ContentManager(content.ServiceProvider, "Content"))
-            {
-                PartSet[] partsets = new PartSet[partsetPaths.Length];
-                for (int i = 0; i < partsets.Length; i++)
-                {
-                    partsets[i] = (PartSet)(ResManager.GetBaseInstance().GetRes(partsetPaths[i]));
-                }
-                Animation animation = manager.Load<Animation>("ani_" + getSimpleName(path));
-                animation.partsets = partsets;
-
-                return animation;
-            }
-        }
-
+        
         public override BitmapFont LoadFont(string path)
         {
             using (ContentManager manager = new ContentManager(content.ServiceProvider, "Content"))
