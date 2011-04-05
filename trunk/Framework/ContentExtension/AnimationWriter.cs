@@ -18,35 +18,22 @@ namespace ContentExtension
     /// This should be part of a Content Pipeline Extension Library project.
     /// </summary>
     [ContentTypeWriter]
-    public class AnimationWriter : ContentTypeWriter<AnimationInfo>
+    public class AnimationWriter : ContentTypeWriter<AnimationBin>
     {
-        protected override void Write(ContentWriter output, AnimationInfo value)
+        protected override void Write(ContentWriter output, AnimationBin value)
         {
-            Debug.WriteLine("Export animation");
-
-            output.Write(value.FramesCount);
-		    output.Write(value.FrameRate);
-		    output.Write(value.Width);
-		    output.Write(value.Height);
-		    foreach (Transform m in value.Transforms)
-		    {
-			    output.Write(m.scaleX);
-                output.Write(m.skewY);
-                output.Write(m.skewX);
-			    output.Write(m.scaleY);			    
-			    output.Write(m.transX);
-			    output.Write(m.transY);
-		    }
+            byte[] data = value.Data;
+            output.Write(data, 0, data.Length);
         }
 
         public override string GetRuntimeType(TargetPlatform targetPlatform)
         {
-            return typeof(AnimationInfo).AssemblyQualifiedName;
+            return typeof(AnimationBin).AssemblyQualifiedName;
         }
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            return "Game.core.res.AniReader, Game," + " Version=1.0.0.0, Culture=neutral";
+            return "Game.core.res.AnimationReader, Game," + " Version=1.0.0.0, Culture=neutral";
         }
     }
 }

@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="AnimationImporter.cs" />
     <Compile Include="AnimationInfo.cs" />
-    <Compile Include="AnimationProcessor.cs" />
     <Compile Include="AnimationWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

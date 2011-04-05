@@ -6,62 +6,18 @@ using Microsoft.Xna.Framework;
 
 namespace ContentExtension
 {
-    public struct Transform
+    public class AnimationBin
     {
-        public float scaleX;
-        public float scaleY;
-        public float skewX;
-        public float skewY;
-        public float transX;
-        public float transY;
-    }
+        private byte[] data;
 
-    public class AnimationInfo
-    {
-        private float width;
-        private float height;
-        private int framesCount;
-        private int frameRate;
-
-        private List<Transform> transforms;
-
-        public AnimationInfo(float width, float height, int framesCount, int frameRate)
+        public AnimationBin(byte[] data)
         {
-            this.width = width;
-            this.height = height;
-            this.frameRate = frameRate;
-            this.framesCount = framesCount;
-            transforms = new List<Transform>(framesCount);
+            this.data = data;
         }
 
-        public void AddTransform(Transform m)
+        public byte[] Data
         {
-            transforms.Add(m);
-        }
-
-        public List<Transform> Transforms
-        {
-            get { return transforms; }
-        }
-
-        public int FramesCount 
-        { 
-            get { return framesCount; } 
-        }
-
-        public int FrameRate 
-        { 
-            get { return frameRate; } 
-        }
-
-        public float Width 
-        { 
-            get { return width; } 
-        }
-
-        public float Height 
-        { 
-            get { return height; } 
+            get { return data; }
         }
     }
 }

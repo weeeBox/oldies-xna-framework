@@ -18,31 +18,23 @@ namespace ContentExtension
     /// TODO: change the ContentImporter attribute to specify the correct file
     /// extension, display name, and default processor for this importer.
     /// </summary>
-    [ContentImporter(".an", DisplayName = "AnimationImporter", DefaultProcessor = "AnimationProcessor")]
-    public class AnimationImporter : ContentImporter<AnimationInfo>
+    [ContentImporter(".swp", DisplayName = "Animation Importer")]
+    public class AnimationImporter : ContentImporter<AnimationBin>
     {
-        public override AnimationInfo Import(string filename, ContentImporterContext context)
+        public override AnimationBin Import(string filename, ContentImporterContext context)
         {
-            using (BinaryReader reader = new BinaryReader(File.OpenRead(filename)))
+            using (Stream stream = File.OpenRead(filename))
             {
-                int framesCount = reader.ReadInt32();
-                int frameRate = reader.ReadInt32();
-                float width = reader.ReadSingle();
-                float height = reader.ReadSingle();
-                AnimationInfo info = new AnimationInfo(width, height, framesCount, frameRate);
-                for (int i = 0; i < framesCount; ++i)
+                using (MemoryStream result = new MemoryStream())
                 {
-                    Transform m;
-                    m.scaleX = reader.ReadSingle();
-                    m.scaleY = reader.ReadSingle();
-                    m.skewX = reader.ReadSingle();
-                    m.skewY = reader.ReadSingle();
-                    m.transX = reader.ReadSingle();
-                    m.transY = reader.ReadSingle();
-
-                    info.AddTransform(m);
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        result.Write(buffer, 0, bytesRead);
+                    }
+                    return new AnimationBin(result.ToArray());
                 }
-                return info;
             }
         }
     }
