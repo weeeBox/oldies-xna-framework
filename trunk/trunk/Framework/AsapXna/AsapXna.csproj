@@ -92,12 +92,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="asap\anim\Animation.cs" />
-    <Compile Include="asap\anim\AnimationPlayer.cs" />
-    <Compile Include="asap\anim\AnimLayer.cs" />
-    <Compile Include="asap\anim\Frame.cs" />
-    <Compile Include="asap\anim\MarkerDrawer.cs" />
-    <Compile Include="asap\anim\PartSet.cs" />
+    <Compile Include="asap\anim\DisplayObject.cs" />
+    <Compile Include="asap\anim\SwfMovie.cs" />
+    <Compile Include="asap\anim\SwfPlayer.cs" />
     <Compile Include="asap\app\App.cs" />
     <Compile Include="asap\app\AppImpl.cs" />
     <Compile Include="asap\core\Controller.cs" />
@@ -115,6 +112,9 @@
     <Compile Include="asap\graphics\BitmapFont.cs" />
     <Compile Include="asap\graphics\Graphics.cs" />
     <Compile Include="asap\graphics\Image.cs" />
+    <Compile Include="asap\jswiff\swfrecords\tags\DefinePackedImage.cs" />
+    <Compile Include="asap\jswiff\swfrecords\tags\TagConstants.cs" />
+    <Compile Include="asap\jswiff\swfrecords\tags\TagReader.cs" />
     <Compile Include="asap\media\Manager.cs" />
     <Compile Include="asap\media\ManagerImpl.cs" />
     <Compile Include="asap\media\Player.cs" />
@@ -295,7 +295,7 @@
     <Compile Include="asap\jswiff\swfrecords\LineStyle.cs" />
     <Compile Include="asap\jswiff\swfrecords\LineStyle2.cs" />
     <Compile Include="asap\jswiff\swfrecords\LineStyleArray.cs" />
-    <Compile Include="asap\jswiff\swfrecords\Matrix.cs" />
+    <Compile Include="asap\jswiff\swfrecords\SwfMatrix.cs" />
     <Compile Include="asap\jswiff\swfrecords\MorphFillStyle.cs" />
     <Compile Include="asap\jswiff\swfrecords\MorphFillStyles.cs" />
     <Compile Include="asap\jswiff\swfrecords\MorphGradient.cs" />
@@ -380,9 +380,7 @@
     <Compile Include="asap\jswiff\swfrecords\tags\StartSound.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\SymbolClass.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\Tag.cs" />
-    <Compile Include="asap\jswiff\swfrecords\tags\TagConstants.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\TagHeader.cs" />
-    <Compile Include="asap\jswiff\swfrecords\tags\TagReader.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\UnknownTag.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\VideoFrame.cs" />
     <Compile Include="asap\jswiff\swfrecords\TextRecord.cs" />

@@ -195,6 +195,9 @@ namespace swiff.com.jswiff.swfrecords.tags
                 case TagConstants.DEFINE_SCENE_AND_FRAME_LABEL_DATA:
                     tag = new DefineSceneAndFrameLabelData();
                     break;
+                case TagConstants.DEFINE_PACKED_IMAGE:
+                    tag = new DefinePackedImage();
+                    break;
                 default:
                     tag = new UnknownTag();
                     break;

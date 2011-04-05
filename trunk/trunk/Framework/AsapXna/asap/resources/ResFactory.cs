@@ -24,9 +24,7 @@ namespace asap.resources
             Debug.Assert((ResFactory.instance) == null);
             ResFactory.instance = this;
         }               
-        
-        public abstract PartSet LoadPartset(String path);
-        public abstract Animation LoadAnimation(String path, String[] partsetPaths);
+                
         public abstract BitmapFont LoadFont(String path);
         public abstract Image LoadImage(String path) /* throws Exception */;
         public abstract StringsPack LoadStrings(string path);

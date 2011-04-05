@@ -50,7 +50,7 @@ namespace swiff.com.jswiff.swfrecords
         
         private int placeDepth;
         
-        private Matrix placeMatrix;
+        private SwfMatrix placeMatrix;
         
         private CXformWithAlpha colorTransform;
         
@@ -75,7 +75,7 @@ namespace swiff.com.jswiff.swfrecords
          *
          * @throws IllegalArgumentException if no state flag is set
          */
-        public ButtonRecord(int characterId ,int placeDepth ,Matrix placeMatrix ,bool upState ,bool overState ,bool downState ,bool hitState) 
+        public ButtonRecord(int characterId ,int placeDepth ,SwfMatrix placeMatrix ,bool upState ,bool overState ,bool downState ,bool hitState) 
         {
             if (!(((upState || overState) || downState) || hitState)) 
             {
@@ -109,7 +109,7 @@ namespace swiff.com.jswiff.swfrecords
             upState = stream.ReadBooleanBit();
             characterId = stream.ReadUI16();
             placeDepth = stream.ReadUI16();
-            placeMatrix = new Matrix(stream);
+            placeMatrix = new SwfMatrix(stream);
             if (hasColorTransform) 
             {
                 colorTransform = new CXformWithAlpha(stream);
@@ -185,7 +185,7 @@ namespace swiff.com.jswiff.swfrecords
             return placeDepth;
         }
         
-        public virtual Matrix GetPlaceMatrix()
+        public virtual SwfMatrix GetPlaceMatrix()
         {
             return placeMatrix;
         }

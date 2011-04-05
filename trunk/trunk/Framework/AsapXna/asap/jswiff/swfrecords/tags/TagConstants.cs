@@ -316,6 +316,11 @@ namespace swiff.com.jswiff.swfrecords.tags
          */
         public const int DEFINE_SCENE_AND_FRAME_LABEL_DATA = 86;
         
+        /** 
+         *
+         */
+        public const int DEFINE_PACKED_IMAGE = 100;
+        
         private TagConstants() 
         {
         }
@@ -507,6 +512,9 @@ namespace swiff.com.jswiff.swfrecords.tags
                     break;
                 case DEFINE_SCENE_AND_FRAME_LABEL_DATA:
                     result = "DefineSceneAndFrameLabelData";
+                    break;
+                case DEFINE_PACKED_IMAGE:
+                    result = "DefinePackedImage";
                     break;
                 default:
                     result = "Unknown tag";

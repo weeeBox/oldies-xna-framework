@@ -114,17 +114,9 @@ namespace asap.resources
             return ((StringsPack)(GetRes(path)));
         }
         
-        public virtual Animation GetAnimation(String path)
+        public virtual SwfMovie GetAnimation(String path)
         {
-            return ((Animation)(GetRes(path)));
-        }
-        
-        public virtual PartSet GetPartset(String path)
-        {
-            return ((PartSet)(GetRes(path)));
-        }
-        
-    }
-    
-    
+            return ((SwfMovie)(GetRes(path)));
+        }        
+    }    
 }

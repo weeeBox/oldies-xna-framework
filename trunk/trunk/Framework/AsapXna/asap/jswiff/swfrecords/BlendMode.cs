@@ -115,8 +115,7 @@ namespace swiff.com.jswiff.swfrecords
                 case HARD_LIGHT:
                     return "hard light";
                 default:
-                    return "unknown value: " + blendMode;
-                    break;
+                    return "unknown value: " + blendMode;                    
             }
         }
         

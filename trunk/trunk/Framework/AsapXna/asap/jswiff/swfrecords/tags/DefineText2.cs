@@ -22,7 +22,7 @@ namespace swiff.com.jswiff.swfrecords.tags
     {
         private Rect textBounds;
         
-        private Matrix textMatrix;
+        private SwfMatrix textMatrix;
         
         private TextRecord[] textRecords;
         
@@ -37,7 +37,7 @@ namespace swiff.com.jswiff.swfrecords.tags
          * @param textRecords <code>TextRecord</code> array containing text
          * 		  characters
          */
-        public DefineText2(int characterId ,Rect textBounds ,Matrix textMatrix ,TextRecord[] textRecords) 
+        public DefineText2(int characterId ,Rect textBounds ,SwfMatrix textMatrix ,TextRecord[] textRecords) 
         {
             code = TagConstants.DEFINE_TEXT_2;
             this.characterId = characterId;
@@ -60,12 +60,12 @@ namespace swiff.com.jswiff.swfrecords.tags
             return textBounds;
         }
         
-        public virtual void SetTextMatrix(Matrix textMatrix)
+        public virtual void SetTextMatrix(SwfMatrix textMatrix)
         {
             this.textMatrix = textMatrix;
         }
         
-        public virtual Matrix GetTextMatrix()
+        public virtual SwfMatrix GetTextMatrix()
         {
             return textMatrix;
         }
@@ -85,7 +85,7 @@ namespace swiff.com.jswiff.swfrecords.tags
             InputBitStream inStream = new InputBitStream(data);
             characterId = inStream.ReadUI16();
             textBounds = new Rect(inStream);
-            textMatrix = new Matrix(inStream);
+            textMatrix = new SwfMatrix(inStream);
             short glyphBits = inStream.ReadUI8();
             short advanceBits = inStream.ReadUI8();
             List<TextRecord> records = new List<TextRecord>();

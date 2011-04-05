@@ -27,7 +27,7 @@ namespace swiff.com.jswiff.swfrecords.tags
         
         private int depth;
         
-        private Matrix matrix;
+        private SwfMatrix matrix;
         
         private CXform colorTransform;
         
@@ -40,7 +40,7 @@ namespace swiff.com.jswiff.swfrecords.tags
          * @param colorTransform color transform for color effects, optional (use
          * 		  <code>null</code> if not needed)
          */
-        public PlaceObject(int characterId ,int depth ,Matrix matrix ,CXform colorTransform) 
+        public PlaceObject(int characterId ,int depth ,SwfMatrix matrix ,CXform colorTransform) 
         {
             code = TagConstants.PLACE_OBJECT;
             this.characterId = characterId;
@@ -78,7 +78,7 @@ namespace swiff.com.jswiff.swfrecords.tags
             return depth;
         }
         
-        public virtual Matrix GetMatrix()
+        public virtual SwfMatrix GetMatrix()
         {
             return matrix;
         }
@@ -88,7 +88,7 @@ namespace swiff.com.jswiff.swfrecords.tags
             InputBitStream inStream = new InputBitStream(data);
             characterId = inStream.ReadUI16();
             depth = inStream.ReadUI16();
-            matrix = new Matrix(inStream);
+            matrix = new SwfMatrix(inStream);
             try 
             {
                 colorTransform = new CXform(inStream);
