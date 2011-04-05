@@ -151,7 +151,7 @@ namespace asap.graphics
                 
                 if (((charX + charW) > clipX) && (charW > 0)) 
                 {
-                    g.DrawRegion(fontImage, charsOx[num], charsOy[num], charW, charH, Graphics.TRANS_NONE, charX, charY, ((Graphics.LEFT) | (Graphics.TOP)));
+                    g.DrawRegion(fontImage, charsOx[num], charsOy[num], charW, charH, 0, charX, charY, 0);
                 } 
                 x += (charsW[num]) + (tracking);
             }
@@ -164,29 +164,29 @@ namespace asap.graphics
             int charH = charsH[num];
             if (charW > 0) 
             {
-                g.DrawRegion(fontImage, charsOx[num], charsOy[num], charW, charH, Graphics.TRANS_NONE, x, (((ascent) - (charsAscent[num])) + y), ((Graphics.LEFT) | (Graphics.TOP)));
+                g.DrawRegion(fontImage, charsOx[num], charsOy[num], charW, charH, 0, x, (((ascent) - (charsAscent[num])) + y), 0);
             } 
         }
         
         public override void DrawString(Graphics g, String str, int x, int y, int anchor)
         {
             int width = GetStringWidth(str);
-            if ((anchor & (Graphics.RIGHT)) != 0) 
-            {
-                x -= width;
-            } 
-            else if ((anchor & (Graphics.HCENTER)) != 0) 
-            {
-                x -= width >> 1;
-            } 
-            if ((anchor & (Graphics.BOTTOM)) != 0) 
-            {
-                y -= (ascent) + (descent);
-            } 
-            else if ((anchor & (Graphics.VCENTER)) != 0) 
-            {
-                y -= ((ascent) + (descent)) >> 1;
-            } 
+            //if ((anchor & (Graphics.RIGHT)) != 0) 
+            //{
+            //    x -= width;
+            //} 
+            //else if ((anchor & (Graphics.HCENTER)) != 0) 
+            //{
+            //    x -= width >> 1;
+            //} 
+            //if ((anchor & (Graphics.BOTTOM)) != 0) 
+            //{
+            //    y -= (ascent) + (descent);
+            //} 
+            //else if ((anchor & (Graphics.VCENTER)) != 0) 
+            //{
+            //    y -= ((ascent) + (descent)) >> 1;
+            //} 
             DrawString(g, str, x, y);
         }
         
@@ -258,9 +258,6 @@ namespace asap.graphics
         public virtual String[] WrapString(String str, int width)
         {
             return null;
-        }
-        
-    }
-    
-    
+        }        
+    }    
 }

@@ -1,23 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Flipstones2.res;
-
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
-
 using System.Diagnostics;
-
+using asap.graphics;
 using asap.resources;
 using asap.sound;
 using Flipstones2.sfx;
-using asap.anim;
-using asap.graphics;
-using Flipstones2.gfx;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Media;
 
 namespace Flipstones2.app
 {
@@ -82,10 +72,10 @@ namespace Flipstones2.app
         public override Image LoadImage(string path)
         {
             path = getSimpleName(path);
-            XnaImage instance = FindUsedReference<XnaImage>(path);
+            Image instance = FindUsedReference<Image>(path);
             if (instance == null)
             {
-                instance = new XnaImage();
+                instance = new Image();
                 AddReference(path, instance);
             }
             TextureManager.Instance.LoadTexture(path, instance);

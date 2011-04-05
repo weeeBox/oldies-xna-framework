@@ -17,15 +17,15 @@ namespace asap.core
 
         public Timer[] timers;
 
-        public long[] times;
+        public float[] times;
 
         public int size;
 
         public int capacity;
 
-        public long timesweep;
+        public float timesweep;
 
-        public long instant;
+        public float instant;
 
         public TimerController()
         {
@@ -39,7 +39,7 @@ namespace asap.core
             Debug.Assert(changedCapacity >= (MINIMUM_HEAP_SIZE));
             Debug.Assert((changedCapacity & (changedCapacity - 1)) == 0);
             Timer[] newTimers = new Timer[changedCapacity];
-            long[] newTimes = new long[changedCapacity];
+            float[] newTimes = new float[changedCapacity];
             if ((size) > 0)
             {
                 Array.Copy(timers, 1, newTimers, 1, size);
@@ -125,7 +125,7 @@ namespace asap.core
 
         public virtual void Swap(int index1, int index2)
         {
-            long longXchg = times[index1];
+            float longXchg = times[index1];
             times[index1] = times[index2];
             times[index2] = longXchg;
             Timer timerXchg = timers[index1];
@@ -155,7 +155,7 @@ namespace asap.core
             }
         }
 
-        public virtual void Tick(long delta)
+        public virtual void Tick(float delta)
         {
             CleanupDeadTimers();
             timesweep += delta;

@@ -107,21 +107,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="app\menu\MainScreen.cs" />
     <Compile Include="core\app\XnaMediaManager.cs" />
     <Compile Include="core\app\XnaRecordStorage.cs" />
     <Compile Include="core\app\XnaResFactory.cs" />
-    <Compile Include="core\gfx\AppGraphics.cs" />
-    <Compile Include="core\gfx\TextureManager.cs" />
-    <Compile Include="core\gfx\XnaGraphics.cs" />
-    <Compile Include="core\res\AnimationReader.cs" />
-    <Compile Include="core\res\Atlas.cs" />
-    <Compile Include="core\res\AtlasReader.cs" />
-    <Compile Include="core\res\BitmapFontReader.cs" />
-    <Compile Include="core\res\JManagedBitmapFont.cs" />
-    <Compile Include="core\res\StringsPackReader.cs" />
     <Compile Include="core\sfx\MusicPlayer.cs" />
     <Compile Include="core\sfx\WaveSoundPlayer.cs" />
-    <Compile Include="core\res\XnaImage.cs" />
     <Compile Include="core\sfx\Mp3SoundPlayer.cs" />
     <Compile Include="core\sfx\XnaSoundPlayer.cs" />
   </ItemGroup>
@@ -136,16 +127,11 @@
     <Compile Include="app\menu\LoadingState.cs" />
     <Compile Include="app\menu\MenuController.cs" />
     <Compile Include="app\menu\MenuListener.cs" />
-    <Compile Include="app\menu\NavigButton.cs" />
-    <Compile Include="app\menu\PageNavigator.cs" />
-    <Compile Include="app\menu\PauseButton.cs" />
     <Compile Include="app\menu\Screen.cs" />
     <Compile Include="app\menu\ScreenFactory.cs" />
     <Compile Include="app\menu\ScreenId.cs" />
     <Compile Include="app\menu\ScreensView.cs" />
     <Compile Include="app\menu\TextBox.cs" />
-    <Compile Include="app\menu\ToggleButton.cs" />
-    <Compile Include="app\menu\ToggleListener.cs" />
     <Compile Include="app\Res.cs" />
     <Compile Include="app\Sounds.cs" />
     <Compile Include="app\Strings.cs" />

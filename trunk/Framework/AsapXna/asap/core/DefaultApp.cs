@@ -19,8 +19,8 @@ namespace asap.core
         
         private View mainView;
         
-        public DefaultApp(int width ,int height ,int inputMode) 
-         : base(width, height, inputMode)
+        public DefaultApp(int width ,int height) 
+         : base(width, height)
         {
         }
         
@@ -44,7 +44,7 @@ namespace asap.core
             this.mainView = mainView;
         }
         
-        public override void Tick(int deltaTime)
+        public override void Tick(float deltaTime)
         {
             if ((tickListener) != null) 
             {

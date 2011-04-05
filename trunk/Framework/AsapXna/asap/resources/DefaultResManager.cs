@@ -15,9 +15,7 @@ namespace asap.resources
         
         public String TYPE_FONT = ".fnt";
         
-        public String TYPE_ANIMATION = ".ani";
-        
-        public String TYPE_PARTSET = ".parts";
+        public String TYPE_ANIMATION = ".swp";
         
         public String TYPE_STRINGS_PACK = ".str";
         
@@ -34,7 +32,11 @@ namespace asap.resources
             {
                 return ResFactory.GetInstance().LoadImage(path);                
             }
-            
+            else if (type.Equals(TYPE_ANIMATION))
+            {
+                
+            }
+
             //if (type.Equals(TYPE_IMAGE)) 
             //{
             //    Image image = ResFactory.GetInstance().CreateImage(path);

@@ -13,7 +13,7 @@ namespace app.menu
         
         private static readonly String[] STARTUP_RESOURCES = new String[] {};
         
-        private static readonly String[] COMMON_RESOURCES = new String[] {};
+        private static readonly String[] COMMON_RESOURCES = new String[] { "test.swp" };
         
         private static readonly String[] RESOURCES_FULL = new String[] {};
         
@@ -35,7 +35,7 @@ namespace app.menu
             loadingState = LoadingState.APP;
         }
         
-        public virtual void Tick(long delta)
+        public virtual void Tick(float delta)
         {         
             if ((loadingState) != (LoadingState.NONE)) 
             {
