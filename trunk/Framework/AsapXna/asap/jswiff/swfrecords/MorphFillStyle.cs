@@ -78,17 +78,17 @@ namespace swiff.com.jswiff.swfrecords
         
         private RGBA endColor;
         
-        private Matrix startGradientMatrix;
+        private SwfMatrix startGradientMatrix;
         
-        private Matrix endGradientMatrix;
+        private SwfMatrix endGradientMatrix;
         
         private MorphGradient gradient;
         
         private int bitmapId;
         
-        private Matrix startBitmapMatrix;
+        private SwfMatrix startBitmapMatrix;
         
-        private Matrix endBitmapMatrix;
+        private SwfMatrix endBitmapMatrix;
         
         /** 
          * Creates a new solid morph fill style. Specify fill colors with
@@ -139,7 +139,7 @@ namespace swiff.com.jswiff.swfrecords
          * @throws IllegalArgumentException if specified gradient type is not
          *         supported
          */
-        public MorphFillStyle(MorphGradient gradient ,Matrix startGradientMatrix ,Matrix endGradientMatrix ,short type) 
+        public MorphFillStyle(MorphGradient gradient ,SwfMatrix startGradientMatrix ,SwfMatrix endGradientMatrix ,short type) 
         {
             if (((type != (TYPE_LINEAR_GRADIENT)) && (type != (TYPE_RADIAL_GRADIENT))) && (type != (TYPE_FOCAL_RADIAL_GRADIENT))) 
             {
@@ -168,7 +168,7 @@ namespace swiff.com.jswiff.swfrecords
          * @throws IllegalArgumentException if an illegal bitmap type has been
          *         specified
          */
-        public MorphFillStyle(int bitmapId ,Matrix startBitmapMatrix ,Matrix endBitmapMatrix ,short type) 
+        public MorphFillStyle(int bitmapId ,SwfMatrix startBitmapMatrix ,SwfMatrix endBitmapMatrix ,short type) 
         {
             if ((((type != (TYPE_TILED_BITMAP)) && (type != (TYPE_CLIPPED_BITMAP))) && (type != (TYPE_NONSMOOTHED_TILED_BITMAP))) && (type != (TYPE_NONSMOOTHED_CLIPPED_BITMAP))) 
             {
@@ -191,13 +191,13 @@ namespace swiff.com.jswiff.swfrecords
                     break;
                 case TYPE_LINEAR_GRADIENT:
                 case TYPE_RADIAL_GRADIENT:
-                    startGradientMatrix = new Matrix(stream);
-                    endGradientMatrix = new Matrix(stream);
+                    startGradientMatrix = new SwfMatrix(stream);
+                    endGradientMatrix = new SwfMatrix(stream);
                     gradient = new MorphGradient(stream);
                     break;
                 case TYPE_FOCAL_RADIAL_GRADIENT:
-                    startGradientMatrix = new Matrix(stream);
-                    endGradientMatrix = new Matrix(stream);
+                    startGradientMatrix = new SwfMatrix(stream);
+                    endGradientMatrix = new SwfMatrix(stream);
                     gradient = new FocalMorphGradient(stream);
                     break;
                 case TYPE_TILED_BITMAP:
@@ -205,8 +205,8 @@ namespace swiff.com.jswiff.swfrecords
                 case TYPE_NONSMOOTHED_TILED_BITMAP:
                 case TYPE_NONSMOOTHED_CLIPPED_BITMAP:
                     bitmapId = stream.ReadUI16();
-                    startBitmapMatrix = new Matrix(stream);
-                    endBitmapMatrix = new Matrix(stream);
+                    startBitmapMatrix = new SwfMatrix(stream);
+                    endBitmapMatrix = new SwfMatrix(stream);
                     break;
                 default:
                     throw new IOException(("Illegal morph fill type: " + (type)));                    
@@ -218,7 +218,7 @@ namespace swiff.com.jswiff.swfrecords
             return bitmapId;
         }
         
-        public virtual Matrix GetEndBitmapMatrix()
+        public virtual SwfMatrix GetEndBitmapMatrix()
         {
             return endBitmapMatrix;
         }
@@ -228,7 +228,7 @@ namespace swiff.com.jswiff.swfrecords
             return endColor;
         }
         
-        public virtual Matrix GetEndGradientMatrix()
+        public virtual SwfMatrix GetEndGradientMatrix()
         {
             return endGradientMatrix;
         }
@@ -238,7 +238,7 @@ namespace swiff.com.jswiff.swfrecords
             return gradient;
         }
         
-        public virtual Matrix GetStartBitmapMatrix()
+        public virtual SwfMatrix GetStartBitmapMatrix()
         {
             return startBitmapMatrix;
         }
@@ -248,7 +248,7 @@ namespace swiff.com.jswiff.swfrecords
             return startColor;
         }
         
-        public virtual Matrix GetStartGradientMatrix()
+        public virtual SwfMatrix GetStartGradientMatrix()
         {
             return startGradientMatrix;
         }

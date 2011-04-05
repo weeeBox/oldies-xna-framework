@@ -11,7 +11,7 @@ namespace swiff.com.jswiff.swfrecords
      * This class is used to represent a standard 2D transform matrix (used for
      * affine transforms).
      */
-    public class Matrix
+    public class SwfMatrix
     {
         private double scaleX = 1.0;
         
@@ -37,7 +37,7 @@ namespace swiff.com.jswiff.swfrecords
          * @param translateX x translate value in twips
          * @param translateY y translate value in twips
          */
-        public Matrix(int translateX ,int translateY) 
+        public SwfMatrix(int translateX ,int translateY) 
         {
             this.translateX = translateX;
             this.translateY = translateY;
@@ -50,7 +50,7 @@ namespace swiff.com.jswiff.swfrecords
          *
          * @throws IOException if an I/O error has occured
          */
-        public Matrix(InputBitStream stream) /* throws IOException */ 
+        public SwfMatrix(InputBitStream stream) /* throws IOException */ 
         {
             hasScale = stream.ReadBooleanBit();
             if (hasScale) 

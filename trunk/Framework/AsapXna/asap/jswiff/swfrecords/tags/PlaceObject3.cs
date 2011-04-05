@@ -20,7 +20,7 @@ namespace swiff.com.jswiff.swfrecords.tags
         
         private int characterId;
         
-        private Matrix matrix;
+        private SwfMatrix matrix;
         
         private CXformWithAlpha colorTransform;
         
@@ -157,13 +157,13 @@ namespace swiff.com.jswiff.swfrecords.tags
             return filters;
         }
         
-        public virtual void SetMatrix(Matrix matrix)
+        public virtual void SetMatrix(SwfMatrix matrix)
         {
             this.matrix = matrix;
             hasMatrix = matrix != null;
         }
         
-        public virtual Matrix GetMatrix()
+        public virtual SwfMatrix GetMatrix()
         {
             return matrix;
         }
@@ -283,7 +283,7 @@ namespace swiff.com.jswiff.swfrecords.tags
             } 
             if (hasMatrix) 
             {
-                matrix = new Matrix(inStream);
+                matrix = new SwfMatrix(inStream);
             } 
             if (hasColorTransform) 
             {

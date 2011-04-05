@@ -70,13 +70,13 @@ namespace swiff.com.jswiff.swfrecords
         
         private Color color;
         
-        private Matrix gradientMatrix;
+        private SwfMatrix gradientMatrix;
         
         private Gradient gradient;
         
         private int bitmapId;
         
-        private Matrix bitmapMatrix;
+        private SwfMatrix bitmapMatrix;
         
         /** 
          * <p>
@@ -108,7 +108,7 @@ namespace swiff.com.jswiff.swfrecords
          * @throws IllegalArgumentException if specified gradient type is not
          *         supported
          */
-        public FillStyle(Gradient gradient ,Matrix gradientMatrix ,short type) 
+        public FillStyle(Gradient gradient ,SwfMatrix gradientMatrix ,short type) 
         {
             if (((type != (TYPE_LINEAR_GRADIENT)) && (type != (TYPE_RADIAL_GRADIENT))) && (type != (TYPE_FOCAL_RADIAL_GRADIENT))) 
             {
@@ -150,7 +150,7 @@ namespace swiff.com.jswiff.swfrecords
          * @throws IllegalArgumentException if an illegal bitmap type has been
          *         specified
          */
-        public FillStyle(int bitmapId ,Matrix bitmapMatrix ,short type) 
+        public FillStyle(int bitmapId ,SwfMatrix bitmapMatrix ,short type) 
         {
             if ((((type != (TYPE_TILED_BITMAP)) && (type != (TYPE_CLIPPED_BITMAP))) && (type != (TYPE_NONSMOOTHED_TILED_BITMAP))) && (type != (TYPE_NONSMOOTHED_CLIPPED_BITMAP))) 
             {
@@ -178,11 +178,11 @@ namespace swiff.com.jswiff.swfrecords
                     break;
                 case TYPE_LINEAR_GRADIENT:
                 case TYPE_RADIAL_GRADIENT:
-                    gradientMatrix = new Matrix(stream);
+                    gradientMatrix = new SwfMatrix(stream);
                     gradient = new Gradient(stream , hasAlpha);
                     break;
                 case TYPE_FOCAL_RADIAL_GRADIENT:
-                    gradientMatrix = new Matrix(stream);
+                    gradientMatrix = new SwfMatrix(stream);
                     gradient = new FocalGradient(stream);
                     break;
                 case TYPE_TILED_BITMAP:
@@ -190,7 +190,7 @@ namespace swiff.com.jswiff.swfrecords
                 case TYPE_NONSMOOTHED_TILED_BITMAP:
                 case TYPE_NONSMOOTHED_CLIPPED_BITMAP:
                     bitmapId = stream.ReadUI16();
-                    bitmapMatrix = new Matrix(stream);
+                    bitmapMatrix = new SwfMatrix(stream);
                     break;
                 default:
                     throw new IOException(("Illegal fill type: " + (type)));
@@ -203,7 +203,7 @@ namespace swiff.com.jswiff.swfrecords
             return bitmapId;
         }
         
-        public virtual Matrix GetBitmapMatrix()
+        public virtual SwfMatrix GetBitmapMatrix()
         {
             return bitmapMatrix;
         }
@@ -218,7 +218,7 @@ namespace swiff.com.jswiff.swfrecords
             return gradient;
         }
         
-        public virtual Matrix GetGradientMatrix()
+        public virtual SwfMatrix GetGradientMatrix()
         {
             return gradientMatrix;
         }
