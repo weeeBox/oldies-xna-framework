@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace asap.core
 {
     public class Timer
-     {
+    {
         public WeakReference listener;
         
         public TimerController controller;
@@ -89,19 +89,16 @@ namespace asap.core
             return delay;
         }
         
-        public virtual long GetRemainingTime()
+        public virtual float GetRemainingTime()
         {
             Debug.Assert(IsScheduled());
             return (controller.times[heapPosition]) - (controller.instant);
         }
         
-        public virtual long GetPassedTime()
+        public virtual float GetPassedTime()
         {
             Debug.Assert(IsScheduled());
             return (delay) - (GetRemainingTime());
-        }
-        
-    }
-    
-    
+        }        
+    }    
 }

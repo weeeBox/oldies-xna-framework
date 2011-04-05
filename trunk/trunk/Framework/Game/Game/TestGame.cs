@@ -1,12 +1,8 @@
-using System.Collections.Generic;
-
-using Flipstones2.gfx;
+using asap.graphics;
 using Microsoft.Xna.Framework;
+
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
-using asap.anim;
-using AsapXna.asap.anim;
 
 namespace app
 {
@@ -18,7 +14,7 @@ namespace app
         private const int WIDTH = 1280;
         private const int HEIGHT = 720;
 
-        private XnaGraphics appGraphics;
+        private Graphics appGraphics;
 
         GraphicsDeviceManager graphics;
         TestApp app;        
@@ -64,7 +60,7 @@ namespace app
         /// </summary>
         protected override void LoadContent()
         {
-            appGraphics = new XnaGraphics(WIDTH, HEIGHT);
+            appGraphics = new Graphics(WIDTH, HEIGHT);
             app = new TestApp(WIDTH, HEIGHT, Content);
         }
 

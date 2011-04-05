@@ -38,7 +38,7 @@ namespace app.menu
             screenIndex = 0;
         }
         
-        public virtual void Tick(long delta)
+        public virtual void Tick(float delta)
         {
             if ((GetActiveScreen()) != null) 
             {

@@ -28,7 +28,7 @@ namespace asap.ui
         
         public override void Draw(Graphics g)
         {
-            g.DrawImage(image, 0, 0, ((Graphics.LEFT) | (Graphics.TOP)));
+            g.DrawImage(image, 0, 0, 0);
         }
         
     }

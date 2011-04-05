@@ -8,6 +8,7 @@ using asap.ui;
 using asap.core;
 using asap.graphics;
 using asap.app;
+using Game.app.menu;
 
 namespace app.menu
 {
@@ -18,8 +19,7 @@ namespace app.menu
      {
         public static Screen CreateMainMenu(MenuListener listener)
         {
-            Screen screen = new Screen(ScreenId.MAIN_MENU);
-            screen.AddView(new ColorRect(screen.GetWidth(), screen.GetHeight(), 0xffffff));
+            Screen screen = new MainScreen();
             return screen;
         }
 

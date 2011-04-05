@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Flipstones2.gfx;
+﻿using System.Collections.Generic;
 
-namespace Flipstones2.res
+namespace asap.graphics
 {
     public class Atlas
     {

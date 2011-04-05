@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 
-namespace Flipstones2.gfx
+namespace asap.graphics
 {
     public enum AppBlendMode
     {

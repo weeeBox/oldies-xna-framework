@@ -13,11 +13,7 @@ namespace asap.resources
         
         private ResCallback callback;
         
-        public static ResManager instance;
-        
-        public String TYPE_PACK = ".pak";
-        
-        public String TYPE_BINARY = ".bin";
+        public static ResManager instance;        
         
         public ResManager() 
         {
@@ -37,8 +33,8 @@ namespace asap.resources
             
             if (resources.ContainsKey(path))
                 return resources[path];
-
-            throw new NotImplementedException();            
+            
+            return null;
         }
         
         public virtual Object Load(String path)

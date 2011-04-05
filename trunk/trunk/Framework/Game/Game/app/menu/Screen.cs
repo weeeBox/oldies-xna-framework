@@ -34,7 +34,7 @@ namespace app.menu
             timerController = new TimerController();
         }
         
-        public virtual void Tick(long delta)
+        public virtual void Tick(float delta)
         {
             timerController.Tick(delta);
         }

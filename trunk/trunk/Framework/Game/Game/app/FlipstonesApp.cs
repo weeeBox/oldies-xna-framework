@@ -12,18 +12,8 @@ using asap.graphics;
 namespace app
 {
     public class FlipstonesApp : DefaultApp
-     {
-        public const String APPLE_ID_FULL = "379345229";
-        
-        public const String APPLE_ID_FREE = "379580662";
-        
-        private CheatManager cheatManager;
-        
-        private bool showFps = false;
-        
-        private bool showHeap = false;
-        
-        private long lastTime;
+    {        
+        private CheatManager cheatManager;        
         
         public ScreenManager screenManager;
         
@@ -33,10 +23,8 @@ namespace app
         
         public MenuController menuController;        
         
-        private long lastMobclixTime = 0;
-        
-        public FlipstonesApp(int width ,int height ,int inputMode) 
-         : base(width, height, inputMode)
+        public FlipstonesApp(int width, int height) 
+         : base(width, height)
         {            
             cheatManager = new CheatManager();
             cheatManager.AddCheatListener(this);
@@ -100,17 +88,7 @@ namespace app
         
         private void DrawCheats(Graphics g)
         {
-            cheatManager.Draw(g);
-            if (showFps) 
-            {
-                long currentTime = DateTime.Now.Millisecond;
-                int deltaTime = ((int)(currentTime - (lastTime)));
-                lastTime = currentTime;
-                int fps = 10000 / (deltaTime == 0 ? 1 : deltaTime);
-                String fpsStr = (("fps: " + (fps / 10)) + ".") + (fps % 10);                
-                BitmapFont font = AppResManager.GetDefaultFont();
-                font.DrawString(g, fpsStr, 0, 0);
-            }
+            cheatManager.Draw(g);            
         }
         
         public override void PointerPressed(int x, int y, int fingerId)

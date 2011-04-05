@@ -4,9 +4,9 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Flipstones2.gfx;
+using asap.graphics;
 
-namespace Flipstones2.res
+namespace asap.resources
 {
     public class AtlasReader : ContentTypeReader<Atlas>
     {

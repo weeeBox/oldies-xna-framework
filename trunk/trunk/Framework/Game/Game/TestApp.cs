@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using asap.app;
-using app;
+﻿using asap.app;
 using asap.core;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using Flipstones2.gfx;
-using Flipstones2.res;
+using asap.graphics;
 using Flipstones2.app;
+using Microsoft.Xna.Framework.Content;
 
 namespace app
 {
@@ -22,36 +15,20 @@ namespace app
         {
             new XnaResFactory(content);
             new XnaRecordStorage();
-            new XnaMediaManager();
+            new XnaMediaManager();            
 
-            loadPacksInfo(content);
-
-            app = new FlipstonesApp(width, height, 0);
+            app = new FlipstonesApp(width, height);
             app.SetImpl(this);            
             running = true;           
-        }
-
-        private void loadPacksInfo(ContentManager content)
-        {
-            TextureManager texManager = new TextureManager(content);
-        }
-
-        public string GetProperty(string name)
-        {
-            throw new NotImplementedException();
-        }
-
+        }        
+        
         public void Stop()
         {
             running = false;
         }
+                
 
-        public bool SetOrientation(int orientation)
-        {
-            throw new NotImplementedException();
-        }        
-
-        public void Tick(int deltaTime)
+        public void Tick(float deltaTime)
         {
             app.Tick(deltaTime);
         }
@@ -76,7 +53,7 @@ namespace app
             app.KeyPressed(KeyCode.CANCEL, KeyAction.NONE);
         }
 
-        public void Draw(XnaGraphics g)
+        public void Draw(Graphics g)
         {           
             app.Draw(g);           
         }

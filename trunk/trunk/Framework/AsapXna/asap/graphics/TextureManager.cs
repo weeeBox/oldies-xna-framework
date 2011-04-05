@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Flipstones2.res;
-using System.Diagnostics;
 
-namespace Flipstones2.gfx
+namespace asap.graphics
 {
     public class TexData
     {
@@ -59,7 +56,7 @@ namespace Flipstones2.gfx
             }            
         }        
 
-        public XnaImage LoadTexture(String name, XnaImage existingInstance)
+        public Image LoadTexture(String name, Image existingInstance)
         {
             SubTexData subData = null;
 
