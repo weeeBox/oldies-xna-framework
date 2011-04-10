@@ -3,12 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-
-
 namespace asap.resources
 {
-    public class ResManager
-     {
+    public abstract class ResManager
+    {
         private Dictionary<string, object> resources;
         
         private ResCallback callback;
@@ -26,21 +24,28 @@ namespace asap.resources
         {
             return ResManager.instance;
         }
-        
-        public virtual Object Load(String path, ResCallback callback)
+
+        public virtual void Load(String path)
+        {
+            Load(path, null);
+        }
+
+        public virtual void Load(String path, ResCallback callback)
         {
             this.callback = callback;
-            
-            if (resources.ContainsKey(path))
-                return resources[path];
-            
-            return null;
+
+            if (!resources.ContainsKey(path))
+            {
+                object resource = LoadResource(path);
+                if (resource == null)
+                {
+                    throw new ArgumentOutOfRangeException("Cannot load resource: " + path);
+                }
+                resources.Add(path, resource);
+            }            
         }
-        
-        public virtual Object Load(String path)
-        {
-            return Load(path, null);
-        }
+
+        protected abstract object LoadResource(string path);        
         
         public virtual void Unload(String path)
         {
@@ -54,8 +59,7 @@ namespace asap.resources
         public virtual bool IsLoaded(String path)
         {
             return resources.ContainsKey(path);
-        }       
-        
+        }        
         
         public virtual Object GetRes(String path)
         {
@@ -69,15 +73,10 @@ namespace asap.resources
             resources.Add(path, res);
         }
         
-        public virtual String _getType(String path)
+        public virtual String GetExt(String path)
         {
-            int k = path.LastIndexOf('.');
-            if (k != -1)
-                return path.Substring(0, k);
-            
-            else
-                return null;
-            
+            int dotPos = path.LastIndexOf('.');
+            return dotPos == -1 ? null : path.Substring(dotPos, path.Length - dotPos);            
         }        
     }    
 }

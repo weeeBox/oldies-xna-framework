@@ -24,33 +24,18 @@ namespace asap.resources
             new StrRes(1);
         }
         
-        public override Object Load(String path, ResCallback callback)
+        protected override object LoadResource(String path)
         {
-            String type = _getType(path);
+            String type = GetExt(path);
             
             if (type.Equals(TYPE_IMAGE))
             {
                 return ResFactory.GetInstance().LoadImage(path);                
             }
-            else if (type.Equals(TYPE_ANIMATION))
+            if (type.Equals(TYPE_ANIMATION))
             {
-                
+                return ResFactory.GetInstance().LoadSwfMovie(path);
             }
-
-            //if (type.Equals(TYPE_IMAGE)) 
-            //{
-            //    Image image = ResFactory.GetInstance().CreateImage(path);
-            //    if (image == null) 
-            //    {
-            //        byte[] imageData = LoadBinary(path);
-            //        ByteArrayInputStream stream = new ByteArrayInputStream(imageData);
-            //        image = ResFactory.GetInstance().CreateImage(stream, imageData.Length);
-            //    } 
-            //    Debug.Assert(image != null);
-            //    AddRes(path, image);
-            //    Debug.WriteLine(("Image loaded: " + path));
-            //    return image;
-            //} 
             //else if (type.Equals(TYPE_FONT)) 
             //{
             //    InputStream _is = ResFactory.GetInstance().GetResourceAsStream(path);
@@ -59,41 +44,13 @@ namespace asap.resources
             //    _is.Close();
             //    Debug.WriteLine(("Font loaded: " + path));
             //    return font;
-            //} 
-            //else if (type.Equals(TYPE_STRINGS_PACK)) 
-            //{
-            //    Debug.Assert((StrRes.GetInstance()) != null, "StrRes is not created!");
-            //    InputStream _is = ResFactory.GetInstance().GetResourceAsStream(path);
-            //    StringsPack strPack = new StringsPack();
-            //    strPack.Load(_is);
-            //    _is.Close();
-            //    StrRes.GetInstance().AddPack(strPack);
-            //    Debug.WriteLine(("Strings pack loaded: " + path));
-            //    return strPack;
-            //} 
-            //else if (type.Equals(TYPE_ANIMATION)) 
-            //{
-            //    byte[] animData = LoadBinary(path);
-            //    Animation anim = new Animation(new ByteArrayInputStream(animData) , null);
-            //    AddRes(path, anim);
-            //    Debug.WriteLine(("Animation loaded: " + path));
-            //    return anim;
-            //} 
-            //else if (type.Equals(TYPE_PARTSET)) 
-            //{
-            //    InputStream stream = ResFactory.GetInstance().GetResourceAsStream(path);
-            //    PartSet partset = new PartSet(stream , null);
-            //    stream.Close();
-            //    AddRes(path, partset);
-            //    Debug.WriteLine(("Partset loaded: " + path));
-            //    return partset;
-            //} 
-            return base.Load(path, callback);            
+            //}             
+            return null;
         }
         
         public override void Unload(String path)
         {
-            if (_getType(path).Equals(TYPE_STRINGS_PACK)) 
+            if (GetExt(path).Equals(TYPE_STRINGS_PACK)) 
             {
                 int idBase = GetStringsPack(path).GetIdBase();
                 StrRes.GetInstance().DelPack(idBase);

@@ -6,6 +6,7 @@ using asap.sound;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
+using asap.anim;
 
 namespace asap.resources
 {
@@ -87,6 +88,14 @@ namespace asap.resources
             }
             TextureManager.Instance.LoadTexture(path, instance);
             return instance;
+        }
+
+        public SwfMovie LoadSwfMovie(string path)
+        {
+            using (ContentManager manager = new ContentManager(content.ServiceProvider, "Content"))
+            {
+                return manager.Load<SwfMovie>(getSimpleName(path));
+            }
         }
 
         public StringsPack LoadStrings(string path)

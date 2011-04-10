@@ -17,7 +17,7 @@ namespace Game.app.menu
         public MainScreen() : base(ScreenId.MAIN_MENU)
         {
             SwfMovie movie = (SwfMovie)AppResManager.GetInstance().GetRes("test.swp");
-            SwfPlayer player = new SwfPlayer();
+            player = new SwfPlayer();
             player.SetMovie(movie);
         }
 
