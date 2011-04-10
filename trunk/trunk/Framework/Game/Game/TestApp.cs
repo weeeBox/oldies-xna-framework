@@ -16,7 +16,8 @@ namespace app
         {
             new ResFactory(content);
             new XnaRecordStorage();
-            new XnaMediaManager();            
+            new XnaMediaManager();
+            new TextureManager(content);
 
             app = new FlipstonesApp(width, height);
             app.SetImpl(this);            

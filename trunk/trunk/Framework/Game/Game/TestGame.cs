@@ -84,7 +84,7 @@ namespace app
 
             if (app.isRunning())
             {
-                int deltaTime = (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+                float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 app.Tick(deltaTime);
             }
             else
