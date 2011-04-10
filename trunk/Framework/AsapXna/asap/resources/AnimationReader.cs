@@ -29,7 +29,7 @@ namespace Game.core.res
 
             foreach (Tag tag in tags)
             {
-                
+                Debug.WriteLine(tag);
             }   
         
             return movie;
