@@ -33,7 +33,7 @@ namespace ContentExtension
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            return "Game.core.res.AnimationReader, Game," + " Version=1.0.0.0, Culture=neutral";
+            return "asap.resources.AnimationReader, AsapXna," + " Version=1.0.0.0, Culture=neutral";
         }
     }
 }

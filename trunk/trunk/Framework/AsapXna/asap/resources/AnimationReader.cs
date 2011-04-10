@@ -1,14 +1,13 @@
-using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using asap.anim;
 using Microsoft.Xna.Framework.Content;
-using System.Diagnostics;
 using swiff.com.jswiff;
 using swiff.com.jswiff.listeners;
-using System.Collections.Generic;
 using swiff.com.jswiff.swfrecords.tags;
-using System.IO;
 
-namespace Game.core.res
+namespace asap.resources
 {
     public enum ResType
     {
