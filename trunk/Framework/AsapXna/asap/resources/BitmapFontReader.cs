@@ -18,7 +18,7 @@ namespace asap.resouces
         protected override BitmapFont Read(ContentReader input, BitmapFont existingInstance)
         {
             string texture = input.ReadString();
-            Image fontImage = ResFactory.GetInstance().LoadImage(texture);
+            Image fontImage = ResFactory.GetInstance().LoadManagedImage(texture);
 
             BitmapFont font = new BitmapFont();
             font.fontImage = fontImage;

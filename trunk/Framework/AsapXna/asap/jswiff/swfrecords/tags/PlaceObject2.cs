@@ -1,11 +1,6 @@
 using System;
 
-using System.Collections.Generic;
-
-
-using swiff.com.jswiff.swfrecords.tags.interfaces;
 using swiff.com.jswiff.io;
-using swiff.com.jswiff.swfrecords;
 
 namespace swiff.com.jswiff.swfrecords.tags
 {
@@ -63,7 +58,7 @@ namespace swiff.com.jswiff.swfrecords.tags
      * @see DefineMorphShape
      * @since SWF 3
      */
-    public class PlaceObject2 : Tag, IPlaceObject
+    public class PlaceObject2 : Tag
     {
         private bool move;
         

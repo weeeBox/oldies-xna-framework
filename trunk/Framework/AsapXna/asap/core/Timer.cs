@@ -15,7 +15,7 @@ namespace asap.core
         
         public bool repeated;
         
-        public long delay;
+        public float delay;
         
         public int heapPosition;
         
@@ -26,7 +26,7 @@ namespace asap.core
          * @param listener Will receive timer callback
          * @param attachedObj Any object that can be attached to timer, e.g. to identify timer instead of timer object itself
          */
-        public Timer(TimerSource source ,TimerListener listener ,Object attachedObj) 
+        public Timer(TimerSource source, TimerListener listener, Object attachedObj) 
         {
             Debug.Assert((source != null) && (listener != null));
             this.controller = source.GetTimerController();
@@ -50,12 +50,12 @@ namespace asap.core
             return Schedule(0);
         }
         
-        public virtual Timer Schedule(long delay)
+        public virtual Timer Schedule(float delay)
         {
             return Schedule(delay, false);
         }
         
-        public virtual Timer Schedule(long delay, bool repeated)
+        public virtual Timer Schedule(float delay, bool repeated)
         {
             this.repeated = repeated;
             this.delay = delay;
@@ -84,7 +84,7 @@ namespace asap.core
             return attachedObj;
         }
         
-        public virtual long GetDelay()
+        public virtual float GetDelay()
         {
             return delay;
         }

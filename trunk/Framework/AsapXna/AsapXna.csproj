@@ -92,7 +92,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="asap\anim\DisplayObject.cs" />
+    <Compile Include="asap\anim\objects\BitmapInstance.cs" />
+    <Compile Include="asap\anim\objects\CharacterInstance.cs" />
+    <Compile Include="asap\anim\SwfPartset.cs" />
+    <Compile Include="asap\anim\SwfDisplayList.cs" />
+    <Compile Include="asap\anim\SwfLibrary.cs" />
     <Compile Include="asap\anim\SwfMovie.cs" />
     <Compile Include="asap\anim\SwfPlayer.cs" />
     <Compile Include="asap\app\App.cs" />
@@ -114,7 +118,9 @@
     <Compile Include="asap\graphics\BitmapFont.cs" />
     <Compile Include="asap\graphics\Graphics.cs" />
     <Compile Include="asap\graphics\Image.cs" />
+    <Compile Include="asap\graphics\ITextureManager.cs" />
     <Compile Include="asap\graphics\TextureManager.cs" />
+    <Compile Include="asap\jswiff\swfrecords\tags\DefineAtlas.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\DefinePackedImage.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\TagConstants.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\TagReader.cs" />
@@ -369,8 +375,6 @@
     <Compile Include="asap\jswiff\swfrecords\tags\FreeCharacter.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\ImportAssets.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\ImportAssets2.cs" />
-    <Compile Include="asap\jswiff\swfrecords\tags\interfaces\IDefineShape.cs" />
-    <Compile Include="asap\jswiff\swfrecords\tags\interfaces\IPlaceObject.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\JPEGTables.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\MalformedTag.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\Metadata.cs" />

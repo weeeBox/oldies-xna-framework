@@ -1,12 +1,8 @@
-using System;
-
-using System.Collections.Generic;
 
 
-using swiff.com.jswiff.swfrecords.tags.interfaces;
-using swiff.com.jswiff.io;
-using swiff.com.jswiff.swfrecords;
+
 using System.IO;
+using swiff.com.jswiff.io;
 
 namespace swiff.com.jswiff.swfrecords.tags
 {
@@ -21,7 +17,7 @@ namespace swiff.com.jswiff.swfrecords.tags
      * @see ShowFrame
      * @since SWF 1
      */
-    public class PlaceObject : Tag, IPlaceObject
+    public class PlaceObject : Tag
     {
         private int characterId;
         

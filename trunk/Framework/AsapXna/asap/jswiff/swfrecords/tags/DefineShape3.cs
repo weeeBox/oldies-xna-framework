@@ -1,11 +1,4 @@
-using System;
-
-using System.Collections.Generic;
-
-
-using swiff.com.jswiff.swfrecords.tags.interfaces;
 using swiff.com.jswiff.io;
-using swiff.com.jswiff.swfrecords;
 
 namespace swiff.com.jswiff.swfrecords.tags
 {
@@ -20,7 +13,7 @@ namespace swiff.com.jswiff.swfrecords.tags
      * @see com.jswiff.swfrecords.RGBA
      * @since SWF 3
      */
-    public class DefineShape3 : DefinitionTag, IDefineShape
+    public class DefineShape3 : DefinitionTag
     {
         private Rect shapeBounds;
         

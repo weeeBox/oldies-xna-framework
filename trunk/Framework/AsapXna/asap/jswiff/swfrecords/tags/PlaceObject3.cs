@@ -1,18 +1,14 @@
 using System;
 
 using System.Collections.Generic;
-
-
-using swiff.com.jswiff.swfrecords.tags.interfaces;
 using swiff.com.jswiff.io;
-using swiff.com.jswiff.swfrecords;
 
 namespace swiff.com.jswiff.swfrecords.tags
 {
     /** 
      * TODO: Comments
      */
-    public class PlaceObject3 : Tag, IPlaceObject
+    public class PlaceObject3 : Tag
     {
         private bool move;
         

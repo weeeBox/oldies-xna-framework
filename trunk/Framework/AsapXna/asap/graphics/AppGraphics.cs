@@ -144,9 +144,9 @@ namespace asap.graphics
             return blendMode;
         }
 
-        public static void SetMatrix(Matrix _matrix)
+        public static void SetMatrix(Matrix m)
         {
-            matrix = _matrix;
+            matrix = m;
             EndBatch();
         }
 

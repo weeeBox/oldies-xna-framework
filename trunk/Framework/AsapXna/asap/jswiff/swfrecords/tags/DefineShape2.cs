@@ -1,11 +1,4 @@
-using System;
-
-using System.Collections.Generic;
-
-
-using swiff.com.jswiff.swfrecords.tags.interfaces;
 using swiff.com.jswiff.io;
-using swiff.com.jswiff.swfrecords;
 
 namespace swiff.com.jswiff.swfrecords.tags
 {
@@ -22,7 +15,7 @@ namespace swiff.com.jswiff.swfrecords.tags
      * 		FillStyleArray)
      * @since SWF 2
      */
-    public class DefineShape2 : DefinitionTag, IDefineShape
+    public class DefineShape2 : DefinitionTag
     {
         private Rect shapeBounds;
         

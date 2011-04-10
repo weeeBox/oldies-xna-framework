@@ -316,10 +316,11 @@ namespace swiff.com.jswiff.swfrecords.tags
          */
         public const int DEFINE_SCENE_AND_FRAME_LABEL_DATA = 86;
         
-        /** 
-         *
-         */
-        public const int DEFINE_PACKED_IMAGE = 100;
+        /** Tag code for DefineAtlas tag */
+        public const int DEFINE_ATLAS = 100;
+
+        /** Tag code for DefinePackedImage tag */
+        public const int DEFINE_PACKED_IMAGE = 101;
         
         private TagConstants() 
         {
@@ -515,6 +516,9 @@ namespace swiff.com.jswiff.swfrecords.tags
                     break;
                 case DEFINE_PACKED_IMAGE:
                     result = "DefinePackedImage";
+                    break;
+                case DEFINE_ATLAS:
+                    result = "DefineAtlas";
                     break;
                 default:
                     result = "Unknown tag";

@@ -30,7 +30,7 @@ namespace asap.resources
             
             if (type.Equals(TYPE_IMAGE))
             {
-                return ResFactory.GetInstance().LoadImage(path);                
+                return ResFactory.GetInstance().LoadManagedImage(path);                
             }
             if (type.Equals(TYPE_ANIMATION))
             {

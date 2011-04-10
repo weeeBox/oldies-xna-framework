@@ -151,7 +151,7 @@ namespace asap.graphics
                 
                 if (((charX + charW) > clipX) && (charW > 0)) 
                 {
-                    g.DrawRegion(fontImage, charsOx[num], charsOy[num], charW, charH, 0, charX, charY, 0);
+                    g.DrawRegion(fontImage, charsOx[num], charsOy[num], charW, charH, charX, charY, 0);
                 } 
                 x += (charsW[num]) + (tracking);
             }
@@ -164,7 +164,7 @@ namespace asap.graphics
             int charH = charsH[num];
             if (charW > 0) 
             {
-                g.DrawRegion(fontImage, charsOx[num], charsOy[num], charW, charH, 0, x, (((ascent) - (charsAscent[num])) + y), 0);
+                g.DrawRegion(fontImage, charsOx[num], charsOy[num], charW, charH, x, (((ascent) - (charsAscent[num])) + y), 0);
             } 
         }
         

@@ -42,6 +42,12 @@ namespace asap.graphics
             AppGraphics.ClipRect(x + transX, y + transY, width, height);
         }
 
+        public void FillRect(int x, int y, int width, int height)
+        {
+            float fAlpha = alpha / 255.0f;
+            AppGraphics.FillRect(x, y, width, height, color * fAlpha);
+        }
+
         public void DrawArc(int x, int y, int width, int height, int startAngle, int arcAngle)
         {
             throw new NotImplementedException();
@@ -59,7 +65,7 @@ namespace asap.graphics
 
         public void DrawImage(Image img, int x, int y, int anchor)
         {
-            DrawRegion(img, 0, 0, img.GetWidth(), img.GetHeight(), 0, x, y, anchor);
+            DrawRegion(img, 0, 0, img.GetWidth(), img.GetHeight(), x, y, anchor);
         }
 
         public void DrawImageSector(Image img, int x, int y, int startAngle, int angle)
@@ -79,7 +85,7 @@ namespace asap.graphics
             AppGraphics.DrawRect(x, y, width, height, color * fAlpha);
         }
 
-        public void DrawRegion(Image src, int x_src, int y_src, int width, int height, int transform, int x_dst, int y_dst, int anchor)
+        public void DrawRegion(Image src, int x_src, int y_src, int width, int height, int x_dst, int y_dst, int anchor)
         {
             int anchorx = 0;
             int anchory = 0;
@@ -199,47 +205,6 @@ namespace asap.graphics
             AppGraphics.DrawImage(tex, ref srcRect, ref position, ref color, rotation, ref origin, ref scale, ref flip);
         }
 
-        public void DrawRGB(int[] rgbData, int offset, int scanlength, int x, int y, int width, int height, bool processAlpha)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawString(string str, int x, int y, int anchor)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawSubstring(string str, int offset, int len, int x, int y, int anchor)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void FillArc(int x, int y, int width, int height, int startAngle, int arcAngle)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void FillRect(int x, int y, int width, int height)
-        {
-            float fAlpha = alpha / 255.0f;            
-            AppGraphics.FillRect(x, y, width, height, color * fAlpha);
-        }
-
-        public void FillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int GetBlueComponent()
-        {
-            throw new NotImplementedException();
-        }
-
         public int GetClipWidth()
         {
             return AppGraphics.GetClipWidth();
@@ -259,12 +224,7 @@ namespace asap.graphics
         {
             return AppGraphics.GetClipY() - transY;
         }
-
-        public int GetColor()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public int GetTranslateX()
         {
             return transX;
@@ -330,28 +290,9 @@ namespace asap.graphics
             AppGraphics.PopMatrix();
         }
 
-        public void Rotate(double theta)
+        public void SetTransform(ref Matrix m)        
         {
-            AppGraphics.Rotate((float)theta, 0.0f, 0.0f, 1.0f);
+            AppGraphics.SetMatrix(m);
         }
-
-        public void Rotate(double theta, double x, double y)
-        {
-            int fx = (int)x;
-            int fy = (int)y;
-            AppGraphics.Translate(fx, fy, 0);
-            Rotate(theta);
-            AppGraphics.Translate(-fx, -fy, 0);
-        }
-
-        public void Scale(double sx, double sy)
-        {
-            AppGraphics.Scale((float)sx, (float)sy, 1.0f);
-        }
-
-        public void Shear(double shx, double shy)
-        {
-            throw new NotImplementedException();
-        }               
     }    
 }

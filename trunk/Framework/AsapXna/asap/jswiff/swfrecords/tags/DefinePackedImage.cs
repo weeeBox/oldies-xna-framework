@@ -9,11 +9,7 @@ namespace swiff.com.jswiff.swfrecords.tags
 {
     public class DefinePackedImage : DefinitionTag
     {
-        private int atlasIndex;        
-        private int x;        
-        private int y;        
-        private int width;        
-        private int height;        
+        private int imageId;
         
         public DefinePackedImage() 
         {
@@ -23,11 +19,13 @@ namespace swiff.com.jswiff.swfrecords.tags
         public override void SetData(byte[] data) /* throws IOException */
         {
             InputBitStream stream = new InputBitStream(data);
-            atlasIndex = stream.ReadUI8();
-            x = stream.ReadUI16();
-            y = stream.ReadUI16();
-            width = stream.ReadUI16();
-            height = stream.ReadUI16();
-        }        
+            characterId = stream.ReadUI16();
+	    imageId = stream.ReadUI16();
+        }
+        
+        public int ImageId
+        {
+            get { return imageId; }
+        }
     }
 }

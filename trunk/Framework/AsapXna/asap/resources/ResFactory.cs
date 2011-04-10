@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
 using asap.anim;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace asap.resources
 {
@@ -78,6 +79,12 @@ namespace asap.resources
         }
 
         public Image LoadImage(string path)
+        {
+            Texture2D texture = content.Load<Texture2D>(getSimpleName(path));
+            return new Image(texture);
+        }
+
+        public Image LoadManagedImage(string path)
         {
             path = getSimpleName(path);
             Image instance = FindUsedReference<Image>(path);

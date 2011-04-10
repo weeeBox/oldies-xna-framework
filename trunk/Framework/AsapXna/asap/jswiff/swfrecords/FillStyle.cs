@@ -223,9 +223,9 @@ namespace swiff.com.jswiff.swfrecords
             return gradientMatrix;
         }
         
-        public virtual short _getType()
+        public virtual short Type
         {
-            return type;
+            get { return type; }
         }        
     }
 }
