@@ -133,8 +133,12 @@
     <Compile Include="asap\resources\StrRes.cs" />
     <Compile Include="asap\rms\RecordStorage.cs" />
     <Compile Include="asap\sound\AudioSession.cs" />
+    <Compile Include="asap\sound\Mp3SoundPlayer.cs" />
+    <Compile Include="asap\sound\MusicPlayer.cs" />
     <Compile Include="asap\sound\SoundManager.cs" />
     <Compile Include="asap\sound\SoundPlayer.cs" />
+    <Compile Include="asap\sound\WaveSoundPlayer.cs" />
+    <Compile Include="asap\sound\XnaSoundPlayer.cs" />
     <Compile Include="asap\ui\ColorRect.cs" />
     <Compile Include="asap\ui\Container.cs" />
     <Compile Include="asap\ui\Focusable.cs" />
