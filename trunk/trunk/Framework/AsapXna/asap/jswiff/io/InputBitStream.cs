@@ -10,7 +10,7 @@ namespace swiff.com.jswiff.io
     /** 
      * Implements a bit stream used for reading SWF files.
      */
-    public class InputBitStream
+    public class InputBitStream : IDisposable
     {
         private Stream stream;
         
@@ -86,6 +86,11 @@ namespace swiff.com.jswiff.io
         {
             stream.Close();
         }        
+
+        public void Dispose()
+        {
+            Close();
+        }
         
         public virtual void Move(long delta) /* throws IOException */
         {

@@ -1,11 +1,4 @@
-using System;
-
-using System.Collections.Generic;
-
-
-using swiff.com.jswiff.swfrecords.tags.interfaces;
 using swiff.com.jswiff.io;
-using swiff.com.jswiff.swfrecords;
 
 namespace swiff.com.jswiff.swfrecords.tags
 {
@@ -22,7 +15,7 @@ namespace swiff.com.jswiff.swfrecords.tags
      * @see com.jswiff.swfrecords.LineStyle2
      * @since SWF 8
      */
-    public class DefineShape4 : DefinitionTag, IDefineShape
+    public class DefineShape4 : DefinitionTag
     {
         private Rect shapeBounds;
         

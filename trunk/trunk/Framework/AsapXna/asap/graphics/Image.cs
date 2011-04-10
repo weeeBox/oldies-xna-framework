@@ -9,7 +9,7 @@ namespace asap.graphics
         private Texture2D tex;
         private Rectangle bounds;       
 
-        private TextureManager tm;        
+        private ITextureManager tm;        
 
         public Image()
         {
@@ -82,7 +82,12 @@ namespace asap.graphics
             Unload();
         }
 
-        public void setTexture(TextureManager tm, Texture2D t, int x, int y, int w, int h)
+        public void setTexture(ITextureManager tm, Image image, int x, int y, int w, int h)
+        {
+            setTexture(tm, image.getTexture(), x, y, w, h);
+        }
+
+        public void setTexture(ITextureManager tm, Texture2D t, int x, int y, int w, int h)
         {
             Unload();
 

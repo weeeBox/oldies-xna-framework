@@ -198,6 +198,9 @@ namespace swiff.com.jswiff.swfrecords.tags
                 case TagConstants.DEFINE_PACKED_IMAGE:
                     tag = new DefinePackedImage();
                     break;
+                case TagConstants.DEFINE_ATLAS:
+                    tag = new DefineAtlas();
+                    break;
                 default:
                     tag = new UnknownTag();
                     break;

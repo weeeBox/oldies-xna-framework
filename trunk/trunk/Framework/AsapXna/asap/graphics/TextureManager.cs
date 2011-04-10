@@ -24,7 +24,7 @@ namespace asap.graphics
         public TexData parent;
     }
 
-    public class TextureManager
+    public class TextureManager : ITextureManager
     {
         private ContentManager contentManager;        
 
