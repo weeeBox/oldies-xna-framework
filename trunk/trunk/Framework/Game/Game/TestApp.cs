@@ -3,6 +3,7 @@ using asap.core;
 using asap.graphics;
 using Flipstones2.app;
 using Microsoft.Xna.Framework.Content;
+using asap.resources;
 
 namespace app
 {
@@ -13,7 +14,7 @@ namespace app
 
         public TestApp(int width, int height, ContentManager content)
         {
-            new XnaResFactory(content);
+            new ResFactory(content);
             new XnaRecordStorage();
             new XnaMediaManager();            
 

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
-using Flipstones2.sfx;
+﻿using System.Diagnostics;
 using asap.media;
+using asap.sound;
 
 namespace Flipstones2.app
 {

@@ -110,11 +110,6 @@
     <Compile Include="app\menu\MainScreen.cs" />
     <Compile Include="core\app\XnaMediaManager.cs" />
     <Compile Include="core\app\XnaRecordStorage.cs" />
-    <Compile Include="core\app\XnaResFactory.cs" />
-    <Compile Include="core\sfx\MusicPlayer.cs" />
-    <Compile Include="core\sfx\WaveSoundPlayer.cs" />
-    <Compile Include="core\sfx\Mp3SoundPlayer.cs" />
-    <Compile Include="core\sfx\XnaSoundPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app\AppResManager.cs" />
