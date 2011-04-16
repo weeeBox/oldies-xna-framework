@@ -8,13 +8,13 @@ using System.Diagnostics;
 
 namespace asap.ui
 {
-    public class Container : BaseElement, ViewComposite
+    public class Container : View, ViewComposite
      {
         public const int INITIAL_VIEWS_COUNT = 8;
         
         private int viewsCount = 0;
         
-        private BaseElement[] views;
+        private View[] views;
         
         private int[] xPositions;
         
@@ -29,7 +29,7 @@ namespace asap.ui
             width = 0;
             height = 0;
             viewsCount = 0;
-            views = new BaseElement[INITIAL_VIEWS_COUNT];
+            views = new View[INITIAL_VIEWS_COUNT];
             xPositions = new int[INITIAL_VIEWS_COUNT];
             yPositions = new int[INITIAL_VIEWS_COUNT];
         }
@@ -42,7 +42,7 @@ namespace asap.ui
             int clipBottom = clipTop + (g.GetClipHeight());
             for (int i = 0; i < (viewsCount); i++) 
             {
-                BaseElement view = views[i];
+                View view = views[i];
                 int left = GetViewX(i);
                 int top = GetViewY(i);
                 int right = left + (view.GetWidth());
@@ -62,12 +62,12 @@ namespace asap.ui
             return viewsCount;
         }
         
-        public virtual BaseElement GetView(int index)
+        public virtual View GetView(int index)
         {
             return views[index];
         }
         
-        public virtual int IndexOf(BaseElement view)
+        public virtual int IndexOf(View view)
         {
             for (int i = 0; i < (viewsCount); i++) 
             {
@@ -127,7 +127,7 @@ namespace asap.ui
             return this;
         }
         
-        public virtual int AddView(BaseElement view)
+        public virtual int AddView(View view)
         {
             Debug.Assert(view != null);
             EnsureCapacity();
@@ -138,14 +138,14 @@ namespace asap.ui
             return (viewsCount) - 1;
         }
         
-        public virtual Container ReplaceView(int index, BaseElement view)
+        public virtual Container ReplaceView(int index, View view)
         {
             Debug.Assert((index >= 0) && (index < (viewsCount)));
             views[index] = view;
             return this;
         }
         
-        public virtual Container ReplaceView(BaseElement original, BaseElement replaced)
+        public virtual Container ReplaceView(View original, View replaced)
         {
             for (int i = 0; i < (viewsCount); ++i) 
             {
@@ -159,7 +159,7 @@ namespace asap.ui
             return this;
         }
         
-        public virtual Container RemoveView(BaseElement view)
+        public virtual Container RemoveView(View view)
         {
             int index = -1;
             for (int i = 0; i < (viewsCount); i++) 
@@ -187,7 +187,7 @@ namespace asap.ui
             return this;
         }
         
-        public virtual bool Contains(BaseElement view)
+        public virtual bool Contains(View view)
         {
             for (int i = 0; i < (views.Length); i++) 
             {
@@ -198,7 +198,7 @@ namespace asap.ui
             return false;
         }
         
-        public virtual Container MoveToFront(BaseElement view)
+        public virtual Container MoveToFront(View view)
         {
             RemoveView(view);
             AddView(view);
@@ -245,7 +245,7 @@ namespace asap.ui
             int bottom = (GetViewY(0)) + (GetView(0).GetHeight());
             for (int i = 1; i < (GetViewsCount()); i++) 
             {
-                BaseElement view = GetView(i);
+                View view = GetView(i);
                 left = Math.Min(left, GetViewX(i));
                 top = Math.Min(top, GetViewY(i));
                 right = Math.Max(right, ((GetViewX(i)) + (view.GetWidth())));
@@ -307,49 +307,49 @@ namespace asap.ui
             return this;
         }
         
-        public virtual Container AlignLeft(BaseElement view)
+        public virtual Container AlignLeft(View view)
         {
             SetViewX(IndexOf(view), 0);
             return this;
         }
         
-        public virtual Container AlignCenter(BaseElement view)
+        public virtual Container AlignCenter(View view)
         {
             SetViewX(IndexOf(view), (((GetWidth()) - (view.GetWidth())) / 2));
             return this;
         }
         
-        public virtual Container AlignRight(BaseElement view)
+        public virtual Container AlignRight(View view)
         {
             SetViewX(IndexOf(view), ((GetWidth()) - (view.GetWidth())));
             return this;
         }
         
-        public virtual Container AlignTop(BaseElement view)
+        public virtual Container AlignTop(View view)
         {
             SetViewY(IndexOf(view), 0);
             return this;
         }
         
-        public virtual Container AlignMiddle(BaseElement view)
+        public virtual Container AlignMiddle(View view)
         {
             SetViewY(IndexOf(view), (((GetHeight()) - (view.GetHeight())) / 2));
             return this;
         }
         
-        public virtual Container AlignBottom(BaseElement view)
+        public virtual Container AlignBottom(View view)
         {
             SetViewY(IndexOf(view), ((GetHeight()) - (view.GetHeight())));
             return this;
         }
         
-        public virtual Container AlignVertically(BaseElement view, int percent)
+        public virtual Container AlignVertically(View view, int percent)
         {
             SetViewY(IndexOf(view), ((((GetHeight()) - (view.GetHeight())) * percent) / 100));
             return this;
         }
         
-        public virtual Container AlignHorizontally(BaseElement view, int percent)
+        public virtual Container AlignHorizontally(View view, int percent)
         {
             SetViewX(IndexOf(view), ((((GetWidth()) - (view.GetWidth())) * percent) / 100));
             return this;
@@ -396,7 +396,7 @@ namespace asap.ui
             }
             for (int i = 0; i < (GetViewsCount()); i++) 
             {
-                BaseElement view = GetView(i);
+                View view = GetView(i);
                 if (hor) 
                 {
                     SetViewX(i, pos);
@@ -414,7 +414,7 @@ namespace asap.ui
         {
             if ((viewsCount) == (views.Length)) 
             {
-                BaseElement[] newViews = new BaseElement[(views.Length) * 2];
+                View[] newViews = new View[(views.Length) * 2];
                 Array.Copy(views, 0, newViews, 0, views.Length);
                 views = newViews;
                 int[] newXPositions = new int[(views.Length) * 2];

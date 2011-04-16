@@ -13,7 +13,7 @@ namespace app.menu
     /** 
      * Provide stack of screens and view of active/visible screens
      */
-    public class ScreensView : BaseElement, TickListener
+    public class ScreensView : View, TickListener
      {
         private const int MAX_SCREENS_COUNT = 5;
         

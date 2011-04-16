@@ -9,7 +9,7 @@ using asap.graphics;
 
 namespace app.menu
 {
-    public class TextBox : BaseElement
+    public class TextBox : View
      {
         private const int MAX_LINES_COUNT = 128;
         

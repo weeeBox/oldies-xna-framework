@@ -11,7 +11,7 @@ namespace asap.ui
      {
         private DefaultApp app;
         
-        private BaseElement root;
+        private View root;
         
         private ViewController viewController;
         
@@ -22,7 +22,7 @@ namespace asap.ui
             viewController = null;
         }
         
-        public virtual void SetRoot(BaseElement root)
+        public virtual void SetRoot(View root)
         {
             if ((viewController) != null) 
             {
@@ -42,7 +42,7 @@ namespace asap.ui
             app.SetPointerListener(viewController);
         }
         
-        public virtual void FocusChanged(FocusType focusType, BaseElement prev, BaseElement current)
+        public virtual void FocusChanged(FocusType focusType, View prev, View current)
         {
             if ((viewController) != null) 
             {

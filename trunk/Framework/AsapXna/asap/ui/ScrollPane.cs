@@ -9,9 +9,9 @@ using System.Diagnostics;
 
 namespace asap.ui
 {
-    public class ScrollPane : BaseElement, KeyListener, PointerListener, TimerListener, FocusListener, Focusable
+    public class ScrollPane : View, KeyListener, PointerListener, TimerListener, FocusListener, Focusable
      {
-        private BaseElement content;
+        private View content;
         
         private ViewController controller;
         
@@ -39,7 +39,7 @@ namespace asap.ui
         
         private bool isContentActive;
         
-        public ScrollPane(BaseElement content ,bool horizontalScrolling ,bool verticalScrolling ,TimerSource timerSource) 
+        public ScrollPane(View content ,bool horizontalScrolling ,bool verticalScrolling ,TimerSource timerSource) 
         {
             Debug.Assert(content != null);
             this.content = content;
@@ -266,7 +266,7 @@ namespace asap.ui
             return true;
         }
         
-        public virtual void FocusChanged(FocusType focusType, BaseElement prev, BaseElement current)
+        public virtual void FocusChanged(FocusType focusType, View prev, View current)
         {
             switch (focusType)
             {
