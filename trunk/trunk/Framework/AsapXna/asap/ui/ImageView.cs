@@ -7,7 +7,7 @@ using asap.graphics;
 
 namespace asap.ui
 {
-    public class ImageView : BaseElement
+    public class ImageView : View
      {
         private Image image;
         

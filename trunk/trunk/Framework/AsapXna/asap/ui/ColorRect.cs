@@ -7,7 +7,7 @@ using asap.graphics;
 
 namespace asap.ui
 {
-    public class ColorRect : BaseElement
+    public class ColorRect : View
      {
         private int width;
         

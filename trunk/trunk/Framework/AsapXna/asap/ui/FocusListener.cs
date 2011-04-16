@@ -8,7 +8,7 @@ namespace asap.ui
 {
     public interface FocusListener
     {
-        void FocusChanged(FocusType focusType, BaseElement prev, BaseElement current);
+        void FocusChanged(FocusType focusType, View prev, View current);
     }
     
     

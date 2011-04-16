@@ -10,7 +10,7 @@ using asap.graphics;
 
 namespace app.menu
 {
-    abstract public class Button : BaseElement, KeyListener, PointerListener, Focusable
+    abstract public class Button : View, KeyListener, PointerListener, Focusable
      {
         private bool focused = false;
         

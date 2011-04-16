@@ -9,15 +9,15 @@ namespace asap.ui
 {
     public class ViewController : KeyListener, PointerListener
      {
-        private BaseElement root;
+        private View root;
         
-        private BaseElement focusedView;
+        private View focusedView;
         
         private ViewIterator focusIterator;
         
         private bool isKeyPressedHandledByFocus;
         
-        private BaseElement activeView;
+        private View activeView;
         
         private int activeViewX;
         
@@ -27,7 +27,7 @@ namespace asap.ui
         
         private List<FocusListener>  focusListeners = new List<FocusListener> ();
         
-        public ViewController(BaseElement root) 
+        public ViewController(View root) 
         {
             Debug.Assert(root != null);
             this.root = root;
@@ -48,7 +48,7 @@ namespace asap.ui
             focusListeners.Remove(focusListener);
         }
         
-        public virtual BaseElement GetFocus()
+        public virtual View GetFocus()
         {
             return focusedView;
         }
@@ -221,11 +221,11 @@ namespace asap.ui
         {
             Debug.Assert((activeView) == null);
             ViewIterator iterator = new ViewIterator(root);
-            for (BaseElement view = iterator.Last(); view != null; view = iterator.Prev()) 
+            for (View view = iterator.Last(); view != null; view = iterator.Prev()) 
             {
                 if (view is PointerListener) 
                 {
-                    BaseElement[] path = iterator.GetPath();
+                    View[] path = iterator.GetPath();
                     Debug.Assert(view == (path[((path.Length) - 1)]));
                     int absX = 0;
                     int absY = 0;
@@ -258,7 +258,7 @@ namespace asap.ui
         
         public virtual void FocusFirstView()
         {
-            for (BaseElement view = focusIterator.First(); view != null; view = focusIterator.Next()) 
+            for (View view = focusIterator.First(); view != null; view = focusIterator.Next()) 
             {
                 if ((view is Focusable) && (((Focusable)(view)).CanAcceptFocus(FocusType.FORWARD))) 
                 {
@@ -270,7 +270,7 @@ namespace asap.ui
         
         public virtual void FocusLastView()
         {
-            for (BaseElement view = focusIterator.Last(); view != null; view = focusIterator.Prev()) 
+            for (View view = focusIterator.Last(); view != null; view = focusIterator.Prev()) 
             {
                 if ((view is Focusable) && (((Focusable)(view)).CanAcceptFocus(FocusType.BACKWARD))) 
                 {
@@ -282,17 +282,17 @@ namespace asap.ui
         
         public virtual void FocusNextView()
         {
-            BaseElement next = FindNextFocus(true);
+            View next = FindNextFocus(true);
             SetViewFocused(next, FocusType.FORWARD);
         }
         
         public virtual void FocusPrevView()
         {
-            BaseElement next = FindNextFocus(false);
+            View next = FindNextFocus(false);
             SetViewFocused(next, FocusType.BACKWARD);
         }
         
-        public virtual void FocusView(BaseElement view)
+        public virtual void FocusView(View view)
         {
             if (view == (focusedView))
                 return ;
@@ -303,7 +303,7 @@ namespace asap.ui
                 return ;
             } 
             Debug.Assert(view is Focusable);
-            for (BaseElement candidate = focusIterator.First(); candidate != null; candidate = focusIterator.Next()) 
+            for (View candidate = focusIterator.First(); candidate != null; candidate = focusIterator.Next()) 
             {
                 if (candidate == view) 
                 {
@@ -314,11 +314,11 @@ namespace asap.ui
             Debug.Assert(false);
         }
         
-        private void SetViewFocused(BaseElement view, FocusType focusType)
+        private void SetViewFocused(View view, FocusType focusType)
         {
             if (view != (focusedView)) 
             {
-                BaseElement prev = focusedView;
+                View prev = focusedView;
                 if ((focusedView) != null)
                     ((Focusable)(focusedView)).Blur();
                 
@@ -330,9 +330,9 @@ namespace asap.ui
             } 
         }
         
-        private BaseElement FindNextFocus(bool forward)
+        private View FindNextFocus(bool forward)
         {
-            BaseElement view;
+            View view;
             while ((view = forward ? focusIterator.Next() : focusIterator.Prev()) != null) 
             {
                 if ((view is Focusable) && (((Focusable)(view)).CanAcceptFocus((forward ? FocusType.FORWARD : FocusType.BACKWARD))))
@@ -342,7 +342,7 @@ namespace asap.ui
             return null;
         }
         
-        private void FireFocusChanged(FocusType focusType, BaseElement prev, BaseElement current)
+        private void FireFocusChanged(FocusType focusType, View prev, View current)
         {
             for (int i = 0; i < focusListeners.Count; i++)
                 focusListeners[i].FocusChanged(focusType, prev, current);

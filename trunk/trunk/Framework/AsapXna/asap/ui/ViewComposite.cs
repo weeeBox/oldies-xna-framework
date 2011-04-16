@@ -9,8 +9,8 @@ namespace asap.ui
     public interface ViewComposite
     {
         int GetViewsCount();
-        BaseElement GetView(int index);
-        int IndexOf(BaseElement view);
+        View GetView(int index);
+        int IndexOf(View view);
         int GetViewX(int index);
         int GetViewY(int index);
     }
