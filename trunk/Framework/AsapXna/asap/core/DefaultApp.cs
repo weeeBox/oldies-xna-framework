@@ -17,7 +17,7 @@ namespace asap.core
         
         private KeyListener keyListener;
         
-        private View mainView;
+        private BaseElement mainView;
         
         public DefaultApp(int width ,int height) 
          : base(width, height)
@@ -39,7 +39,7 @@ namespace asap.core
             keyListener = listener;
         }
         
-        public virtual void SetMainView(View mainView)
+        public virtual void SetMainView(BaseElement mainView)
         {
             this.mainView = mainView;
         }
