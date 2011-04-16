@@ -22,8 +22,6 @@ namespace asap.resources
 
             foreach (Tag tag in tags)
             {
-                Debug.WriteLine(tag);
-
                 int code = tag.GetCode();
                 if (code == TagConstants.DEFINE_ATLAS)
                 {
@@ -46,11 +44,7 @@ namespace asap.resources
                     movie.AddDefinitionTag((DefinitionTag)tag);
                 }                
                 else
-                {
-                    if (code == TagConstants.PLACE_OBJECT_2)
-                    {
-                        Debug.WriteLine(((PlaceObject2)tag).GetMatrix());
-                    }
+                {                    
                     movie.AddControlTag(tag);
                 }
             }   
