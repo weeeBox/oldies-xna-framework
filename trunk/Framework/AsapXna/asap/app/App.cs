@@ -107,8 +107,7 @@ namespace asap.app
         
         public virtual void Draw(Graphics g)
         {
-        }
-        
+        }        
     }
     
     

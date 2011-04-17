@@ -1,16 +1,12 @@
 using System;
 
 using System.Collections.Generic;
-
-
+using asap.resources;
 
 namespace asap.graphics
-{
-    /** 
-     * Base class for bitmap and native fonts
-     */
-    abstract public class BaseFont
-     {
+{    
+    public abstract class BaseFont : ManagedResource
+    {
         public abstract void DrawString(Graphics g, String str, int x, int y);
         
         public abstract void DrawChar(Graphics g, char ch, int x, int y);
@@ -36,9 +32,6 @@ namespace asap.graphics
         public virtual int GetHeight()
         {
             return (GetDescent()) + (GetAscent());
-        }
-        
-    }
-    
-    
+        }        
+    }    
 }

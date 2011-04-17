@@ -1,10 +1,10 @@
-
+using asap.resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace asap.graphics
 {
-    public class Image
+    public class Image : ManagedResource
     {
         private Texture2D tex;
         private Rectangle bounds;       
@@ -113,9 +113,6 @@ namespace asap.graphics
         public Texture2D getTexture()
         {
             return tex;
-        }
-        
-    }
-    
-    
+        }        
+    }    
 }
