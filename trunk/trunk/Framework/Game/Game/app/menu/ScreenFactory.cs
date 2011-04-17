@@ -46,7 +46,7 @@ namespace app.menu
         
         public static void CreateDefaultMenuScreen(Screen screen, String header)
         {
-            App app = App.GetInstance();
+            BaseApp app = BaseApp.GetInstance();
 
             // ImageView back = new ImageView(ScreenFactory.GetImage("menu_background.png"));
             ColorRect back = new ColorRect(app.GetWidth(), app.GetHeight(), 0xffffff);

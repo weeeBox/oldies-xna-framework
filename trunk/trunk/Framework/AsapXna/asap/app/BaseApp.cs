@@ -8,9 +8,9 @@ using System.Diagnostics;
 
 namespace asap.app
 {
-    public class App
+    public class BaseApp
     {                
-        private static App instance;
+        private static BaseApp instance;
         
         private AppImpl appImpl;
         
@@ -18,10 +18,10 @@ namespace asap.app
         
         private int height;        
         
-        public App(int width, int height) 
+        public BaseApp(int width, int height) 
         {
-            Debug.Assert((App.instance) == null);
-            App.instance = this;
+            Debug.Assert((BaseApp.instance) == null);
+            BaseApp.instance = this;
             this.width = width;
             this.height = height;            
         }
@@ -30,9 +30,9 @@ namespace asap.app
         {
         }
         
-        public static App GetInstance()
+        public static BaseApp GetInstance()
         {
-            return App.instance;
+            return BaseApp.instance;
         }
         
         public virtual void SetImpl(AppImpl obj)

@@ -9,7 +9,7 @@ using asap.graphics;
 
 namespace asap.core
 {
-    public class DefaultApp : App, TimerSource
+    public class DefaultApp : BaseApp, TimerSource
     {
         private TickListener tickListener;
         
