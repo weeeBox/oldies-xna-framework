@@ -45,7 +45,7 @@ namespace asap.resources
         {
             GC.Collect();
 
-            timer = DefaultApp.CreateTimer(this);
+            timer = App.CreateTimer(this);
             timer.Schedule(LOADING_TIME_INTERVAL, true);
         }
 
