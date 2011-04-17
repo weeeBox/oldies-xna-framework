@@ -115,7 +115,7 @@
     <Compile Include="app\AppResManager.cs" />
     <Compile Include="app\CheatListener.cs" />
     <Compile Include="app\CheatManager.cs" />
-    <Compile Include="app\GameApp.cs" />
+    <Compile Include="app\App.cs" />
     <Compile Include="app\menu\Button.cs" />
     <Compile Include="app\menu\ButtonId.cs" />
     <Compile Include="app\menu\ButtonType.cs" />

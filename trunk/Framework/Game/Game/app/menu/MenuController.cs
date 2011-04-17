@@ -25,12 +25,12 @@ namespace app.menu
         {         
             if ((loadingState) != (LoadingState.NONE)) 
             {
-                if (GameApp.GetScreensView().GetActiveScreen().WasDrawn())
+                if (App.GetScreensView().GetActiveScreen().WasDrawn())
                     ProcessLoadingState();                
             } 
             else 
             {                    
-                GameApp.GetScreensView().Tick(delta);              
+                App.GetScreensView().Tick(delta);              
             }
         }
         
@@ -84,23 +84,23 @@ namespace app.menu
         
         public virtual void ButtonPressed(int code)
         {
-            if (GameApp.ButtonPressed(code))
+            if (App.ButtonPressed(code))
                 return;            
         }        
         
         private void StartScreen(Screen screen)
         {
-            GameApp.GetScreensView().StartScreen(screen);            
+            App.GetScreensView().StartScreen(screen);            
         }
         
         private void StartNextScreen(Screen screen)
         {
-            GameApp.GetScreensView().StartNextScreen(screen);            
+            App.GetScreensView().StartNextScreen(screen);            
         }
         
         private void BackScreen()
         {
-            GameApp.GetScreensView().BackScreen();            
+            App.GetScreensView().BackScreen();            
         }
         
         public virtual void OnAppExit()

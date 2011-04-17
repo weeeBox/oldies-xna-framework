@@ -9,7 +9,7 @@ namespace app
 {
     public class TestApp : AppImpl
     {
-        private GameApp app;        
+        private App app;        
         private bool running;
 
         public TestApp(int width, int height, ContentManager content)
@@ -19,7 +19,7 @@ namespace app
             new XnaMediaManager();
             new TextureManager(content);
 
-            app = new GameApp(width, height);
+            app = new App(width, height);
             app.SetImpl(this);            
             running = true;           
         }        
