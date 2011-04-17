@@ -9,13 +9,13 @@ namespace asap.ui
 {
     public class ScreenManager : FocusListener
      {
-        private App app;
+        private DefaultApp app;
         
         private View root;
         
         private ViewController viewController;
         
-        public ScreenManager(App app) 
+        public ScreenManager(DefaultApp app) 
         {
             this.app = app;
             root = null;
