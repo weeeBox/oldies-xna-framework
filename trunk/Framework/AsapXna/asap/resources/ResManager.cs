@@ -41,7 +41,7 @@ namespace asap.resources
             loadQueue.Add(info);
         }
 
-        public void startLoading()
+        public void StartLoading()
         {
             GC.Collect();
 

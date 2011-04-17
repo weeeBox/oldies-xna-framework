@@ -17,7 +17,7 @@ namespace app
         {
         }
 
-        public void LoadPack(int packIndex)
+        public void AddPackToLoad(int packIndex)
         {
             Debug.Assert(packIndex >= 0 && packIndex < ResPacks.PACKS_COUNT);
 
