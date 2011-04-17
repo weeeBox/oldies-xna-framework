@@ -102,7 +102,7 @@
     <Compile Include="asap\app\BaseApp.cs" />
     <Compile Include="asap\app\AppImpl.cs" />
     <Compile Include="asap\core\Controller.cs" />
-    <Compile Include="asap\core\DefaultApp.cs" />
+    <Compile Include="asap\core\App.cs" />
     <Compile Include="asap\core\KeyAction.cs" />
     <Compile Include="asap\core\KeyCode.cs" />
     <Compile Include="asap\core\KeyListener.cs" />
