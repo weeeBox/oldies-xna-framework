@@ -74,19 +74,18 @@ namespace asap.resources
         {
             using (ContentManager manager = new ContentManager(content.ServiceProvider, "Content"))
             {
-                return manager.Load<BitmapFont>(getSimpleName(path));
+                return manager.Load<BitmapFont>(path);
             }
         }
 
-        public Image LoadImage(string path)
+        public Image LoadImage(string resname)
         {
-            Texture2D texture = content.Load<Texture2D>(getSimpleName(path));
+            Texture2D texture = content.Load<Texture2D>(resname);
             return new Image(texture);
         }
 
         public Image LoadManagedImage(string path)
-        {
-            path = getSimpleName(path);
+        {            
             Image instance = FindUsedReference<Image>(path);
             if (instance == null)
             {
@@ -101,13 +100,13 @@ namespace asap.resources
         {
             using (ContentManager manager = new ContentManager(content.ServiceProvider, "Content"))
             {
-                return manager.Load<SwfMovie>(getSimpleName(path));
+                return manager.Load<SwfMovie>(path);
             }
         }
 
         public StringsPack LoadStrings(string path)
         {
-            return content.Load<StringsPack>(getSimpleName(path));
+            return content.Load<StringsPack>(path);
         }
 
         public void UnloadResource(object res)
@@ -117,16 +116,7 @@ namespace asap.resources
                 IDisposable obj = (IDisposable)res;
                 obj.Dispose();
             }
-        }
-
-        private string getSimpleName(string name)
-        {
-            int index = name.LastIndexOf('.');
-            if (index == -1)
-                return name;
-
-            return name.Substring(0, index);
-        }
+        }        
 
         public T FindUsedReference<T>(string name)
         {

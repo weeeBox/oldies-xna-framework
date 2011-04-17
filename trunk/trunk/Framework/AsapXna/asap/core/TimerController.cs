@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-
-
 namespace asap.core
 {
     public class TimerController : TimerSource
@@ -191,9 +189,7 @@ namespace asap.core
             {
                 if ((timers[i]) != null)
                     UnregisterTimer(timers[i]);
-
             }
         }
-
     }
 }

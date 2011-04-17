@@ -9,19 +9,22 @@ using asap.graphics;
 
 namespace asap.core
 {
-    public class DefaultApp : App
-     {
+    public class DefaultApp : App, TimerSource
+    {
         private TickListener tickListener;
         
         private PointerListener pointerListener;
         
         private KeyListener keyListener;
-        
+
+        private TimerController timerController;
+
         private View mainView;
         
         public DefaultApp(int width ,int height) 
          : base(width, height)
         {
+            timerController = new TimerController();
         }
         
         public virtual void SetTickListener(TickListener listener)
@@ -45,11 +48,12 @@ namespace asap.core
         }
         
         public override void Tick(float deltaTime)
-        {
+        {            
             if ((tickListener) != null) 
             {
-                tickListener.Tick(deltaTime);
-            } 
+                tickListener.Tick(deltaTime);         
+            }
+            timerController.Tick(deltaTime);
         }
         
         public override void PointerPressed(int x, int y, int fingerId)
@@ -123,8 +127,16 @@ namespace asap.core
                 mainView.Draw(g);
             } 
         }
-        
-    }
-    
-    
+
+        public TimerController GetTimerController()
+        {
+            return timerController;
+        }
+
+        public static Timer CreateTimer(TimerListener timerListener)
+        {
+            DefaultApp instance = (DefaultApp)GetInstance();
+            return new Timer(instance, timerListener);
+        }
+    }    
 }

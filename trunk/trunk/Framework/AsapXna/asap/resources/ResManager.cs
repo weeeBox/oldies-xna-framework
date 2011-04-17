@@ -1,82 +1,166 @@
 using System;
-
 using System.Collections.Generic;
 using System.Diagnostics;
+using asap.core;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
+using asap.graphics;
 
 namespace asap.resources
 {
-    public abstract class ResManager
+    public abstract class ResourceMgr : TimerListener
     {
-        private Dictionary<string, object> resources;
-        
-        private ResCallback callback;
-        
-        public static ResManager instance;        
-        
-        public ResManager() 
-        {
-            Debug.Assert((ResManager.instance) == null);
-            ResManager.instance = this;
-            resources = new Dictionary<string, object>();
-        }
-        
-        public static ResManager GetBaseInstance()
-        {
-            return ResManager.instance;
-        }
+        private const float LOADING_TIME_INTERVAL = 1.0f / 20.0f;
 
-        public virtual void Load(String path)
+        private TimerController timerController;
+        private Timer timer;
+
+        private ManagedResource[] resources;
+        private List<ResourceLoadInfo> loadQueue;                
+        private int loaded;        
+
+        public ResourceMgrDelegate resourcesDelegate;
+
+        public ResourceMgr(int capacity)
         {
-            Load(path, null);
+            timerController = new TimerController();                       
+            resources = new ManagedResource[capacity];
+            loadQueue = new List<ResourceLoadInfo>(capacity);            
         }
 
-        public virtual void Load(String path, ResCallback callback)
+        public void initLoading()
         {
-            this.callback = callback;
+            loadQueue.Clear();
+            loaded = 0;
+            CancelTimer();          
+        }
 
-            if (!resources.ContainsKey(path))
+        public void addResourceToLoadQueue(ref ResourceLoadInfo info)
+        {            
+            loadQueue.Add(info);
+        }
+
+        public void startLoading()
+        {
+            GC.Collect();
+
+            timer = DefaultApp.CreateTimer(this);
+            timer.Schedule(LOADING_TIME_INTERVAL, true);
+        }
+
+        public void loadImmediately()
+        {
+            foreach (ResourceLoadInfo info in loadQueue)
             {
-                object resource = LoadResource(path);
-                if (resource == null)
+                if (loadResource(info) != null)
                 {
-                    throw new ArgumentOutOfRangeException("Cannot load resource: " + path);
+                    loaded++;
                 }
-                resources.Add(path, resource);
-            }            
+                else
+                {
+                    //TODO: handle resource load error
+                    //ASSERT(FALSE);
+                }
+            }
         }
 
-        protected abstract object LoadResource(string path);        
-        
-        public virtual void Unload(String path)
+        public bool isBusy()
         {
-            if (resources.ContainsKey(path)) 
-            {                
-                resources.Remove(path);
-                Debug.WriteLine(("Resource unloaded: " + path));
-            } 
+            return timer.IsScheduled();
         }
-        
-        public virtual bool IsLoaded(String path)
+
+        public int getPercentLoaded()
         {
-            return resources.ContainsKey(path);
+            if (loadQueue.Count == 0)
+            {
+                return 100;
+            }
+            else
+            {
+                return ((100 * loaded) / loadQueue.Count);
+            }
+        }
+
+        public object getResource(int resName)
+        {
+            return resources[resName];
+        }
+
+        public void freeResource(int resName)
+        {
+            Debug.Assert(resources[resName] != null);
+            resources[resName].Dispose();
+            resources[resName] = null;         
         }        
-        
-        public virtual Object GetRes(String path)
+
+        public ManagedResource loadResource(ResourceLoadInfo r)
         {
-            Debug.Assert(resources.ContainsKey(path));
-            return resources[path];
+            ManagedResource res = Load(r.resType, r.fileName);
+            if (r.resId >= 0)
+            {
+                resources[r.resId] = res;
+            }
+            return res;
+        }                               
+        
+        protected ManagedResource Load(int resType, string resName)
+        {
+            switch (resType)
+            {
+                case ResType.IMAGE:
+                    return ResFactory.GetInstance().LoadImage(resName);
+            }
+
+            Debug.Assert(false, "Can't load resource: " + resName);
+            return null;
         }
-        
-        public virtual void AddRes(String path, Object res)
+
+
+        public void Tick(float delta)
         {
-            Debug.Assert(res != null);
-            resources.Add(path, res);
+            timerController.Tick(delta);
         }
-        
-        public virtual String GetExt(String path)
+
+        public void OnTimer(Timer timer)
         {
-            int dotPos = path.LastIndexOf('.');
-            return dotPos == -1 ? null : path.Substring(dotPos, path.Length - dotPos);            
+            ResourceLoadInfo r = loadQueue[loaded];
+            if (loadResource(r) != null)
+            {
+                loaded++;
+                if (resourcesDelegate != null)
+                {
+                    resourcesDelegate.resourceLoaded(r);
+                }
+
+                if (loaded == loadQueue.Count)
+                {
+                    if (resourcesDelegate != null)
+                    {
+                        GC.Collect();
+                        resourcesDelegate.allResourcesLoaded();
+                    }
+                    CancelTimer();
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public TimerController GetTimerController()
+        {
+            return timerController;
         }        
-    }    
+
+        private void CancelTimer()
+        {
+            if (timer != null)
+            {
+                timer.Cancel();
+                timer = null;
+            }
+        }
+    }
 }

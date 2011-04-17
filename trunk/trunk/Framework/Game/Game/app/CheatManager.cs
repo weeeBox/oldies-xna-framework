@@ -75,16 +75,16 @@ namespace app
             {
                 showActivation = false;
                 g.SetColor(65280);
-                int screenWidth = FlipstonesApp.GetInstance().GetWidth();
-                int screenHeight = FlipstonesApp.GetInstance().GetHeight();
+                int screenWidth = GameApp.GetInstance().GetWidth();
+                int screenHeight = GameApp.GetInstance().GetHeight();
                 g.FillRect(0, 0, screenWidth, screenHeight);
             } 
         }
         
         public virtual bool PointerPressed(int x, int y, int fingerId)
         {
-            int screenWidth = FlipstonesApp.GetInstance().GetWidth();
-            int screenHeight = FlipstonesApp.GetInstance().GetHeight();
+            int screenWidth = GameApp.GetInstance().GetWidth();
+            int screenHeight = GameApp.GetInstance().GetHeight();
             if (!(active)) 
             {
                 if ((((((x < (TAP_REGION)) && (y < (TAP_REGION))) && ((activationStage) == 0)) || (((x > (screenWidth - (TAP_REGION))) && (y < (TAP_REGION))) && ((activationStage) == 1))) || (((x < (TAP_REGION)) && (y > (screenHeight - (TAP_REGION)))) && ((activationStage) == 2))) || (((x > (screenWidth - (TAP_REGION))) && (y > (screenHeight - (TAP_REGION)))) && ((activationStage) == 3))) 
@@ -164,7 +164,7 @@ namespace app
                 if (screenShowed) 
                 {
                     screenShowed = false;
-                    FlipstonesApp.GetScreensView().BackScreen();
+                    GameApp.GetScreensView().BackScreen();
                 } 
                 for (int i = 0; i < (listeners.Length); i++) 
                 {

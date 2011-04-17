@@ -114,6 +114,8 @@
     <Compile Include="asap\core\TimerSource.cs" />
     <Compile Include="asap\graphics\AppGraphics.cs" />
     <Compile Include="asap\graphics\Atlas.cs" />
+    <Compile Include="asap\graphics\BaseElement.cs" />
+    <Compile Include="asap\graphics\BaseElementContainer.cs" />
     <Compile Include="asap\graphics\BaseFont.cs" />
     <Compile Include="asap\graphics\BitmapFont.cs" />
     <Compile Include="asap\graphics\Graphics.cs" />
@@ -130,10 +132,16 @@
     <Compile Include="asap\resources\AnimationReader.cs" />
     <Compile Include="asap\resources\AtlasReader.cs" />
     <Compile Include="asap\resources\BitmapFontReader.cs" />
-    <Compile Include="asap\resources\DefaultResManager.cs" />
+    <Compile Include="asap\resources\BaseSound.cs" />
+    <Compile Include="asap\resources\ManagedResource.cs" />
+    <Compile Include="asap\resources\Music.cs" />
     <Compile Include="asap\resources\ResCallback.cs" />
     <Compile Include="asap\resources\ResFactory.cs" />
     <Compile Include="asap\resources\ResManager.cs" />
+    <Compile Include="asap\resources\ResourceLoadInfo.cs" />
+    <Compile Include="asap\resources\ResourceMgrDelegate.cs" />
+    <Compile Include="asap\resources\ResType.cs" />
+    <Compile Include="asap\resources\Sound.cs" />
     <Compile Include="asap\resources\StringsPack.cs" />
     <Compile Include="asap\resources\StringsPackReader.cs" />
     <Compile Include="asap\resources\StrRes.cs" />

@@ -49,8 +49,8 @@ namespace app.menu
         public virtual void StartScreen(Screen screen)
         {
             screensStack[screenIndex] = screen;
-            ((FlipstonesApp)(FlipstonesApp.GetInstance())).GetScreenManager().SetRoot(screen);
-            ((FlipstonesApp)(FlipstonesApp.GetInstance())).SetMainView(this);
+            ((GameApp)(GameApp.GetInstance())).GetScreenManager().SetRoot(screen);
+            ((GameApp)(GameApp.GetInstance())).SetMainView(this);
         }
         
         public virtual void StartNextScreen(Screen screen)
@@ -65,8 +65,8 @@ namespace app.menu
             System.Diagnostics.Debug.Assert((screenIndex) > 0);
             screensStack[screenIndex] = null;
             (screenIndex)--;
-            ((FlipstonesApp)(FlipstonesApp.GetInstance())).GetScreenManager().SetRoot(GetActiveScreen());
-            ((FlipstonesApp)(FlipstonesApp.GetInstance())).SetMainView(this);
+            ((GameApp)(GameApp.GetInstance())).GetScreenManager().SetRoot(GetActiveScreen());
+            ((GameApp)(GameApp.GetInstance())).SetMainView(this);
             GetActiveScreen().OnScreenBack();
         }
         
