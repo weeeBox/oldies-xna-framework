@@ -21,14 +21,15 @@ namespace app
 
             app = new App(width, height);
             app.SetImpl(this);            
-            running = true;           
+            running = true;
+
+            app.Start();
         }        
         
         public void Stop()
         {
             running = false;
-        }
-                
+        }                
 
         public void Tick(float deltaTime)
         {
