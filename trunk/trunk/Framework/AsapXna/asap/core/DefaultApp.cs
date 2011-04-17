@@ -9,7 +9,7 @@ using asap.graphics;
 
 namespace asap.core
 {
-    public class App : BaseApp, TimerSource
+    public class DefaultApp : BaseApp, TimerSource
     {
         private TickListener tickListener;
         
@@ -21,7 +21,7 @@ namespace asap.core
 
         private View mainView;
         
-        public App(int width ,int height) 
+        public DefaultApp(int width ,int height) 
          : base(width, height)
         {
             timerController = new TimerController();
@@ -135,7 +135,7 @@ namespace asap.core
 
         public static Timer CreateTimer(TimerListener timerListener)
         {
-            App instance = (App)GetInstance();
+            DefaultApp instance = (DefaultApp)GetInstance();
             return new Timer(instance, timerListener);
         }
     }    
