@@ -33,42 +33,7 @@ namespace asap.resources
         public static ResFactory GetInstance()
         {
             return instance;
-        }
-
-        public SoundPlayer CreateSoundPlayer(string fileName, bool streaming)
-        {
-            int dotIndex = fileName.LastIndexOf(".");
-            string assetName = dotIndex != 0 ? fileName.Substring(0, dotIndex) : fileName;
-
-            if (fileName.StartsWith("song_"))
-            {
-                Song song;
-                if (songs.ContainsKey(assetName))
-                {
-                    song = songs[assetName];
-                }
-                else
-                {
-                    song = content.Load<Song>(assetName);
-                    songs.Add(assetName, song);
-                }
-                return new Mp3SoundPlayer(song, fileName);
-            }
-            else
-            {
-                SoundEffect effect;
-                if (effects.ContainsKey(assetName))
-                {
-                    effect = effects[assetName];
-                }
-                else
-                {
-                    effect = content.Load<SoundEffect>(assetName);
-                    effects.Add(assetName, effect);
-                }
-                return new WaveSoundPlayer(effect, fileName);
-            }
-        }
+        }       
         
         public BitmapFont LoadFont(string path)
         {

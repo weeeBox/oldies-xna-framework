@@ -30,7 +30,7 @@ namespace app.menu
         public Screen(ScreenId id) 
         {
             this.id = id;
-            SetSize(BaseApp.GetInstance().GetWidth(), BaseApp.GetInstance().GetHeight());
+            SetSize(Application.Width, Application.Height);
             timerController = new TimerController();
         }
         

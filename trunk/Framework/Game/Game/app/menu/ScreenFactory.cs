@@ -32,7 +32,7 @@ namespace app.menu
         
         private static BitmapFont GetFont(String fontName)
         {
-            return AppResManager.GetInstance().GetFont(fontName);
+            return AppResourceMgr.GetInstance().GetFont(fontName);
         }        
         
         private const int TEXT_INDENT = 10;
@@ -41,19 +41,17 @@ namespace app.menu
         
         private static Image GetImage(String imageRes)
         {
-            return AppResManager.GetInstance().GetImage(imageRes);
+            return AppResourceMgr.GetInstance().GetImage(imageRes);
         }             
         
         public static void CreateDefaultMenuScreen(Screen screen, String header)
         {
-            BaseApp app = BaseApp.GetInstance();
-
             // ImageView back = new ImageView(ScreenFactory.GetImage("menu_background.png"));
-            ColorRect back = new ColorRect(app.GetWidth(), app.GetHeight(), 0xffffff);
+            ColorRect back = new ColorRect(Application.Width, Application.Height, 0xffffff);
             screen.AddView(back);
             if (header != null) 
             {
-                TextBox headerBox = new TextBox(header , AppResManager.GetInstance().GetFont("font_head.fnt"));
+                TextBox headerBox = new TextBox(header , AppResourceMgr.GetInstance().GetFont("font_head.fnt"));
                 int headerIndex = screen.AddView(headerBox);
                 screen.AlignCenter(headerBox);
                 screen.SetViewY(headerIndex, 14);

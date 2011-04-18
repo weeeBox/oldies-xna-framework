@@ -9,14 +9,7 @@ namespace asap.core
     {
         public const int STOP_PARAM_APP_EXIT = -1;
 
-        public Controller parent;
-
-        private RootController rootController;
-
-        public Controller(RootController rootController)
-        {
-            this.rootController = rootController;
-        }
+        public Controller parent;        
 
         public virtual void Start(int param)
         {
@@ -26,7 +19,7 @@ namespace asap.core
         public virtual void Stop(int param)
         {
             Debug.WriteLine(GetType().Name + " stopped with param " + param);
-            rootController.OnControllerStop(this, param);
+            RootController.OnControllerStop(this, param);
         }        
 
         public virtual void Suspend()
@@ -43,6 +36,16 @@ namespace asap.core
         {
             
         }        
+
+        protected void StartController(Controller controller, int param)
+        {
+            RootController.StartController(controller, param);
+        }
+
+        protected void StartChildController(Controller child, int param)
+        {
+            RootController.StartChildController(child, param);
+        }
 
         public virtual void OnChildStop(Controller child, int param)
         {

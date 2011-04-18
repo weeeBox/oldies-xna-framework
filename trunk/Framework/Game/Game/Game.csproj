@@ -107,20 +107,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="app\Application.cs" />
+    <Compile Include="app\AppRootController.cs" />
+    <Compile Include="app\GameController.cs" />
+    <Compile Include="app\MenuController.cs" />
     <Compile Include="app\menu\MainScreen.cs" />
-    <Compile Include="core\app\XnaMediaManager.cs" />
-    <Compile Include="core\app\XnaRecordStorage.cs" />
+    <Compile Include="app\StartupController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="app\AppResManager.cs" />
+    <Compile Include="app\AppResourceMgr.cs" />
     <Compile Include="app\CheatListener.cs" />
     <Compile Include="app\CheatManager.cs" />
-    <Compile Include="app\App.cs" />
     <Compile Include="app\menu\Button.cs" />
     <Compile Include="app\menu\ButtonId.cs" />
     <Compile Include="app\menu\ButtonType.cs" />
-    <Compile Include="app\menu\LoadingState.cs" />
-    <Compile Include="app\menu\MenuController.cs" />
     <Compile Include="app\menu\MenuListener.cs" />
     <Compile Include="app\menu\Screen.cs" />
     <Compile Include="app\menu\ScreenFactory.cs" />
@@ -128,12 +128,9 @@
     <Compile Include="app\menu\ScreensView.cs" />
     <Compile Include="app\menu\TextBox.cs" />
     <Compile Include="app\Res.cs" />
-    <Compile Include="app\Sounds.cs" />
-    <Compile Include="app\Strings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="app\Config.cs" />
-    <Compile Include="TestApp.cs" />
+    <Compile Include="NativeApp.cs" />
     <Compile Include="TestGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

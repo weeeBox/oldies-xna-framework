@@ -49,8 +49,8 @@ namespace app.menu
         public virtual void StartScreen(Screen screen)
         {
             screensStack[screenIndex] = screen;
-            ((App)(App.GetInstance())).GetScreenManager().SetRoot(screen);
-            ((App)(App.GetInstance())).SetMainView(this);
+            Application.sharedScreenMgr.SetRoot(screen);
+            Application.Instance.SetMainView(this);
         }
         
         public virtual void StartNextScreen(Screen screen)
@@ -65,8 +65,8 @@ namespace app.menu
             System.Diagnostics.Debug.Assert((screenIndex) > 0);
             screensStack[screenIndex] = null;
             (screenIndex)--;
-            ((App)(App.GetInstance())).GetScreenManager().SetRoot(GetActiveScreen());
-            ((App)(App.GetInstance())).SetMainView(this);
+            Application.sharedScreenMgr.SetRoot(GetActiveScreen());
+            Application.Instance.SetMainView(this);
             GetActiveScreen().OnScreenBack();
         }
         
