@@ -28,7 +28,7 @@ namespace app.menu
         private BaseFont font;
         
         public TextBox(String text) 
-         : this(text, AppResManager.GetDefaultFont())
+         : this(text, AppResourceMgr.GetDefaultFont())
         {
         }
         
@@ -47,7 +47,7 @@ namespace app.menu
             System.Diagnostics.Debug.Assert(text != null);
             this.width = width;
             this.height = height;
-            font = AppResManager.GetDefaultFont();
+            font = AppResourceMgr.GetDefaultFont();
             lines = new short[(MAX_LINES_COUNT) * 2];
             SetText(text);
         }
@@ -56,7 +56,7 @@ namespace app.menu
         {
             System.Diagnostics.Debug.Assert(text != null);
             this.width = width;
-            font = AppResManager.GetDefaultFont();
+            font = AppResourceMgr.GetDefaultFont();
             lines = new short[(MAX_LINES_COUNT) * 2];
             SetText(text);
             height = (linesCount) * (font.GetLineHeight());

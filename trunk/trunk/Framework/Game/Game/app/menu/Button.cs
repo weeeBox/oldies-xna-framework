@@ -43,7 +43,7 @@ namespace app.menu
             this.width = width;
             this.height = height;
             if (imageRes != null)
-                image = AppResManager.GetInstance().GetImage(imageRes);
+                image = AppResourceMgr.GetInstance().GetImage(imageRes);
             
         }
         
@@ -72,7 +72,7 @@ namespace app.menu
             if (IsEnabled()) 
             {
                 isPressed = true;
-                Sounds.Play(Sounds.CLICK);
+                // Application.sharedSoundMgr.PlaySound(Sounds.CLICK);
             } 
         }
         
@@ -118,7 +118,7 @@ namespace app.menu
         
         public virtual Image GetImage(String imageRes)
         {
-            return AppResManager.GetInstance().GetImage(imageRes);
+            return AppResourceMgr.GetInstance().GetImage(imageRes);
         }
         
         public virtual bool IsEnabled()

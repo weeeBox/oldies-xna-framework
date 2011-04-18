@@ -1,21 +1,16 @@
-using System;
-
-using System.Collections.Generic;
-
-
-using asap.core;
+using asap.app;
 
 namespace asap.ui
 {
     public class ScreenManager : FocusListener
-     {
-        private DefaultApp app;
+    {
+        private BaseApp app;
         
         private View root;
         
         private ViewController viewController;
         
-        public ScreenManager(DefaultApp app) 
+        public ScreenManager(BaseApp app) 
         {
             this.app = app;
             root = null;
@@ -58,9 +53,6 @@ namespace asap.ui
                     } 
                 } 
             } 
-        }
-        
-    }
-    
-    
+        }        
+    }    
 }

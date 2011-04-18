@@ -17,7 +17,7 @@ namespace app
         private Graphics appGraphics;
 
         GraphicsDeviceManager graphics;
-        TestApp app;        
+        NativeApp app;        
 
         GamePadState gamePadState;
 #if WINDOWS
@@ -61,7 +61,7 @@ namespace app
         protected override void LoadContent()
         {
             appGraphics = new Graphics(WIDTH, HEIGHT);
-            app = new TestApp(WIDTH, HEIGHT, Content);
+            app = new NativeApp(WIDTH, HEIGHT, Content);
         }
 
         /// <summary>

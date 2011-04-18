@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using asap.app;
 using asap.core;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
-using asap.graphics;
 
 namespace asap.resources
 {
@@ -20,7 +17,7 @@ namespace asap.resources
         private List<ResourceLoadInfo> loadQueue;                
         private int loaded;        
 
-        public ResourceMgrDelegate resourcesDelegate;
+        public ResourceMgrListener listener;
 
         public ResourceMgr(int capacity)
         {
@@ -36,16 +33,22 @@ namespace asap.resources
             CancelTimer();          
         }
 
-        public void addResourceToLoadQueue(ref ResourceLoadInfo info)
+        public void AddResourceToLoadQueue(ref ResourceLoadInfo info)
         {            
             loadQueue.Add(info);
         }
 
         public void StartLoading()
         {
+            StartLoading(null);
+        }
+
+        public void StartLoading(ResourceMgrListener listener)
+        {
             GC.Collect();
 
-            timer = DefaultApp.CreateTimer(this);
+            this.listener = listener;
+            timer = BaseApp.CreateTimer(this);
             timer.Schedule(LOADING_TIME_INTERVAL, true);
         }
 
@@ -128,17 +131,17 @@ namespace asap.resources
             if (loadResource(r) != null)
             {
                 loaded++;
-                if (resourcesDelegate != null)
+                if (listener != null)
                 {
-                    resourcesDelegate.resourceLoaded(r);
+                    listener.resourceLoaded(r);
                 }
 
                 if (loaded == loadQueue.Count)
                 {
-                    if (resourcesDelegate != null)
+                    if (listener != null)
                     {
                         GC.Collect();
-                        resourcesDelegate.allResourcesLoaded();
+                        listener.allResourcesLoaded();
                     }
                     CancelTimer();
                 }

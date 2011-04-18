@@ -8,7 +8,7 @@ namespace asap.core
 {
     public class RootController : TickListener
     {
-        private Controller activeController;
+        private static Controller activeController;
 
         public virtual void OnStart()
         {
@@ -30,7 +30,7 @@ namespace asap.core
 
         }
 
-        public void StartController(Controller controller, int param)
+        public static void StartController(Controller controller, int param)
         {
             Debug.WriteLine(controller.GetType().Name + " started with param " + param);
 
@@ -39,7 +39,7 @@ namespace asap.core
             activeController.Start(param);
         }
 
-        public void StartChildController(Controller child, int param)
+        public static void StartChildController(Controller child, int param)
         {
             Debug.WriteLine(child.GetType().Name + " started as a child");
 
@@ -49,7 +49,7 @@ namespace asap.core
             activeController.Start(param);
         }
 
-        public void OnControllerStop(Controller controller, int param)
+        public static void OnControllerStop(Controller controller, int param)
         {
             Debug.Assert(activeController == controller);
             

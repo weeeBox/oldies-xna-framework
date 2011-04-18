@@ -5,7 +5,7 @@ using System.Text;
 
 namespace asap.resources
 {
-    public interface ResourceMgrDelegate
+    public interface ResourceMgrListener
     {
         void resourceLoaded(ResourceLoadInfo res);
         void allResourcesLoaded();
