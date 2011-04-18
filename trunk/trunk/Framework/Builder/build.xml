@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="resources" default="run">
+	<property name="dir.lib" value="lib" />
+	<property name="dir.classes" value="tmp" />
+	<property name="dir.restmp" value="${dir.classes}/res" />
+	<property name="dir.source" value="src" />
+	<property name="dir.res" value="../Resources" />
+	<property name="dir.gfx" value="${dir.res}/Gfx" />
+	<property name="dir.sound" value="${dir.res}/Sound" />
+	<property name="dir.content" value="../Game/GameContent" />
+	<property name="file.proj" value="${dir.content}/GameContent.contentproj" />
+	<property name="file.code" value="../Game/Game/app/Res.cs" />
+	
+	<path id="libs">
+		<fileset dir="${dir.lib}">
+			<include name="**/*.jar" /> 
+		</fileset>
+	</path>
+
+	<target name="clean">
+		<delete dir="${dir.classes}" />
+	</target>
+	
+	<target name="build">
+		<mkdir dir="${dir.classes}"/>
+		<javac destdir="${dir.classes}" debug="true" encoding="UTF-8">
+		  	<src path="${dir.source}" /> 
+			<classpath refid="libs"/>
+		</javac>
+		<taskdef name="content" classname="ContentProjTask">
+			<classpath path="${dir.classes}"/>
+			<classpath refid="libs"/>
+		</taskdef>
+		<mkdir dir="${dir.restmp}"/>
+	</target>
+	
+	<target name="run" depends="build">		
+		<content projFile="${file.proj}" codeFile="${file.code}" resTemp="${dir.restmp}">			
+			<package name="PACK_COMMON1">
+				<!--<atlas name="common">-->
+					<image name="ui_button_a" file="${dir.gfx}/buttonA.png" />
+					<image name="ui_button_b" file="${dir.gfx}/buttonB.png" />
+				<!--</atlas>-->
+			</package>
+			
+			<package name="PACK_COMMON2">
+				<image name="button_base1" file="${dir.gfx}/cloud_1.png" />
+				<image name="button_base2" file="${dir.gfx}/cloud_2.png" />							    
+			</package>
+		</content>
+	</target>
+</project>
