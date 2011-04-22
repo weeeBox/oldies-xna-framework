@@ -1,10 +1,6 @@
 using System;
-
-using System.Collections.Generic;
-
-
-using asap.graphics;
 using System.Diagnostics;
+using asap.visual;
 
 namespace asap.ui
 {

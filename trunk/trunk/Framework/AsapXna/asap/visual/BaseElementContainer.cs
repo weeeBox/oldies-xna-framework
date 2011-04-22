@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using asap.core;
+﻿using asap.core;
+using asap.graphics;
 
-namespace asap.graphics
+namespace asap.visual
 {
     public class BaseElementContainer : BaseElement
     {
