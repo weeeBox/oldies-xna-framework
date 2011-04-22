@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using asap.visual;
 using swiff.com.jswiff.swfrecords;
-using asap.graphics;
 
 namespace asap.anim.objects
 {

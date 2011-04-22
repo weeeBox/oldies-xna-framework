@@ -115,8 +115,8 @@
     <Compile Include="asap\core\TimerSource.cs" />
     <Compile Include="asap\graphics\AppGraphics.cs" />
     <Compile Include="asap\graphics\Atlas.cs" />
-    <Compile Include="asap\graphics\BaseElement.cs" />
-    <Compile Include="asap\graphics\BaseElementContainer.cs" />
+    <Compile Include="asap\visual\BaseElement.cs" />
+    <Compile Include="asap\visual\BaseElementContainer.cs" />
     <Compile Include="asap\graphics\BaseFont.cs" />
     <Compile Include="asap\graphics\BitmapFont.cs" />
     <Compile Include="asap\graphics\Graphics.cs" />

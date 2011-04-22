@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using asap.graphics;
 using Microsoft.Xna.Framework;
-using asap.core;
-using System.Diagnostics;
 
-namespace asap.graphics
+namespace asap.visual
 {
     public abstract class BaseElement
     {
