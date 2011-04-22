@@ -118,23 +118,13 @@ namespace asap.graphics
         }
         
         public override void DrawString(Graphics g, String str, int x, int y)
-        {
-            int clipX = g.GetClipX();
-            int clipY = g.GetClipY();
-            int clipWidth = g.GetClipWidth();
-            int clipHeight = g.GetClipHeight();
-            if ((y > (clipY + clipHeight)) || (((y + (descent)) + (ascent)) < clipY))
-                return ;
-            
+        {            
             int len = str.Length;
             int num;
             bool fontImageFlippedHorizontally = false;
             bool fontImageFlippedVertically = false;
             for (int i = 0; i < len; i++) 
-            {
-                if (x > (clipX + clipWidth))
-                    break;
-                
+            {                
                 num = GetCharIndex(str[i]);
                 int charW = charsW[num];
                 int charH = charsH[num];
@@ -149,9 +139,9 @@ namespace asap.graphics
                 else
                     charY += (ascent) - (charsAscent[num]);
                 
-                if (((charX + charW) > clipX) && (charW > 0)) 
+                if (charW > 0) 
                 {
-                    g.DrawRegion(fontImage, charsOx[num], charsOy[num], charW, charH, charX, charY, 0);
+                    g.DrawImage(fontImage, charsOx[num], charsOy[num], charW, charH, charX, charY);
                 } 
                 x += (charsW[num]) + (tracking);
             }
@@ -164,7 +154,7 @@ namespace asap.graphics
             int charH = charsH[num];
             if (charW > 0) 
             {
-                g.DrawRegion(fontImage, charsOx[num], charsOy[num], charW, charH, x, (((ascent) - (charsAscent[num])) + y), 0);
+                g.DrawImage(fontImage, charsOx[num], charsOy[num], charW, charH, x, (((ascent) - (charsAscent[num])) + y));
             } 
         }
         

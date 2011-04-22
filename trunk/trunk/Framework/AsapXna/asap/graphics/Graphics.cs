@@ -8,15 +8,10 @@ namespace asap.graphics
     public class Graphics
     {
         private int width;
-        private int height;
-
-        private int transX;
-        private int transY;
-
-        private Color color;
-        private int alpha;
+        private int height;        
 
         private Rectangle srcRect;
+        public Color color;
 
         public Graphics(int width, int height)
         {
@@ -27,257 +22,47 @@ namespace asap.graphics
         public void Begin(GraphicsDevice gd)
         {
             AppGraphics.Begin(gd, width, height);
-            transX = transY = 0;
             color = Color.White;
-            alpha = 255;
         }
 
         public void End()
         {
             AppGraphics.End();
+        }        
+
+        public void FillRect(float x, float y, float width, float height, Color color)
+        {            
+            AppGraphics.FillRect(x, y, width, height, color);
         }
 
-        public void ClipRect(int x, int y, int width, int height)
+        public void DrawImage(Image img, float x, float y)
         {
-            AppGraphics.ClipRect(x + transX, y + transY, width, height);
+            DrawImage(img, 0, 0, img.GetWidth(), img.GetHeight(), x, y);
         }
 
-        public void FillRect(int x, int y, int width, int height)
-        {
-            float fAlpha = alpha / 255.0f;
-            AppGraphics.FillRect(x, y, width, height, color * fAlpha);
-        }
-
-        public void DrawArc(int x, int y, int width, int height, int startAngle, int arcAngle)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawChar(char character, int x, int y, int anchor)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawChars(char[] data, int offset, int Length, int x, int y, int anchor)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawImage(Image img, int x, int y, int anchor)
-        {
-            DrawRegion(img, 0, 0, img.GetWidth(), img.GetHeight(), x, y, anchor);
-        }
-
-        public void DrawImageSector(Image img, int x, int y, int startAngle, int angle)
-        {
-            // throw new NotImplementedException();
-            // FIXNOW: IMPLEMENT ME
-        }
-
-        public void DrawLine(int x1, int y1, int x2, int y2)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawRect(int x, int y, int width, int height)
-        {
-            float fAlpha = alpha / 255.0f;
-            AppGraphics.DrawRect(x, y, width, height, color * fAlpha);
-        }
-
-        public void DrawRegion(Image src, int x_src, int y_src, int width, int height, int x_dst, int y_dst, int anchor)
-        {
-            int anchorx = 0;
-            int anchory = 0;
-
-            //if ((anchor & RIGHT) != 0)
-            //{
-            //    anchorx = width;
-            //}
-            //else if ((anchor & HCENTER) != 0)
-            //{
-            //    anchorx = width >> 1;
-            //}
-
-            //if ((anchor & BOTTOM) != 0)
-            //{
-            //    anchory = height;
-            //}
-            //else if ((anchor & VCENTER) != 0)
-            //{
-            //    anchory = height >> 1;
-            //}            
-
-            float flipX = 0.0f;
-            float flipY = 0.0f;
-            int ox = 0;
-            int oy = 0;
-            float rotation = 0.0f;
-
-            //switch (transform)
-            //{
-            //    case TRANS_NONE:
-            //    {
-            //        x_dst -= anchorx;
-            //        y_dst -= anchory;
-            //        break;
-            //    }                
-                
-            //    case TRANS_MIRROR_ROT180:
-            //    {                    
-            //        ox = width >> 1;
-            //        oy = height >> 1;
-            //        x_dst += ox;
-            //        y_dst += oy;
-            //        rotation = MathHelper.Pi;
-            //        flipX = 1.0f;
-            //        break;
-            //    }
-            //    case TRANS_ROT180:
-            //    {
-            //        ox = width >> 1;
-            //        oy = height >> 1;
-            //        x_dst += ox;
-            //        y_dst += oy;
-            //        rotation = MathHelper.Pi;
-            //        break;
-            //    }
-            //    case TRANS_MIRROR:
-            //    {
-            //        ox = width >> 1;
-            //        oy = height >> 1;
-            //        x_dst += ox;
-            //        y_dst += oy;                    
-            //        flipX = 1.0f;
-            //        break;
-            //    }
-            //    case TRANS_MIRROR_ROT90:
-            //    {
-            //        ox = width >> 1;
-            //        oy = height >> 1;
-            //        x_dst += ox;
-            //        y_dst += oy;
-            //        rotation = MathHelper.PiOver2;
-            //        flipX = 1.0f;
-            //        break;
-            //    }
-            //    case TRANS_MIRROR_ROT270:
-            //    {
-            //        ox = width >> 1;
-            //        oy = height >> 1;
-            //        x_dst += ox;
-            //        y_dst += oy;
-            //        rotation = 3 * MathHelper.PiOver4;
-            //        flipX = 1.0f;
-            //        break;
-            //    }
-            //    case TRANS_ROT90:
-            //    {
-            //        ox = width >> 1;
-            //        oy = height >> 1;
-            //        x_dst += ox;
-            //        y_dst += oy;
-            //        rotation = MathHelper.PiOver2;
-            //        break;
-            //    }
-            //    case TRANS_ROT270:                
-            //    {
-            //        ox = width >> 1;
-            //        oy = height >> 1;
-            //        x_dst += ox;
-            //        y_dst += oy;
-            //        rotation = 3 * MathHelper.PiOver4;
-            //        break;
-            //    }                
-            //}
-
-            Image img = (Image) src;
+        public void DrawImage(Image img, int x_src, int y_src, int width, int height, float x, float y)
+        {            
             Texture2D tex = img.getTexture();
             srcRect.X = x_src + img.getX();
             srcRect.Y = y_src + img.getY();
             srcRect.Width = width;
-            srcRect.Height = height;            
-            Vector2 position = new Vector2(x_dst, y_dst);
-            Vector2 origin = new Vector2(ox, oy);
-            Color color = Color.White;            
-            Vector2 scale = new Vector2(1.0f, 1.0f);
-            Vector2 flip = new Vector2(flipX, flipY);
-            AppGraphics.DrawImage(tex, ref srcRect, ref position, ref color, rotation, ref origin, ref scale, ref flip);
-        }
-
-        public int GetClipWidth()
-        {
-            return AppGraphics.GetClipWidth();
-        }
-
-        public int GetClipHeight()
-        {
-            return AppGraphics.GetClipHeight();
+            srcRect.Height = height;
+            AppGraphics.DrawImage(tex, ref srcRect, x, y);
         }        
 
-        public int GetClipX()
+        public void DrawLine(int x1, int y1, int x2, int y2, Color color)
         {
-            return AppGraphics.GetClipX() - transX;
+            AppGraphics.DrawLine(x1, y1, x2, y2, color);
         }
 
-        public int GetClipY()
-        {
-            return AppGraphics.GetClipY() - transY;
-        }
-        
-        public int GetTranslateX()
-        {
-            return transX;
-        }
-
-        public int GetTranslateY()
-        {
-            return transY;
-        }
-
-        public void SetClip(int x, int y, int width, int height)
-        {
-            AppGraphics.SetClip(x + transX, y + transY, width, height);
-        }
-
-        public void SetColor(int RGB)
-        {
-            int r = (RGB >> 16) & 0xff;
-            int g = (RGB >> 8) & 0xff;
-            int b = RGB & 0xff;
-
-            color = new Color(r, g, b);
-        }        
-
-        public void Translate(int x, int y)
+        public void DrawRect(int x, int y, int width, int height, Color color)
         {            
-            transX += x;
-            transY += y;
-            AppGraphics.Translate(x, y, 0);
-        }
+            AppGraphics.DrawRect(x, y, width, height, color);
+        }                
 
-        public void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetAlpha(int alpha)
-        {            
-            Debug.Assert(alpha >= 0 && alpha <= 255);
-            this.alpha = alpha;
-            float fAlpha = alpha / 255.0f;
-            AppGraphics.SetColor(Color.White * fAlpha);
-        }
-
-        public int GetAlpha()
-        {
-            return alpha;
-        }
-
-        public Graphics Reset()
-        {
-            AppGraphics.SetIdentity();
-            return this;
+        public void Translate(float x, float y)
+        {                    
+            AppGraphics.Translate(x, y);
         }
 
         public void PushTransform()

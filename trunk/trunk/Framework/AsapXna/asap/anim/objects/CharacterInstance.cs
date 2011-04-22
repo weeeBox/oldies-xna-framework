@@ -8,11 +8,9 @@ using asap.graphics;
 
 namespace asap.anim.objects
 {
-    public abstract class CharacterInstance
+    public abstract class CharacterInstance : BaseElement
     {
-        private SwfMatrix matrix;
-
-        public abstract void Draw(Graphics g);        
+        private SwfMatrix matrix;        
 
         public SwfMatrix Matrix
         {

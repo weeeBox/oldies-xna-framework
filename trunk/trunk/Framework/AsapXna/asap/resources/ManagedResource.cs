@@ -7,7 +7,7 @@ namespace asap.resources
 {
     public abstract class ManagedResource : IDisposable
     {
-        public void Dispose()
+        public virtual void Dispose()
         {
 
         }

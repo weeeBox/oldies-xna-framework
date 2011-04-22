@@ -15,7 +15,7 @@ namespace asap.resources
             this.effect = effect;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             if (effect != null)
             {

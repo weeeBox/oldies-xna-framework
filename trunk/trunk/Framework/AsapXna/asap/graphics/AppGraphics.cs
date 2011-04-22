@@ -41,9 +41,7 @@ namespace asap.graphics
         private static Vector2 zeroVector = new Vector2(0, 0);
         private static Matrix worldMatrix;
         private static Matrix viewMatrix;
-        private static Matrix projection;
-
-        private static Rectangle scissorRect;
+        private static Matrix projection;        
 
         private static void BeginSpriteBatch(SpriteBatch sb, AppBlendMode blendMode, Matrix m, BatchMode mode)
         {
@@ -51,14 +49,11 @@ namespace asap.graphics
 
             if (mode == BatchMode.Sprite)
             {
-                BlendState blendState = toBlendState(blendMode);
-
-                sb.GraphicsDevice.ScissorRectangle = scissorRect;
+                BlendState blendState = toBlendState(blendMode);                
                 sb.Begin(SpriteSortMode.Immediate, blendState, null, null, rasterizerState, null, m);
             }
             else if (mode == BatchMode.Geometry)
-            {
-                basicEffect.GraphicsDevice.ScissorRectangle = scissorRect;
+            {                
                 basicEffect.World = Matrix.Multiply(worldMatrix, m);
                 basicEffect.CurrentTechnique.Passes[0].Apply();
             }
@@ -158,8 +153,7 @@ namespace asap.graphics
             matrix = Matrix.Identity;
 
             drawColor = Color.White;
-            blendMode = AppBlendMode.AlphaBlend;
-            scissorRect = new Rectangle(0, 0, width, height);
+            blendMode = AppBlendMode.AlphaBlend;            
 
             if (graphicsDevice != gd)
             {
@@ -177,8 +171,7 @@ namespace asap.graphics
                 basicEffect.VertexColorEnabled = true;
 
                 rasterizerState = new RasterizerState();
-                rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;
-                rasterizerState.ScissorTestEnable = true;
+                rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;                
             }
         }
 
@@ -210,30 +203,19 @@ namespace asap.graphics
             matrix = Matrix.Multiply(t, matrix);
         }
 
-        public static void Translate(float tx, float ty, float tz)
+        public static void Translate(float tx, float ty)
         {
-            AddTransform(Matrix.CreateTranslation(tx, ty, tz));
+            AddTransform(Matrix.CreateTranslation(tx, ty, 0.0f));
         }
 
-        public static void Rotate(float grad, float ax, float ay, float az)
+        public static void Rotate(float rad)
         {
-            Matrix r;
-            float rad = (float)(Math.PI * grad / 180);
-            if (ax == 1 && ay == 0 && az == 0)
-                r = Matrix.CreateRotationX(rad);
-            else if (ax == 0 && ay == 1 && az == 0)
-                r = Matrix.CreateRotationY(rad);
-            else if (ax == 0 && ay == 0 && az == 1)
-                r = Matrix.CreateRotationZ(rad);
-            else
-                throw new NotImplementedException();
-
-            AddTransform(r);
+            AddTransform(Matrix.CreateRotationZ(rad));
         }
 
-        public static void Scale(float sx, float sy, float sz)
+        public static void Scale(float sx, float sy)
         {
-            Matrix r = Matrix.CreateScale(sx, sy, sz);
+            Matrix r = Matrix.CreateScale(sx, sy, 1.0f);
             AddTransform(r);
         }
 
@@ -247,48 +229,7 @@ namespace asap.graphics
         {
             EndBatch();
             matrix = Matrix.Identity;
-        }
-
-        public static void ClipRect(int x, int y, int width, int height)
-        {
-            if (!(x == scissorRect.X && y == scissorRect.Y && width == scissorRect.Width && height == scissorRect.Height))
-            {
-                EndBatch();
-                scissorRect = Rectangle.Intersect(scissorRect, new Rectangle(x, y, width, height));
-            }
-        }
-
-        public static void SetClip(int x, int y, int width, int height)
-        {
-            if (!(x == scissorRect.X && y == scissorRect.Y && width == scissorRect.Width && height == scissorRect.Height))
-            {
-                EndBatch();
-                scissorRect.X = x;
-                scissorRect.Y = y;
-                scissorRect.Width = width;
-                scissorRect.Height = height;
-            }
-        }
-
-        public static int GetClipX()
-        {
-            return scissorRect.X;
-        }
-
-        public static int GetClipY()
-        {
-            return scissorRect.Y;
-        }
-
-        public static int GetClipWidth()
-        {
-            return scissorRect.Width;
-        }
-
-        public static int GetClipHeight()
-        {
-            return scissorRect.Height;
-        }
+        }        
 
         public static void DrawString(SpriteFont font, float x, float y, String text)
         {
@@ -300,112 +241,20 @@ namespace asap.graphics
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), drawColor);
         }
 
-        public static void DrawImage(Texture2D tex, float x, float y, float opacity)
-        {
-            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), new Color(1.0f, 1.0f, 1.0f, opacity));
-        }
-
         public static void DrawImage(Texture2D tex, float x, float y, Color color)
         {
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), color);
-        }
+        }        
 
-        public static void DrawImagePart(Texture2D tex, ref Rectangle src, float x, float y)
+        public static void DrawImage(Texture2D tex, ref Rectangle src, float x, float y)
         {
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), src, drawColor);
         }
 
-        public static void DrawImagePart(Texture2D tex, Rectangle src, float x, float y, Color dc, float size)
+        public static void DrawImage(Texture2D tex, ref Rectangle src, float x, float y, Color color)
         {
-            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), src, drawColor);
-        }
-
-        public static void DrawImage(Texture2D tex, float x, float y, SpriteEffects flip)
-        {
-            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), null, drawColor, 0.0f, Vector2.Zero, 1.0f, flip, 0.0f);
-        }
-
-        public static void DrawImage(Texture2D tex, ref Vector2 position, ref Color color, float rotation, ref Vector2 origin, ref Vector2 scale, ref Vector2 flip)
-        {
-            SpriteEffects flipEffects = flip.X == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            if (flip.Y == 1)
-                flipEffects |= SpriteEffects.FlipVertically;
-
-            GetSpriteBatch(BatchMode.Sprite).Draw(tex, position, null, color, rotation, origin, scale, flipEffects, 0.0f);
-        }
-
-        public static void DrawImage(Texture2D tex, ref Rectangle src, ref Vector2 position, ref Color color, float rotation, ref Vector2 origin, ref Vector2 scale, ref Vector2 flip)
-        {
-            SpriteEffects flipEffects = flip.X == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            if (flip.Y == 1)
-                flipEffects |= SpriteEffects.FlipVertically;
-
-            GetSpriteBatch(BatchMode.Sprite).Draw(tex, position, src, color, rotation, origin, scale, flipEffects, 0.0f);
-        }
-
-        public static void DrawScaledImage(Texture2D tex, float x, float y, float scaleX, float scaleY)
-        {
-            Vector2 origin = new Vector2(0.5f * tex.Width, 0.5f * tex.Height);
-            Vector2 scale = new Vector2(scaleX, scaleY);
-            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), null, drawColor, 0.0f, origin, scale, SpriteEffects.None, 0.0f);
-        }
-
-        public static void DrawScaledImage(Texture2D tex, float x, float y, float scale)
-        {
-            Vector2 origin = new Vector2(0.5f * tex.Width, 0.5f * tex.Height);
-            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), null, drawColor, 0.0f, origin, scale, SpriteEffects.None, 0.0f);
-        }
-
-        public static void DrawImageRotated(Texture2D tex, float x, float y, Vector2 origin, float rotation)
-        {
-            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), null, drawColor, rotation, origin, 1.0f, SpriteEffects.None, 0.0f);
-        }
-
-        public static void DrawImageTiled(Texture2D tex, ref Rectangle src, ref Rectangle dest)
-        {
-            // TODO: implement with texture repeat
-            int destWidth = dest.Width;
-            int destHeight = dest.Height;
-            int srcWidth = src.Width;
-            int srcHeight = src.Height;
-            int numTilesX = destWidth / srcWidth + (destWidth % srcWidth != 0 ? 1 : 0);
-            int numTilesY = destHeight / srcHeight + (destHeight % srcHeight != 0 ? 1 : 0);
-            int x = dest.X;
-            int y = dest.Y;
-            for (int tileY = 0; tileY < numTilesY; ++tileY)
-            {
-                for (int tileX = 0; tileX < numTilesX; ++tileX)
-                {
-                    DrawImagePart(tex, ref src, x, y);
-                    x += srcWidth;
-                }
-                y += srcHeight;
-            }
-        }
-
-        public static void DrawCircle(float x, float y, float r, Color color)
-        {
-            GetSpriteBatch(BatchMode.Geometry);
-
-            int numVertex = 200;
-            VertexPositionColor[] vertexData = new VertexPositionColor[numVertex];
-            float da = MathHelper.TwoPi / (numVertex - 1);
-            float angle = 0;
-            for (int i = 0; i < numVertex - 1; ++i)
-            {
-                float vx = (float)(x + r * Math.Cos(angle));
-                float vy = (float)(y + r * Math.Sin(angle));
-                vertexData[i] = new VertexPositionColor(new Vector3(vx, vy, 0), color);
-                angle += da;
-            }
-            vertexData[numVertex - 1] = vertexData[0];
-            graphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, vertexData, 0, numVertex - 1);
-        }
-
-        public static void DrawRect(float x, float y, float width, float height)
-        {
-            DrawRect(x, y, width, height, drawColor);
-        }
+            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), src, color);
+        }        
 
         public static void DrawRect(float x, float y, float width, float height, Color color)
         {

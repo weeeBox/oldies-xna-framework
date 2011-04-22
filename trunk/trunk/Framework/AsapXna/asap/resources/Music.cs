@@ -15,7 +15,7 @@ namespace asap.resources
             this.song = song;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             if (song != null)
             {
