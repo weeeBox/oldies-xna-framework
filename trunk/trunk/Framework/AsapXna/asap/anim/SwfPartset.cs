@@ -10,14 +10,14 @@ namespace asap.anim
 {
     public class SwfPartset : ITextureManager, IDisposable
     {
-        private Image[] images;
+        private GameTexture[] images;
 
-        private Image texture;
+        private GameTexture texture;
 
-        public SwfPartset(Image texture, int size)
+        public SwfPartset(GameTexture texture, int size)
         {            
             this.texture = texture;
-            images = new Image[size];
+            images = new GameTexture[size];
         }        
 
         public void SetPart(int index, int x, int y, int width, int height)
@@ -25,12 +25,12 @@ namespace asap.anim
             Debug.Assert(index >= 0 && index < images.Length);
             Debug.Assert(images[index] == null, "Already exists: " + index);
 
-            Image image = new Image();
+            GameTexture image = new GameTexture();
             image.setTexture(this, texture, x, y, width, height);
             images[index] = image; 
         }
 
-        public Image this[int imageIndex]
+        public GameTexture this[int imageIndex]
         {
             get 
             {
@@ -43,7 +43,7 @@ namespace asap.anim
         {
             if (images != null)
             {
-                foreach (Image img in images)
+                foreach (GameTexture img in images)
                 {
                     img.Unload();
                 }

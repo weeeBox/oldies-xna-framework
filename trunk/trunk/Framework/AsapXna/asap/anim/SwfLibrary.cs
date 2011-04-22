@@ -39,7 +39,7 @@ namespace asap.anim
             partsets.Add(partset);
         }
 
-        public Image GetImage(int imageId)
+        public GameTexture GetImage(int imageId)
         {
             int partsetIndex = (imageId >> 16) & 0xffff;
             int imageIndex = imageId & 0xffff;

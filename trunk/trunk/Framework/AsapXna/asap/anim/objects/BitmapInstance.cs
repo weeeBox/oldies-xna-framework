@@ -8,9 +8,9 @@ namespace asap.anim.objects
 {
     public class BitmapInstance : CharacterInstance
     {
-        private Image image;
+        private GameTexture image;
 
-        public BitmapInstance(Image image)
+        public BitmapInstance(GameTexture image)
         {
             this.image = image;
         }

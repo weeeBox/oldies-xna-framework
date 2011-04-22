@@ -69,7 +69,7 @@ namespace asap.anim
                 {
                     DefinePackedImage packedImage = (DefinePackedImage)tag;
                     int imageId = packedImage.ImageId;
-                    Image image = library.GetImage(imageId);
+                    GameTexture image = library.GetImage(imageId);
                     return new BitmapInstance(image);
                 }
 

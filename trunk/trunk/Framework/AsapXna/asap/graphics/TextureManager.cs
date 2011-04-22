@@ -56,7 +56,7 @@ namespace asap.graphics
             }            
         }        
 
-        public Image LoadTexture(String name, Image existingInstance)
+        public GameTexture LoadTexture(String name, GameTexture existingInstance)
         {
             SubTexData subData = null;
 
