@@ -68,7 +68,7 @@ namespace swiff.com.jswiff.swfrecords
         
         private short type;
         
-        private Color color;
+        private ColorRecord color;
         
         private SwfMatrix gradientMatrix;
         
@@ -129,7 +129,7 @@ namespace swiff.com.jswiff.swfrecords
          *
          * @see com.jswiff.swfrecords.tags.DefineShape3
          */
-        public FillStyle(Color color) 
+        public FillStyle(ColorRecord color) 
         {
             this.color = color;
             type = TYPE_SOLID;
@@ -208,7 +208,7 @@ namespace swiff.com.jswiff.swfrecords
             return bitmapMatrix;
         }
         
-        public virtual Color GetColor()
+        public virtual ColorRecord GetColor()
         {
             return color;
         }

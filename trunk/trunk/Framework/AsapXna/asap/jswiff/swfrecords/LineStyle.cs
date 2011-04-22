@@ -14,7 +14,7 @@ namespace swiff.com.jswiff.swfrecords
     {
         private int width;
         
-        private Color color;
+        private ColorRecord color;
         
         /** 
          * Creates a new line style. Specify the width of the line in twips (1/20 px)
@@ -28,7 +28,7 @@ namespace swiff.com.jswiff.swfrecords
          *
          * @see com.jswiff.swfrecords.tags.DefineShape3
          */
-        public LineStyle(int width ,Color color) 
+        public LineStyle(int width ,ColorRecord color) 
         {
             this.width = width;
             this.color = color;
@@ -47,7 +47,7 @@ namespace swiff.com.jswiff.swfrecords
             }
         }
         
-        public virtual Color GetColor()
+        public virtual ColorRecord GetColor()
         {
             return color;
         }

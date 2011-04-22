@@ -13,7 +13,7 @@ namespace swiff.com.jswiff.swfrecords
      * @see RGB
      * @see RGBA
      */
-    abstract public class Color
+    abstract public class ColorRecord
     {
         
     }

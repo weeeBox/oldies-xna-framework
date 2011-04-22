@@ -12,7 +12,7 @@ namespace swiff.com.jswiff.swfrecords
      * The alpha value represents the transparency (or opacity). 0 means
      * completely transparent, 255 means completely opaque.
      */
-    public class RGBA : Color
+    public class RGBA : ColorRecord
     {
         /** 
          *

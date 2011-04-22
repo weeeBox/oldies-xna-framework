@@ -10,7 +10,7 @@ namespace swiff.com.jswiff.swfrecords
     /** 
      * Represents a 24-bit RGB color.
      */
-    public class RGB : Color
+    public class RGB : ColorRecord
     {
         /** 
          *
