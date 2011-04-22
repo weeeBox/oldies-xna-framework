@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework;
+using asap.core;
 using System.Diagnostics;
 
 namespace asap.graphics
@@ -8,20 +12,18 @@ namespace asap.graphics
     {
         public const float ALIGN_MIN = 0.0f;
         public const float ALIGN_CENTER = 0.5f;
-        public const float ALIGN_MAX = 1.0f;               
+        public const float ALIGN_MAX = 1.0f;        
                 
         public bool visible;
-        public bool updateable;
-        private bool focusable;
-        private bool focused;
+        public bool updateable;        
 
         public float x;
         public float y;
         public float drawX;
         public float drawY;
 
-        public int width;
-        public int height;
+        public float width;
+        public float height;
 
         public float rotation;
         public float rotationCenterX;
@@ -41,24 +43,22 @@ namespace asap.graphics
         public float parentAlignX;
         public float parentAlignY;
 
-        private BaseElement parent;               
+        private BaseElement parent;        
 
         public BaseElement()
             : this(0, 0)
         {
         }
 
-        public BaseElement(int width, int height)
+        public BaseElement(float width, float height)
             : this(0, 0, width, height)
         {
         }
 
-        public BaseElement(float x, float y, int width, int height)
+        public BaseElement(float x, float y, float width, float height)
         {
             visible = true;
-            updateable = true;
-            focusable = false;
-            focused = false;
+            updateable = true;            
 
             this.x = x;
             this.y = y;
@@ -76,14 +76,14 @@ namespace asap.graphics
             translateY = 0;
 
             parentAlignX = parentAlignY = alignX = alignY = ALIGN_MIN;
-            parent = null;
+            parent = null;            
         }        
 
-        public virtual void update(float delta)
-        {          
+        public virtual void Update(float delta)
+        {         
         }
 
-        public void restoreTransformations()
+        public void RestoreTransformations()
         {
             if (color != Color.White)
             {
@@ -97,7 +97,7 @@ namespace asap.graphics
             }
         }
 
-        public virtual void preDraw()
+        public virtual void PreDraw(Graphics g)
         {
             // align to parent
             drawX = x - width * alignX;
@@ -120,26 +120,26 @@ namespace asap.graphics
 
                 if (changeScale || changeRotation)
                 {
-                    float rotationOffsetX = drawX + (width >> 1) + rotationCenterX;
-                    float rotationOffsetY = drawY + (height >> 1) + rotationCenterY;
+                    float rotationOffsetX = drawX + 0.5f * width + rotationCenterX;
+                    float rotationOffsetY = drawY + 0.5f * height + rotationCenterY;
 
-                    AppGraphics.Translate(rotationOffsetX, rotationOffsetY, 0);
+                    AppGraphics.Translate(rotationOffsetX, rotationOffsetY);
 
                     if (changeRotation)
                     {
-                        AppGraphics.Rotate(rotation, 0, 0, 1);
+                        AppGraphics.Rotate(rotation);
                     }
 
                     if (changeScale)
                     {
-                        AppGraphics.Scale(scaleX, scaleY, 1);
+                        AppGraphics.Scale(scaleX, scaleY);
                     }
-                    AppGraphics.Translate(-rotationOffsetX, -rotationOffsetY, 0);
+                    AppGraphics.Translate(-rotationOffsetX, -rotationOffsetY);
                 }
 
                 if (changeTranslate)
                 {
-                    AppGraphics.Translate(translateX, translateY, 0);
+                    AppGraphics.Translate(translateX, translateY);
                 }
             }
 
@@ -149,69 +149,60 @@ namespace asap.graphics
             }
         }
 
-        public virtual void postDraw()
+        public virtual void PostDraw(Graphics g)
         {
-            restoreTransformations();
+            RestoreTransformations();
         }
 
-        public virtual void draw()
+        public virtual void Draw(Graphics g)
         {
-            preDraw();
-            postDraw();
+            PreDraw(g);
+            PostDraw(g);
         }
 
-        public BaseElement getParent()
+        public BaseElement GetParent()
         {
             return parent;
         }
 
-        public void setParent(BaseElement parent)
+        public void SetParent(BaseElement parent)
         {
             this.parent = parent;
         }        
 
-        public void setEnabled(bool e)
+        public void SetEnabled(bool e)
         {
             visible = e;
             updateable = e;
         }
 
-        public bool isEnabled()
+        public bool IsEnabled()
         {
             return (visible && updateable);
         }
 
-        public void setFocusable(bool f)
-        {
-            focusable = true;
-        }
-
-        public bool isFocusable()
-        {
-            return focusable;
-        }
-
-        public virtual bool isAcceptingInput()
-        {
-            return isFocusable() && isEnabled();
-        }       
-
-        public void toParentCenter()
-        {
-            setAlign(ALIGN_CENTER, ALIGN_CENTER);
-            setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
-        }
-
-        public void setAlign(float alignX, float alignY)
+        public void SetAlign(float alignX, float alignY)
         {
             this.alignX = alignX;
             this.alignY = alignY;
         }
 
-        public void setParentAlign(float alignX, float alignY)
+        public void SetParentAlign(float alignX, float alignY)
         {
             this.parentAlignX = alignX;
             this.parentAlignY = alignY;
+        }                
+
+        public float Width
+        {
+            get { return width; }
+            set { width = value; }
+        }
+
+        public float Height
+        {
+            get { return height; }
+            set { height = value; }
         }
     }
 }

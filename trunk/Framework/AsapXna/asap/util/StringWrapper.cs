@@ -8,7 +8,7 @@ namespace asap.util
 {
     public class StringWrapper
      {
-        public static int WrapString(int width, TextDataProvider provider, short[] strIdx)
+        public static int WrapString(float width, TextDataProvider provider, short[] strIdx)
         {
             int strLen = provider.Length();
             int dataIndex = 0;

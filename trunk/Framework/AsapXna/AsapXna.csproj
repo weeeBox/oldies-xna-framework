@@ -102,6 +102,7 @@
     <Compile Include="asap\app\BaseApp.cs" />
     <Compile Include="asap\app\AppImpl.cs" />
     <Compile Include="asap\core\Controller.cs" />
+    <Compile Include="asap\core\DynamicArray.cs" />
     <Compile Include="asap\core\KeyAction.cs" />
     <Compile Include="asap\core\KeyCode.cs" />
     <Compile Include="asap\core\KeyListener.cs" />
@@ -147,14 +148,10 @@
     <Compile Include="asap\resources\StrRes.cs" />
     <Compile Include="asap\rms\RecordStorage.cs" />
     <Compile Include="asap\sound\SoundManager.cs" />
-    <Compile Include="asap\ui\ColorRect.cs" />
-    <Compile Include="asap\ui\Container.cs" />
     <Compile Include="asap\ui\Focusable.cs" />
     <Compile Include="asap\ui\FocusListener.cs" />
     <Compile Include="asap\ui\FocusType.cs" />
-    <Compile Include="asap\ui\ImageView.cs" />
     <Compile Include="asap\ui\ScreenManager.cs" />
-    <Compile Include="asap\ui\ScrollPane.cs" />
     <Compile Include="asap\ui\View.cs" />
     <Compile Include="asap\ui\ViewComposite.cs" />
     <Compile Include="asap\ui\ViewController.cs" />

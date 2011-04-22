@@ -2,8 +2,6 @@ using System;
 
 using System.Collections.Generic;
 
-
-
 namespace asap.core
 {
     public interface PointerListener
@@ -13,7 +11,5 @@ namespace asap.core
         void PointerDragged(int x, int y, int fingerId);
         void PointerExited(int x, int y, int fingerId);
         void PointerEntered(int x, int y, int fingerId);
-    }
-    
-    
+    }    
 }

@@ -77,7 +77,7 @@ namespace asap.graphics
             }
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             Unload();
         }

@@ -17,7 +17,9 @@ namespace asap.anim.objects
 
         public override void Draw(Graphics g)
         {
-            g.DrawImage(image, 0, 0, 0);
+            PreDraw(g);
+            g.DrawImage(image, drawX, drawY);
+            PostDraw(g);
         }
     }
 }
