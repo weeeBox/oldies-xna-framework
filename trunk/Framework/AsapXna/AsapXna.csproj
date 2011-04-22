@@ -120,7 +120,7 @@
     <Compile Include="asap\graphics\BaseFont.cs" />
     <Compile Include="asap\graphics\BitmapFont.cs" />
     <Compile Include="asap\graphics\Graphics.cs" />
-    <Compile Include="asap\graphics\Image.cs" />
+    <Compile Include="asap\graphics\GameTexture.cs" />
     <Compile Include="asap\graphics\ITextureManager.cs" />
     <Compile Include="asap\graphics\TextureManager.cs" />
     <Compile Include="asap\jswiff\swfrecords\tags\DefineAtlas.cs" />

@@ -35,12 +35,12 @@ namespace asap.graphics
             AppGraphics.FillRect(x, y, width, height, color);
         }
 
-        public void DrawImage(Image img, float x, float y)
+        public void DrawImage(GameTexture img, float x, float y)
         {
             DrawImage(img, 0, 0, img.GetWidth(), img.GetHeight(), x, y);
         }
 
-        public void DrawImage(Image img, int x_src, int y_src, int width, int height, float x, float y)
+        public void DrawImage(GameTexture img, int x_src, int y_src, int width, int height, float x, float y)
         {            
             Texture2D tex = img.getTexture();
             srcRect.X = x_src + img.getX();

@@ -4,19 +4,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace asap.graphics
 {
-    public class Image : ManagedResource
+    public class GameTexture : ManagedResource
     {
         private Texture2D tex;
         private Rectangle bounds;       
 
         private ITextureManager tm;        
 
-        public Image()
+        public GameTexture()
         {
 
         }
 
-        public Image(Texture2D texture)
+        public GameTexture(Texture2D texture)
         {
             setTexture(texture);
         }
@@ -82,7 +82,7 @@ namespace asap.graphics
             Unload();
         }
 
-        public void setTexture(ITextureManager tm, Image image, int x, int y, int w, int h)
+        public void setTexture(ITextureManager tm, GameTexture image, int x, int y, int w, int h)
         {
             setTexture(tm, image.getTexture(), x, y, w, h);
         }

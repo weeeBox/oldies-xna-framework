@@ -43,18 +43,18 @@ namespace asap.resources
             }
         }
 
-        public Image LoadImage(string resname)
+        public GameTexture LoadImage(string resname)
         {
             Texture2D texture = content.Load<Texture2D>(resname);
-            return new Image(texture);
+            return new GameTexture(texture);
         }
 
-        public Image LoadManagedImage(string path)
+        public GameTexture LoadManagedImage(string path)
         {            
-            Image instance = FindUsedReference<Image>(path);
+            GameTexture instance = FindUsedReference<GameTexture>(path);
             if (instance == null)
             {
-                instance = new Image();
+                instance = new GameTexture();
                 AddReference(path, instance);
             }
             TextureManager.Instance.LoadTexture(path, instance);

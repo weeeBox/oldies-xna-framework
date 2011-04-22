@@ -27,7 +27,7 @@ namespace asap.resources
                 {
                     DefineAtlas defineAtlas = (DefineAtlas)tag;
                     string textureName = defineAtlas.GetTextureName();
-                    Image texture = ResFactory.GetInstance().LoadImage(textureName);
+                    GameTexture texture = ResFactory.GetInstance().LoadImage(textureName);
 
                     PartsetInfo[] parts = defineAtlas.Parts;
                     SwfPartset partset = new SwfPartset(texture, parts.Length);

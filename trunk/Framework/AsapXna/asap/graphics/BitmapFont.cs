@@ -66,7 +66,7 @@ namespace asap.graphics
         /** 
          * Изображение шрифта
          */
-        public Image fontImage;       
+        public GameTexture fontImage;       
         
         
         /** 
