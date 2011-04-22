@@ -284,7 +284,7 @@
     <Compile Include="asap\jswiff\swfrecords\ClipActionRecord.cs" />
     <Compile Include="asap\jswiff\swfrecords\ClipActions.cs" />
     <Compile Include="asap\jswiff\swfrecords\ClipEventFlags.cs" />
-    <Compile Include="asap\jswiff\swfrecords\Color.cs" />
+    <Compile Include="asap\jswiff\swfrecords\ColorRecord.cs" />
     <Compile Include="asap\jswiff\swfrecords\ColorMapData.cs" />
     <Compile Include="asap\jswiff\swfrecords\ColorMatrixFilter.cs" />
     <Compile Include="asap\jswiff\swfrecords\ConvolutionFilter.cs" />
@@ -403,6 +403,7 @@
     <Compile Include="asap\jswiff\util\HexUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="asap\visual\Image.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

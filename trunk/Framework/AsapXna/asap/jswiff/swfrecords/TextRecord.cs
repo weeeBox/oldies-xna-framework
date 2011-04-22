@@ -33,7 +33,7 @@ namespace swiff.com.jswiff.swfrecords
         
         private bool hasColor;
         
-        private Color textColor;
+        private ColorRecord textColor;
         
         private GlyphEntry[] glyphEntries;
         
@@ -72,7 +72,7 @@ namespace swiff.com.jswiff.swfrecords
             } 
             if (hasColor) 
             {
-                textColor = hasAlpha ? ((Color)(new RGBA(stream))) : ((Color)(new RGB(stream)));
+                textColor = hasAlpha ? ((ColorRecord)(new RGBA(stream))) : ((ColorRecord)(new RGB(stream)));
             } 
             if (hasXOffset) 
             {
@@ -112,13 +112,13 @@ namespace swiff.com.jswiff.swfrecords
             return glyphEntries;
         }
         
-        public virtual void SetTextColor(Color textColor)
+        public virtual void SetTextColor(ColorRecord textColor)
         {
             this.textColor = textColor;
             hasColor = true;
         }
         
-        public virtual Color GetTextColor()
+        public virtual ColorRecord GetTextColor()
         {
             return textColor;
         }

@@ -22,7 +22,7 @@ namespace swiff.com.jswiff.swfrecords
     {
         private short ratio;
         
-        private Color color;
+        private ColorRecord color;
         
         /** 
          * <p>
@@ -48,7 +48,7 @@ namespace swiff.com.jswiff.swfrecords
          *
          * @see com.jswiff.swfrecords.tags.DefineShape3
          */
-        public GradRecord(short ratio ,Color color) 
+        public GradRecord(short ratio ,ColorRecord color) 
         {
             this.ratio = ratio;
             this.color = color;
@@ -67,7 +67,7 @@ namespace swiff.com.jswiff.swfrecords
             }
         }
         
-        public virtual Color GetColor()
+        public virtual ColorRecord GetColor()
         {
             return color;
         }

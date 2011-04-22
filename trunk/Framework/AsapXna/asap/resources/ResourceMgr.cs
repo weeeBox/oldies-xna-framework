@@ -85,10 +85,12 @@ namespace asap.resources
             }
         }
 
-        public object getResource(int resName)
+        protected ManagedResource getResource(int resName)
         {
-            return resources[resName];
-        }
+            ManagedResource resource = resources[resName];
+            Debug.Assert(resource != null, "Resource not loaded: " + resName);
+            return resource;
+        }        
 
         public void freeResource(int resName)
         {
