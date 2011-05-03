@@ -3,7 +3,7 @@ using swiff.com.jswiff.swfrecords;
 
 namespace asap.anim.objects
 {
-    public abstract class CharacterInstance : BaseElement
+    public abstract class CharacterInstance : BaseElementContainer
     {
         private SwfMatrix matrix;        
 

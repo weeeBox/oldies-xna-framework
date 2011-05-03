@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="asap\anim\objects\BitmapInstance.cs" />
     <Compile Include="asap\anim\objects\CharacterInstance.cs" />
+    <Compile Include="asap\anim\objects\SpriteInstance.cs" />
     <Compile Include="asap\anim\SwfPartset.cs" />
     <Compile Include="asap\anim\SwfDisplayList.cs" />
     <Compile Include="asap\anim\SwfLibrary.cs" />
@@ -404,6 +405,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="asap\visual\Image.cs" />
+    <Compile Include="asap\visual\AnimationMovie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

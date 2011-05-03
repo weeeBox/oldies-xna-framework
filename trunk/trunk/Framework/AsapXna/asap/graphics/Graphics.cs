@@ -79,5 +79,10 @@ namespace asap.graphics
         {
             AppGraphics.SetMatrix(m);
         }
+
+        public void AddTransform(ref Matrix m)
+        {
+            AppGraphics.Transform(ref m);
+        }
     }    
 }

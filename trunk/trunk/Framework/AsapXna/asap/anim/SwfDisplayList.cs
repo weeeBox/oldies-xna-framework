@@ -22,7 +22,9 @@ namespace asap.anim
                 return objects[index];
             }
             set
-            {                
+            {
+                Debug.Assert(value != null, "Bad instance: " + depth);
+
                 if (depth > Size)
                 {
                     Realloc(depth);
@@ -33,7 +35,7 @@ namespace asap.anim
         }
 
         private void Realloc(int newSize)
-        {
+        {            
             while (Size < newSize)
             {
                 objects.Add(null);
@@ -48,6 +50,6 @@ namespace asap.anim
         public void Clear()
         {
             objects.Clear();
-        }
+        }        
     }
 }
