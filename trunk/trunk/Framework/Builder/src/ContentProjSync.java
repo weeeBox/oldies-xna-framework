@@ -67,10 +67,10 @@ public class ContentProjSync
 				{
 					Element importerElement = child.element("Importer");
 					Element processorElement = child.element("Processor");
-					if (importerElement != null && processorElement != null)
+					if (importerElement != null)
 					{	
 						String importer = importerElement.getText();
-						String processor = processorElement.getText();
+						String processor = processorElement == null ? null : processorElement.getText();
 						ContentPair pair = new ContentPair(importer, processor);
 						if (contentPairs.contains(pair))							
 							e.remove(child);
@@ -97,7 +97,11 @@ public class ContentProjSync
 		element.addAttribute("Include", res.getFile().getName());
 		element.addElement("Name").addText(res.getShortName());
 		element.addElement("Importer").addText(res.getImporter());
-		element.addElement("Processor").addText(res.getProcessor());
+		String processor = res.getProcessor();
+		if (processor != null)
+		{
+			element.addElement("Processor").addText(processor);
+		}
 	}
 
 	private void writeDocument(Document doc, File file)

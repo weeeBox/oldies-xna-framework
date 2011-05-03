@@ -12,6 +12,8 @@
 	<property name="file.proj" value="${dir.content}/GameContent.contentproj" />
 	<property name="file.code" value="../Game/Game/app/Res.cs" />
 	
+	<property name="dir.swf" value="D:\dev\java\workspaces\foospace\foo-utils\SwfExport"/> <!-- Fix me!!! -->
+	
 	<path id="libs">
 		<fileset dir="${dir.lib}">
 			<include name="**/*.jar" /> 
@@ -23,6 +25,11 @@
 	</target>
 	
 	<target name="build">
+		
+		<ant antfile="${dir.swf}/build.xml" target="build-classes" dir="${dir.swf}">
+			<property name="dir.output" value="${basedir}/${dir.classes}" />
+		</ant>
+		
 		<mkdir dir="${dir.classes}"/>
 		<javac destdir="${dir.classes}" debug="true" encoding="UTF-8">
 		  	<src path="${dir.source}" /> 
@@ -37,16 +44,15 @@
 	
 	<target name="run" depends="build">		
 		<content projFile="${file.proj}" codeFile="${file.code}" resTemp="${dir.restmp}">			
-			<package name="PACK_COMMON1">
+			<package name="PACK_COMMON">
 				<!--<atlas name="common">-->
 					<image name="ui_button_a" file="${dir.gfx}/buttonA.png" />
 					<image name="ui_button_b" file="${dir.gfx}/buttonB.png" />
-				<!--</atlas>-->
+				<!--</atlas>-->				
 			</package>
 			
-			<package name="PACK_COMMON2">
-				<image name="button_base1" file="${dir.gfx}/cloud_1.png" />
-				<image name="button_base2" file="${dir.gfx}/cloud_2.png" />							    
+			<package name="PACK_MENU">
+				<anim name="swf_test" file="${dir.gfx}/test.swf" />							    
 			</package>
 		</content>
 	</target>

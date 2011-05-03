@@ -25,6 +25,8 @@ public class ContentProjTask extends Task
 		fileSync.addFilter(".pixelfont");
 		fileSync.addFilter(".vectorfont");
 		fileSync.addFilter(".atlas");
+		fileSync.addFilter(".swp");
+		fileSync.addFilter(".swf");
 		
 		projSync = new ContentProjSync();
 	}
