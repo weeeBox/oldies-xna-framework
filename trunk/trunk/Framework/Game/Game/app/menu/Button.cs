@@ -1,17 +1,12 @@
 using System;
-
-using System.Collections.Generic;
-
-
-using app;
-using asap.ui;
 using asap.core;
 using asap.graphics;
+using asap.ui;
 
 namespace app.menu
 {
-    abstract public class Button : View, KeyListener, PointerListener, Focusable
-     {
+    public abstract class Button : View, KeyListener, PointerListener, Focusable
+    {
         private bool focused = false;
         
         private bool isPressed;
@@ -24,28 +19,14 @@ namespace app.menu
         
         public String text;
         
-        public Image image;
-        
-        public int width;
-        
-        public int height;
+        public GameTexture image;        
         
         public Button(ButtonType type ,int code ,MenuListener listener) 
         {
             this.code = code;
             this.listener = listener;
             this.type = type;
-        }
-        
-        public virtual void Init(String text, String imageRes, int width, int height)
-        {
-            this.text = text;
-            this.width = width;
-            this.height = height;
-            if (imageRes != null)
-                image = AppResourceMgr.GetInstance().GetImage(imageRes);
-            
-        }
+        }        
         
         public virtual void SetText(String text)
         {
@@ -55,17 +36,7 @@ namespace app.menu
         public virtual void SetCode(int code)
         {
             this.code = code;
-        }
-        
-        public override int GetWidth()
-        {
-            return width;
-        }
-        
-        public override int GetHeight()
-        {
-            return height;
-        }
+        }     
         
         public virtual void PointerPressed(int x, int y, int fingerId)
         {
@@ -114,18 +85,8 @@ namespace app.menu
         public virtual ButtonType _getType()
         {
             return type;
-        }
-        
-        public virtual Image GetImage(String imageRes)
-        {
-            return AppResourceMgr.GetInstance().GetImage(imageRes);
-        }
-        
-        public virtual bool IsEnabled()
-        {
-            return true;
-        }
-        
+        }        
+                
         public virtual void Click()
         {
             listener.ButtonPressed(code);

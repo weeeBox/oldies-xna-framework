@@ -8,9 +8,9 @@ namespace app
 {
     public class AppRootController : RootController
     {
-        private GameController gameController;
+        public static GameController gameController;
 
-        private MenuController menuController;
+        public static MenuController menuController;
 
         public AppRootController()
         {     
@@ -18,9 +18,12 @@ namespace app
 
         public override void OnStart()
         {
-            base.OnStart();            
+            base.OnStart();
+
+            gameController = new GameController();
+            menuController = new MenuController();
 
             StartController(new StartupController(), 0);
-        }
+        }        
     }
 }

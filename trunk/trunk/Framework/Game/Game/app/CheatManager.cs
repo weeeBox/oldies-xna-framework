@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using asap.core;
 using app.menu;
 using asap.graphics;
+using Microsoft.Xna.Framework;
 
 namespace app
 {
@@ -73,11 +74,10 @@ namespace app
         {
             if (showActivation) 
             {
-                showActivation = false;
-                g.SetColor(65280);
+                showActivation = false;                
                 int screenWidth = Application.Width;
                 int screenHeight = Application.Height;
-                g.FillRect(0, 0, screenWidth, screenHeight);
+                g.FillRect(0, 0, screenWidth, screenHeight, Color.CornflowerBlue);
             } 
         }
         

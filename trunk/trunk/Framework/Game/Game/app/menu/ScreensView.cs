@@ -14,7 +14,7 @@ namespace app.menu
      * Provide stack of screens and view of active/visible screens
      */
     public class ScreensView : View, TickListener
-     {
+    {
         private const int MAX_SCREENS_COUNT = 5;
         
         private Screen[] screensStack;
@@ -96,16 +96,16 @@ namespace app.menu
             GetActiveScreen().Draw(g);
         }
         
-        public override int GetHeight()
+        public float GetHeight()
         {
             System.Diagnostics.Debug.Assert((GetActiveScreen()) != null);
-            return GetActiveScreen().GetHeight();
+            return GetActiveScreen().Height;
         }
         
-        public override int GetWidth()
+        public float GetWidth()
         {
             System.Diagnostics.Debug.Assert((GetActiveScreen()) != null);
-            return GetActiveScreen().GetWidth();
+            return GetActiveScreen().Width;
         }
         
         public virtual void SetDrawPrevScreen(bool value)
@@ -116,9 +116,6 @@ namespace app.menu
         public virtual Screen GetActiveScreen()
         {
             return screensStack[screenIndex];
-        }
-        
-    }
-    
-    
+        }        
+    }    
 }

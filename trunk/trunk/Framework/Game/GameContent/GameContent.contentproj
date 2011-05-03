@@ -56,6 +56,12 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="test.swp">
+      <Name>test</Name>
+      <Importer>AnimationImporter</Importer>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="buttonA.png">
       <Name>buttonA</Name>
       <Importer>TextureImporter</Importer>
@@ -66,15 +72,13 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="cloud_1.png">
-      <Name>cloud_1</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="tex_test.png">
+      <Name>tex_test</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="cloud_2.png">
-      <Name>cloud_2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
+      <ProcessorParameters_TextureFormat>DxtCompressed</ProcessorParameters_TextureFormat>
     </Compile>
   </ItemGroup>
 </Project>
