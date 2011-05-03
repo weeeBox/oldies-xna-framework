@@ -13,11 +13,9 @@ namespace app.menu
     /** 
      * Fullscreen view, a single item of screens flow
      */
-    public class Screen : Container, KeyListener, TickListener, TimerSource
-     {
-        public ScreenId id;
-        
-        private bool wasDrawnFlag;
+    public class Screen : View, KeyListener, TickListener, TimerSource
+    {
+        public ScreenId id;        
         
         private TimerController timerController;
         
@@ -27,16 +25,20 @@ namespace app.menu
         
         private int backCode;
         
-        public Screen(ScreenId id) 
+        public Screen(ScreenId id) : this(id, Application.Width, Application.Height)
         {
-            this.id = id;
-            SetSize(Application.Width, Application.Height);
+        }
+
+        public Screen(ScreenId id, float width, float height) : base(width, height)
+        {
+            this.id = id;            
             timerController = new TimerController();
         }
         
         public virtual void Tick(float delta)
         {
             timerController.Tick(delta);
+            Update(delta);
         }
         
         public virtual TimerController GetTimerController()
@@ -47,18 +49,7 @@ namespace app.menu
         public virtual ScreenId GetId()
         {
             return id;
-        }
-        
-        public override void Draw(Graphics g)
-        {
-            wasDrawnFlag = true;
-            base.Draw(g);
-        }
-        
-        public virtual bool WasDrawn()
-        {
-            return wasDrawnFlag;
-        }
+        }        
         
         public virtual void OnScreenBack()
         {

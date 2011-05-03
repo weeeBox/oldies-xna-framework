@@ -45,36 +45,16 @@ namespace app
             {
                 freeResource(infos[resIndex].resId);
             }
+        }    
+    
+        public GameTexture GetTexture(int id)
+        {
+            return (GameTexture)getResource(id);
         }
 
-        public static AppResourceMgr GetInstance()
+        public SwfMovie GetMovie(int id)
         {
-            return null;
-        }               
-        
-        public static BitmapFont GetDefaultFont()
-        {
-            return null;
+            return (SwfMovie)getResource(id);
         }
-        
-        public Object GetRes(String path)
-        {
-            return null;
-        }
-
-        internal BitmapFont GetFont(string fontName)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal Image GetImage(string imageRes)
-        {
-            throw new NotImplementedException();
-        }        
-
-        internal void Unload(string p)
-        {
-            throw new NotImplementedException();
-        }        
     }    
 }

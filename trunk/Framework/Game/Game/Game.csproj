@@ -126,7 +126,6 @@
     <Compile Include="app\menu\ScreenFactory.cs" />
     <Compile Include="app\menu\ScreenId.cs" />
     <Compile Include="app\menu\ScreensView.cs" />
-    <Compile Include="app\menu\TextBox.cs" />
     <Compile Include="app\Res.cs" />
   </ItemGroup>
   <ItemGroup>

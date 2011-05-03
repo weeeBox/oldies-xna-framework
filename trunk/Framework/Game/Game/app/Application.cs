@@ -31,6 +31,12 @@ namespace app
             SetTickListener(sharedRootController);
         }
 
+        public override void Tick(float deltaTime)
+        {
+            base.Tick(deltaTime);
+            sharedScreensView.Tick(deltaTime);
+        }
+
         public override void Start()
         {
             base.Start();

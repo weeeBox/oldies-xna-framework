@@ -18,8 +18,7 @@ namespace app
         public override void Start(int param)
         {
             base.Start(param);
-
-            Application.sharedResourceMgr.LoadPacks(this, ResPacks.PACK_COMMON1);
+            Application.sharedResourceMgr.LoadPacks(this, ResPacks.PACK_COMMON, ResPacks.PACK_MENU);            
         }
 
         public void resourceLoaded(ResourceLoadInfo res)
@@ -29,7 +28,8 @@ namespace app
 
         public void allResourcesLoaded()
         {
-            Debug.WriteLine("Resources loaded");            
+            Debug.WriteLine("Resources loaded");
+            AppRootController.StartController(AppRootController.menuController, 0);
         }
     }
 }
