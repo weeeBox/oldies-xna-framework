@@ -46,6 +46,11 @@ public class Package
 		addResource(song);
 	}
 	
+	public void addAnim(Animation ani)
+	{
+		addResource(ani);
+	}
+	
 	private void addResource(Resource res)
 	{
 		res.setPackage(this);

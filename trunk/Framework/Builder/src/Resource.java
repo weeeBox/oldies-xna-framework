@@ -90,7 +90,7 @@ public abstract class Resource
 		return true;
 	}
 
-	public void process() 
+	public void process()
 	{
 		ContentProjTask.fileSync.addFile(getFile());
 		ContentProjTask.projSync.addResource(this);
