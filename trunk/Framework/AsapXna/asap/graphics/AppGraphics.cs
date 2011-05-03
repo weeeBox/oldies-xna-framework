@@ -220,8 +220,7 @@ namespace asap.graphics
         }
 
         public static void Transform(ref Matrix m)
-        {
-            matrix = Matrix.Identity;
+        {            
             AddTransform(m);
         }
 

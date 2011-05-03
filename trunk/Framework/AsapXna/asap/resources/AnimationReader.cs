@@ -1,13 +1,11 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using asap.anim;
+using asap.graphics;
 using Microsoft.Xna.Framework.Content;
 using swiff.com.jswiff;
 using swiff.com.jswiff.listeners;
 using swiff.com.jswiff.swfrecords.tags;
-using asap.graphics;
-using AsapXna.asap.anim;
 
 namespace asap.resources
 {

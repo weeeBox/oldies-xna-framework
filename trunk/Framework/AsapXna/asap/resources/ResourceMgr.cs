@@ -115,6 +115,9 @@ namespace asap.resources
             {
                 case ResType.IMAGE:
                     return ResFactory.GetInstance().LoadImage(resName);
+
+                case ResType.SWF:
+                    return ResFactory.GetInstance().LoadSwfMovie(resName);
             }
 
             Debug.Assert(false, "Can't load resource: " + resName);

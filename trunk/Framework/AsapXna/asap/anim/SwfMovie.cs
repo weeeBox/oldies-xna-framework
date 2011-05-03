@@ -6,10 +6,11 @@ using swiff.com.jswiff.swfrecords.tags;
 using asap.anim.objects;
 using asap.graphics;
 using swiff.com.jswiff.swfrecords;
+using asap.resources;
 
 namespace asap.anim
 {
-    public class SwfMovie
+    public class SwfMovie : ManagedResource
     {
         private int framesCount;
         private int frameRate;
@@ -94,12 +95,23 @@ namespace asap.anim
                             }                            
                         }
                     }
-                    throw new NotImplementedException();                    
+                    throw new NotImplementedException();
                 }
+
+                case TagConstants.DEFINE_SPRITE:
+                {
+                    DefineSprite sprite = (DefineSprite)tag;
+                    return new SpriteInstance(sprite, this);
+                }                
 
                 default:
                     throw new NotImplementedException(tag.ToString());
             }
+        }
+
+        public override void Dispose()
+        {
+            // TODO:
         }
     }
 }

@@ -1,73 +1,111 @@
-﻿using System.Collections.Generic;
-using asap.anim;
-using swiff.com.jswiff.swfrecords.tags;
-using asap.graphics;
-using System;
-using asap.core;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using asap.anim.objects;
+using asap.core;
+using asap.graphics;
 using Microsoft.Xna.Framework;
 using swiff.com.jswiff.swfrecords;
+using swiff.com.jswiff.swfrecords.tags;
 
-namespace AsapXna.asap.anim
+namespace asap.anim
 {
-    public class SwfPlayer : TimerListener
+    public enum AnimationType
     {
+        NORMAL,
+        LOOP,
+        PING_PONG
+    }
+
+    public class SwfPlayer : TickListener
+    {
+        private enum PlayerState
+        {
+            STOPPED,
+            PLAYING,
+            PAUSED
+        };        
+
         private SwfMovie movie;
-        private SwfDisplayList displayList;
-                        
+        private SwfDisplayList displayList;        
+
+        private float delay;
+        private float elaspedTime;
+
         private int currentFrame;
         private int tagPointer;
-        
-        private Timer timer;
+
+        private PlayerState state;
+        private AnimationType animationType;
+
+        private int framesCount;
+        private int frameRate;
+        private List<Tag> tags;
 
         public SwfPlayer()
-        {
+        {            
             displayList = new SwfDisplayList();
+            animationType = AnimationType.NORMAL;
         }
 
         public void SetMovie(SwfMovie movie)
         {
-            this.movie = movie;                        
+            this.movie = movie;
+
+            framesCount = movie.FramesCount;
+            frameRate = movie.FrameRate;
+            tags = movie.Tags;
         }
         
         private void Reset()
         {
-            currentFrame = -1;
-            tagPointer = 0;
-            displayList.Clear();
+            state = PlayerState.STOPPED;
 
-            if (timer != null)
-            {
-                timer.Cancel();
-                timer = null;
-            }
+            currentFrame = -1;
+            elaspedTime = 0;
+            tagPointer = 0;
+            displayList.Clear();            
         }
    
-        public void Start(TimerSource timerSource)
+        public void Start()
         {
-            Reset();
+            Reset();            
+            delay = 1.0f / FrameRate;
+            state = PlayerState.PLAYING;
+        }
 
-            timer = new Timer(timerSource, this);
-            float delay = 1.0f / FrameRate;            
-            timer.Schedule(delay, true);
+        public void Stop()
+        {
+            state = PlayerState.STOPPED;
+        }
+
+        public void Pause()
+        {
+            state = PlayerState.PAUSED;
+        }
+
+        public void Resume()
+        {
+            state = PlayerState.PLAYING;
         }
 
         public void Draw(Graphics g)
         {
-            g.PushTransform();
-
             int maxDepth = displayList.Size;
             for (int depth = 1; depth <= maxDepth; ++depth)
             {
                 CharacterInstance inst = displayList[depth];
-                SetMatrix(g, inst.Matrix);                
-                inst.Draw(g);
-            }
-            g.PopTransform();
+                if (inst != null)
+                {
+                    g.PushTransform();
+                    AddTransform(g, inst.Matrix);
+                    inst.Draw(g);
+                    g.PopTransform();
+                }
+            }            
         }
 
-        private void SetMatrix(Graphics g, SwfMatrix swfMatrix)
+        private void AddTransform(Graphics g, SwfMatrix swfMatrix)
         {
             Matrix m = Matrix.Identity;            
             if (swfMatrix.HasScale())
@@ -82,17 +120,37 @@ namespace AsapXna.asap.anim
             }            
             m.M41 = swfMatrix.GetTranslateX() / 20.0f;
             m.M42 = swfMatrix.GetTranslateY() / 20.0f;
-            g.SetTransform(ref m);
-        }               
+            g.AddTransform(ref m);
+        }        
 
-        public void OnTimer(Timer timer)
-        {            
-            ProcessFrame(++currentFrame);
+        public void Tick(float delta)
+        {
+            if (state == PlayerState.PLAYING)
+            {
+                elaspedTime += delta;                
+
+                int oldFrame = currentFrame;
+                currentFrame = (int)(FrameRate * elaspedTime);
+                if (currentFrame != oldFrame)
+                {                    
+                    ProcessFrame(currentFrame);
+                }
+
+                int maxDepth = displayList.Size;
+                for (int depth = 1; depth <= maxDepth; ++depth)
+                {
+                    CharacterInstance inst = displayList[depth];
+                    if (inst != null && inst.updateable)
+                    {
+                        inst.Update(delta);
+                    }
+                }                
+            }
         }
 
         private void ProcessFrame(int currentFrame)
         {
-            List<Tag> tags = movie.Tags;
+            List<Tag> tags = Tags;
             int tagsCount = tags.Count;
 
             bool breakFlag = false;
@@ -128,38 +186,66 @@ namespace AsapXna.asap.anim
                                 {                                    
                                     CharacterInstance instance = displayList[depth];
                                     Debug.Assert(placeObject.GetMatrix() != null);
-                                    instance.Matrix = placeObject.GetMatrix();
+                                    instance.Matrix = placeObject.GetMatrix();                                    
                                 }
                             }
                         }
                         else
                         {
                             Debug.Assert(placeObject.HasCharacter());
+                            Debug.Assert(placeObject.GetMatrix() != null);
                             int characterId = placeObject.GetCharacterId();
-                            displayList[depth] = movie.CreateInstance(characterId);
+                            CharacterInstance instance = movie.CreateInstance(characterId);
+                            instance.Matrix = placeObject.GetMatrix();
+                            displayList[depth] = instance;                           
                         }                        
                         
                         break;
                     }                        
                 }
-            }
-            
+            }            
 
             if (tagPointer == tagsCount)
             {                
-                Debug.WriteLine("Animation ended");
-                timer.Cancel();
+                Stop();
+
+                switch (animationType)
+                {
+                    case AnimationType.NORMAL:
+                        break;
+                    case AnimationType.LOOP:
+                        Start();
+                        break;
+                    case AnimationType.PING_PONG:
+                        throw new NotImplementedException();
+                    default:
+                        throw new NotImplementedException();                        
+                }
             }
         }        
         
-        private int FramesCount
+        public int FramesCount
         {
-            get { return movie.FramesCount; }
+            get { return framesCount; }
+            set { framesCount = value; }
         }
 
-        private int FrameRate
+        public int FrameRate
         {
-            get { return movie.FrameRate; }
-        }        
+            get { return frameRate; }
+            set { frameRate = value; }
+        }
+        
+        public AnimationType AnimationType
+        {
+            get { return animationType; }
+            set { animationType = value; }
+        }
+
+        public List<Tag> Tags
+        {
+            get { return tags; }
+            set { tags = value; }
+        }
     }
 }
