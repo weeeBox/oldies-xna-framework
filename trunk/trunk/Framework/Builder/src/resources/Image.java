@@ -1,3 +1,4 @@
+package resources;
 
 public class Image extends Resource 
 {
@@ -6,7 +7,7 @@ public class Image extends Resource
 
 	static
 	{
-		registerResource(IMPORTER, PROCESSOR);
+		registerResource(IMPORTER, PROCESSOR, ".png");
 	}
 	
 	@Override

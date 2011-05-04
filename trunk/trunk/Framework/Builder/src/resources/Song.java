@@ -1,13 +1,14 @@
+package resources;
 
-public class VectorFont extends Resource 
-{	
-	private static final String IMPORTER = "FontDescriptionImporter";
-	private static final String PROCESSOR = "FontDescriptionProcessor";
+public class Song extends Resource 
+{
+	private static final String IMPORTER = "Mp3Importer";
+	private static final String PROCESSOR = "SongProcessor";
 
 	static
 	{
-		registerResource(IMPORTER, PROCESSOR);
-	}	
+		registerResource(IMPORTER, PROCESSOR, ".mp3");
+	}
 	
 	@Override
 	public String getImporter() 
@@ -24,12 +25,13 @@ public class VectorFont extends Resource
 	@Override
 	public String getResourceType() 
 	{
-		return "SYSTEM_FONT";
+		return "SONG";
 	}
-	
+
 	@Override
 	public String getResourceTypePrefix() 
 	{
-		return "FNT_";
+		return "SONG_";
 	}
+
 }

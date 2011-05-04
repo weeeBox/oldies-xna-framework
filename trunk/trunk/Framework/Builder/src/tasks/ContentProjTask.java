@@ -1,3 +1,5 @@
+package tasks;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -5,11 +7,14 @@ import java.util.List;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+import resources.ResPackage;
+import resources.Resource;
+
 public class ContentProjTask extends Task
 {
 	private File projFile;
 	private File codeFile;
-	private List<Package> packages = new ArrayList<Package>();
+	private List<ResPackage> packages = new ArrayList<ResPackage>();
 	
 	public static ProjectFileSync fileSync;
 	public static ContentProjSync projSync;
@@ -19,15 +24,7 @@ public class ContentProjTask extends Task
 	public ContentProjTask() 
 	{
 		fileSync = new ProjectFileSync();
-		fileSync.addFilter(".png");
-		fileSync.addFilter(".mp3");
-		fileSync.addFilter(".wav");
-		fileSync.addFilter(".pixelfont");
-		fileSync.addFilter(".vectorfont");
-		fileSync.addFilter(".atlas");
-		fileSync.addFilter(".swp");
-		fileSync.addFilter(".swf");
-		
+		fileSync.addFilters(Resource.getFilters());
 		projSync = new ContentProjSync();
 	}
 	
@@ -50,7 +47,7 @@ public class ContentProjTask extends Task
 	{		
 		List<Resource> resources = new ArrayList<Resource>();
 		
-		for (Package pack : packages) 
+		for (ResPackage pack : packages) 
 		{
 			List<Resource> packResources = pack.getResources();
 			for (Resource res : packResources) 
@@ -84,7 +81,7 @@ public class ContentProjTask extends Task
 		}
 	}	
 	
-	public void addPackage(Package pack)
+	public void addPackage(ResPackage pack)
 	{
 		packages.add(pack);
 	}

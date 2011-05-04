@@ -1,3 +1,5 @@
+package resources;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +9,9 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import org.apache.tools.ant.BuildException;
+
+import tasks.ContentProjTask;
+
 
 import atlas.Atlas;
 import atlas.AtlasImage;
@@ -25,7 +30,7 @@ public class AtlasResource extends Resource
 
 	static
 	{
-		registerResource(IMPORTER, PROCESSOR);
+		registerResource(IMPORTER, PROCESSOR, ".atlas", ".png");
 	}
 	
 	private List<Resource> resources;
@@ -108,7 +113,7 @@ public class AtlasResource extends Resource
 		pixelFont.setFile(fontOutput);
 		pixelFont.process();
 		
-		Package pack = getPackage();
+		ResPackage pack = getPackage();
 		pack.addPixelFont(pixelFont);
 	}
 

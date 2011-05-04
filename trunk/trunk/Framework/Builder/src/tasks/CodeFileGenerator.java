@@ -1,11 +1,19 @@
+package tasks;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
+import resources.AtlasResource;
+import resources.Image;
+import resources.ResPackage;
+import resources.Resource;
+import utils.IndentPrintStream;
+
 public class CodeFileGenerator 
 {
-	public void generate(File file, List<Package> packs) throws IOException
+	public void generate(File file, List<ResPackage> packs) throws IOException
 	{
 		IndentPrintStream out = null;
 		try 
@@ -33,7 +41,7 @@ public class CodeFileGenerator
 		out.println("{").incTab();
 	}
 
-	private void writeCode(IndentPrintStream out, List<Package> packs) throws IOException
+	private void writeCode(IndentPrintStream out, List<ResPackage> packs) throws IOException
 	{
 		writePacksIds(out, packs);
 		out.println();
@@ -42,7 +50,7 @@ public class CodeFileGenerator
 		writeResInfos(out, packs);
 	}
 	
-	private void writePacksIds(IndentPrintStream out, List<Package> packs) 
+	private void writePacksIds(IndentPrintStream out, List<ResPackage> packs) 
 	{
 		out.println("public class ResPacks");
 		out.println("{").incTab();
@@ -58,13 +66,13 @@ public class CodeFileGenerator
 		out.decTab().println("}");
 	}
 
-	private void writeResIds(IndentPrintStream out, List<Package> packs) 
+	private void writeResIds(IndentPrintStream out, List<ResPackage> packs) 
 	{
 		out.println("public class Res");
 		out.println("{").incTab();
 		
 		int resIndex = 0;
-		for (Package pack : packs) 
+		for (ResPackage pack : packs) 
 		{
 			out.println("// " + pack.getName().toUpperCase());
 			
@@ -91,14 +99,14 @@ public class CodeFileGenerator
 		out.decTab().println("}");
 	}
 
-	private void writeResInfos(IndentPrintStream out, List<Package> packs) 
+	private void writeResInfos(IndentPrintStream out, List<ResPackage> packs) 
 	{
 		out.println("public class Resources");
 		out.println("{").incTab();
 		out.println("public static ResourceLoadInfo[][] PACKS =");
 		out.println("{").incTab();
 		
-		for (Package pack : packs) 
+		for (ResPackage pack : packs) 
 		{
 			writePackInfo(out, pack);
 		}
@@ -107,7 +115,7 @@ public class CodeFileGenerator
 		out.decTab().println("}");
 	}
 
-	private void writePackInfo(IndentPrintStream out, Package pack) 
+	private void writePackInfo(IndentPrintStream out, ResPackage pack) 
 	{
 		out.println("// " + pack.getName().toUpperCase());
 		out.println("new ResourceLoadInfo[]");

@@ -1,13 +1,15 @@
+package resources;
+
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.tools.ant.BuildException;
 
+import tasks.ContentProjTask;
 import utils.pack.FileUtils;
 import utils.swf.SwfAnimation;
 import utils.swf.AnimationReader;
 import utils.swf.AnimationWriter;
-
 
 public class Animation extends Resource
 {
@@ -16,7 +18,7 @@ public class Animation extends Resource
 
 	static
 	{
-		registerResource(IMPORTER, PROCESSOR);
+		registerResource(IMPORTER, PROCESSOR, ".swp", ".swf", ".png");
 	}
 	
 	@Override

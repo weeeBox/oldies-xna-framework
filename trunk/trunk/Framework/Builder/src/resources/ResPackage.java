@@ -1,7 +1,9 @@
+package resources;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Package 
+
+public class ResPackage 
 {
 	private List<Resource> resources = new ArrayList<Resource>();
 	private String name;
