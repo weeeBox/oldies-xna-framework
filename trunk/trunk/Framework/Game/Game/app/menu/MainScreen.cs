@@ -11,7 +11,7 @@ namespace Game.app.menu
     {
         public MainScreen() : base(ScreenId.MAIN_MENU)
         {
-            AnimationMovie movie = new AnimationMovie(Application.sharedResourceMgr.GetMovie(Res.ANI_TEST));
+            AnimationMovie movie = new AnimationMovie(Application.sharedResourceMgr.GetMovie(Res.ANI_SWF_TEST));
             movie.AnimationType = AnimationType.LOOP;
             movie.Start();
             AddChild(movie);            

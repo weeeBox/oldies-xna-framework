@@ -17,7 +17,7 @@ namespace app
 		public const int IMG_UI_BUTTON_A = 0;
 		public const int IMG_UI_BUTTON_B = 1;
 		// PACK_MENU
-        public const int ANI_TEST = 2;
+		public const int ANI_SWF_TEST = 2;
 		public const int RES_COUNT = 3;
 	}
 	
@@ -34,7 +34,7 @@ namespace app
 			// PACK_MENU
 			new ResourceLoadInfo[]
 			{
-                new ResourceLoadInfo("test", Res.ANI_TEST, ResType.SWF),
+				new ResourceLoadInfo("test", Res.ANI_SWF_TEST, ResType.SWF),
 			},
 		};
 	}
