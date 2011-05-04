@@ -1,13 +1,25 @@
 package resources;
 
-public class Image extends Resource 
+import java.io.File;
+
+public class ImageRes extends ResourceBase 
 {
+	public ImageRes(String name, File file)
+	{
+		super(name, file);
+	}
+	
+	public ImageRes()
+	{
+		super();
+	}
+
 	private static final String IMPORTER = "TextureImporter";
 	private static final String PROCESSOR = "TextureProcessor";
 
 	static
 	{
-		registerResource(IMPORTER, PROCESSOR, ".png");
+		ResourceReg.register(IMPORTER, PROCESSOR, ".png");
 	}
 	
 	@Override

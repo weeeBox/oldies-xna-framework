@@ -23,23 +23,27 @@ import font.FontInfo;
 import font.FontInfoReader;
 import font.FontWriter;
 
-public class AtlasResource extends Resource 
+public class AtlasRes extends ResourceBase 
 {
 	private static final String IMPORTER = "AtlasImporter";
 	private static final String PROCESSOR = "AtlasProcessor";
 
 	static
 	{
-		registerResource(IMPORTER, PROCESSOR, ".atlas", ".png");
+		ResourceReg.register(IMPORTER, PROCESSOR, ".atlas", ".png");
 	}
 	
-	private List<Resource> resources;
-	private List<FontInfo> fonts;
+	private List<ResourceBase> resources = new ArrayList<ResourceBase>();
+	private List<FontInfo> fonts = new ArrayList<FontInfo>();
 	
-	public AtlasResource() 
+	public AtlasRes(String name, File file)
 	{
-		resources = new ArrayList<Resource>();
-		fonts = new ArrayList<FontInfo>();
+		super(name, file);
+	}
+	
+	public AtlasRes()
+	{
+		super();
 	}
 	
 	@Override
@@ -68,9 +72,7 @@ public class AtlasResource extends Resource
 			AtlasWriter writer = new AtlasWriter();
 			writer.write(atlas, atlasfFile, textureFile);
 			
-			Image textureImage = new Image();
-			textureImage.setFile(textureFile);
-			textureImage.setName(atlas.getTexName());
+			ImageRes textureImage = new ImageRes(atlas.getTexName(), textureFile);
 			textureImage.process();
 			
 			ContentProjTask.fileSync.addFile(atlasfFile);
@@ -84,7 +86,7 @@ public class AtlasResource extends Resource
 		}
 	}
 	
-	private void exportFonts(List<Resource> resources) 
+	private void exportFonts(List<ResourceBase> resources) 
 	{
 		try 
 		{
@@ -108,25 +110,22 @@ public class AtlasResource extends Resource
 		FontWriter writer = new FontWriter(info, "tex_" + getName());
 		writer.write(fontOutput);
 		
-		PixelFont pixelFont = new PixelFont();
-		pixelFont.setName(fontName);
-		pixelFont.setFile(fontOutput);
+		PixelFontRes pixelFont = new PixelFontRes(fontName, fontOutput);
 		pixelFont.process();
 		
-		ResPackage pack = getPackage();
-		pack.addPixelFont(pixelFont);
+		getPackage().addPixelFont(pixelFont);
 	}
 
-	private List<Packable> process(List<Resource> resources) 
+	private List<Packable> process(List<ResourceBase> resources) 
 	{
 		List<Packable> packables = new ArrayList<Packable>();
-		for (Resource res : resources) 
+		for (ResourceBase res : resources) 
 		{
-			if (res instanceof Image)
+			if (res instanceof ImageRes)
 			{
 				try 
 				{
-					BufferedImage image = ImageIO.read(res.getFile());
+					BufferedImage image = ImageIO.read(res.getSourceFile());
 					AtlasImage atlasImage = new AtlasImage(image);
 					packables.add(atlasImage);
 				} 
@@ -135,9 +134,9 @@ public class AtlasResource extends Resource
 					e.printStackTrace();
 				}
 			}
-			else if (res instanceof PixelFont)
+			else if (res instanceof PixelFontRes)
 			{
-				File file = res.getFile();
+				File file = res.getSourceFile();
 				try 
 				{
 					FontInfoReader reader = new FontInfoReader();
@@ -160,17 +159,17 @@ public class AtlasResource extends Resource
 		return packables;
 	}
 
-	public void addImage(Image res)
+	public void addImage(ImageRes res)
 	{
 		resources.add(res);
 	}
 	
-	public void addPixelFont(PixelFont font)
+	public void addPixelFont(PixelFontRes font)
 	{
 		resources.add(font);
 	}
 	
-	public List<Resource> resources()
+	public List<ResourceBase> resources()
 	{
 		return resources;
 	}

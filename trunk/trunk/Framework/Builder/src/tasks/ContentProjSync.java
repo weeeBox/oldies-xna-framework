@@ -15,18 +15,19 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 import resources.ContentPair;
-import resources.Resource;
+import resources.ResourceBase;
+import resources.ResourceReg;
 
 public class ContentProjSync 
 {
-	private List<Resource> resources;
+	private List<ResourceBase> resources;
 	
 	public ContentProjSync()
 	{
-		resources = new ArrayList<Resource>();
+		resources = new ArrayList<ResourceBase>();
 	}
 	
-	public void addResource(Resource res)
+	public void addResource(ResourceBase res)
 	{
 		resources.add(res);
 	}
@@ -54,13 +55,7 @@ public class ContentProjSync
 
 	private void clearOldItems(Document doc) 
 	{
-		List<ContentPair> contentPairs = Resource.getContentPairs();
-		System.out.println("Content pairs:");
-		for (ContentPair contentPair : contentPairs) 
-		{
-			System.out.println(contentPair);
-		}
-		
+		List<ContentPair> contentPairs = ResourceReg.getContentPairs();
 		List<Element> itemGroups = doc.getRootElement().elements("ItemGroup");
 		for (Element e : itemGroups) 
 		{
@@ -89,16 +84,16 @@ public class ContentProjSync
 	private void addNewItems(Document doc) 
 	{
 		Element parent = doc.getRootElement().addElement("ItemGroup");
-		for (Resource res : resources) 
+		for (ResourceBase res : resources) 
 		{
 			addResource(res, parent);
 		}
 	}
 
-	private void addResource(Resource res, Element parent) 
+	private void addResource(ResourceBase res, Element parent) 
 	{
 		Element element = parent.addElement("Compile");
-		element.addAttribute("Include", res.getFile().getName());
+		element.addAttribute("Include", res.getDestFile().getName());
 		element.addElement("Name").addText(res.getShortName());
 		element.addElement("Importer").addText(res.getImporter());
 		String processor = res.getProcessor();

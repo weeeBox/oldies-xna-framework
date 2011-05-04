@@ -5,15 +5,15 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
-import resources.AtlasResource;
-import resources.Image;
-import resources.ResPackage;
-import resources.Resource;
+import resources.AtlasRes;
+import resources.ImageRes;
+import resources.PackageRes;
+import resources.ResourceBase;
 import utils.IndentPrintStream;
 
 public class CodeFileGenerator 
 {
-	public void generate(File file, List<ResPackage> packs) throws IOException
+	public void generate(File file, List<PackageRes> packs) throws IOException
 	{
 		IndentPrintStream out = null;
 		try 
@@ -41,7 +41,7 @@ public class CodeFileGenerator
 		out.println("{").incTab();
 	}
 
-	private void writeCode(IndentPrintStream out, List<ResPackage> packs) throws IOException
+	private void writeCode(IndentPrintStream out, List<PackageRes> packs) throws IOException
 	{
 		writePacksIds(out, packs);
 		out.println();
@@ -50,7 +50,7 @@ public class CodeFileGenerator
 		writeResInfos(out, packs);
 	}
 	
-	private void writePacksIds(IndentPrintStream out, List<ResPackage> packs) 
+	private void writePacksIds(IndentPrintStream out, List<PackageRes> packs) 
 	{
 		out.println("public class ResPacks");
 		out.println("{").incTab();
@@ -66,27 +66,27 @@ public class CodeFileGenerator
 		out.decTab().println("}");
 	}
 
-	private void writeResIds(IndentPrintStream out, List<ResPackage> packs) 
+	private void writeResIds(IndentPrintStream out, List<PackageRes> packs) 
 	{
 		out.println("public class Res");
 		out.println("{").incTab();
 		
 		int resIndex = 0;
-		for (ResPackage pack : packs) 
+		for (PackageRes pack : packs) 
 		{
 			out.println("// " + pack.getName().toUpperCase());
 			
-			List<Resource> packResources = pack.getResources();
-			for (Resource res : packResources) 
+			List<ResourceBase> packResources = pack.getResources();
+			for (ResourceBase res : packResources) 
 			{
 				out.println("public const int " + res.getLongName() + " = " + resIndex++ + ";");
-				if (res instanceof AtlasResource)
+				if (res instanceof AtlasRes)
 				{
-					AtlasResource atlas = (AtlasResource) res;
-					List<Resource> childRes = atlas.resources();
-					for (Resource child : childRes) 
+					AtlasRes atlas = (AtlasRes) res;
+					List<ResourceBase> childRes = atlas.resources();
+					for (ResourceBase child : childRes) 
 					{
-						if (child instanceof Image)
+						if (child instanceof ImageRes)
 						{
 							out.println("public const int " + child.getLongName() + " = " + resIndex++ + ";");
 						}
@@ -99,14 +99,14 @@ public class CodeFileGenerator
 		out.decTab().println("}");
 	}
 
-	private void writeResInfos(IndentPrintStream out, List<ResPackage> packs) 
+	private void writeResInfos(IndentPrintStream out, List<PackageRes> packs) 
 	{
 		out.println("public class Resources");
 		out.println("{").incTab();
 		out.println("public static ResourceLoadInfo[][] PACKS =");
 		out.println("{").incTab();
 		
-		for (ResPackage pack : packs) 
+		for (PackageRes pack : packs) 
 		{
 			writePackInfo(out, pack);
 		}
@@ -115,21 +115,21 @@ public class CodeFileGenerator
 		out.decTab().println("}");
 	}
 
-	private void writePackInfo(IndentPrintStream out, ResPackage pack) 
+	private void writePackInfo(IndentPrintStream out, PackageRes pack) 
 	{
 		out.println("// " + pack.getName().toUpperCase());
 		out.println("new ResourceLoadInfo[]");
 		out.println("{").incTab();
 		
-		List<Resource> packResources = pack.getResources();
-		for (Resource res : packResources) 
+		List<ResourceBase> packResources = pack.getResources();
+		for (ResourceBase res : packResources) 
 		{
 			writeResInfo(out, res);
 		}
 		out.decTab().println("},");
 	}
 
-	private void writeResInfo(IndentPrintStream out, Resource res) 
+	private void writeResInfo(IndentPrintStream out, ResourceBase res) 
 	{
 		out.println(String.format("new ResourceLoadInfo(\"%s\", Res.%s, ResType.%s),", res.getShortName(), res.getLongName(), res.getResourceType()));
 	}

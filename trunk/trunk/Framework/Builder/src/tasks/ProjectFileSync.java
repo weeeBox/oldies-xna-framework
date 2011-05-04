@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tools.ant.BuildException;
+
 import utils.FileUtils;
 
 public class ProjectFileSync 
@@ -19,6 +21,9 @@ public class ProjectFileSync
 	
 	public void addFile(File file)
 	{
+		if (file == null)
+			throw new BuildException("Can't add null file");
+		
 		files.add(file);
 	}
 	

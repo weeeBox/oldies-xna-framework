@@ -25,6 +25,10 @@
 		<delete dir="${dir.tmp}" />
 	</target>
 	
+	<target name="cleanres">
+		<delete dir="${dir.restmp}" />
+	</target>
+	
 	<target name="build">
 		
 		<ant antfile="${dir.swf}/build.xml" target="build-classes" dir="${dir.swf}">

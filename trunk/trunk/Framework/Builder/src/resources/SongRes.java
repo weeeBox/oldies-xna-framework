@@ -1,13 +1,25 @@
 package resources;
 
-public class Song extends Resource 
+import java.io.File;
+
+public class SongRes extends ResourceBase 
 {
 	private static final String IMPORTER = "Mp3Importer";
 	private static final String PROCESSOR = "SongProcessor";
 
 	static
 	{
-		registerResource(IMPORTER, PROCESSOR, ".mp3");
+		ResourceReg.register(IMPORTER, PROCESSOR, ".mp3");
+	}
+	
+	public SongRes(String name, File file)
+	{
+		super(name, file);
+	}
+	
+	public SongRes()
+	{
+		super();
 	}
 	
 	@Override
