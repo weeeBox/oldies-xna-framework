@@ -7,14 +7,15 @@ import java.util.List;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
-import resources.ResPackage;
-import resources.Resource;
+import resources.PackageRes;
+import resources.ResourceBase;
+import resources.ResourceReg;
 
 public class ContentProjTask extends Task
 {
 	private File projFile;
 	private File codeFile;
-	private List<ResPackage> packages = new ArrayList<ResPackage>();
+	private List<PackageRes> packages = new ArrayList<PackageRes>();
 	
 	public static ProjectFileSync fileSync;
 	public static ContentProjSync projSync;
@@ -24,41 +25,38 @@ public class ContentProjTask extends Task
 	public ContentProjTask() 
 	{
 		fileSync = new ProjectFileSync();
-		fileSync.addFilters(Resource.getFilters());
+		fileSync.addFilters(ResourceReg.getFilters());
 		projSync = new ContentProjSync();
 	}
 	
 	@Override
 	public void execute() throws BuildException 
 	{
-		if (projFile == null || projFile.isDirectory())
-			throw new BuildException("Bad 'projFile': " + projFile);
-		if (codeFile == null || codeFile.isDirectory())
-			throw new BuildException("Bad 'codeFile': " + codeFile);
-		
-		contentDir = projFile.getParentFile();
-		
-		processResources();
-		processContentProj();
-		generateResourcesCode(codeFile);
+		try
+		{
+			if (projFile == null || projFile.isDirectory())
+				throw new BuildException("Bad 'projFile': " + projFile);
+			if (codeFile == null || codeFile.isDirectory())
+				throw new BuildException("Bad 'codeFile': " + codeFile);
+			
+			contentDir = projFile.getParentFile();
+			
+			processResources();
+			processContentProj();
+			generateResourcesCode(codeFile);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			throw new BuildException(e.getMessage());
+		}
 	}
 
 	private void processResources() 
 	{		
-		List<Resource> resources = new ArrayList<Resource>();
-		
-		for (ResPackage pack : packages) 
+		for (PackageRes pack : packages) 
 		{
-			List<Resource> packResources = pack.getResources();
-			for (Resource res : packResources) 
-			{
-				resources.add(res);
-			}
-		}
-		
-		for (Resource res : resources)
-		{
-			res.process();
+			pack.process();
 		}
 	}
 	
@@ -81,7 +79,7 @@ public class ContentProjTask extends Task
 		}
 	}	
 	
-	public void addPackage(ResPackage pack)
+	public void addPackage(PackageRes pack)
 	{
 		packages.add(pack);
 	}

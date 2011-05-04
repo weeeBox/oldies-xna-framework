@@ -1,14 +1,26 @@
 package resources;
 
-public class VectorFont extends Resource 
+import java.io.File;
+
+public class VectorFontRes extends ResourceBase 
 {	
 	private static final String IMPORTER = "FontDescriptionImporter";
 	private static final String PROCESSOR = "FontDescriptionProcessor";
 
 	static
 	{
-		registerResource(IMPORTER, PROCESSOR, ".vectorfont");
-	}	
+		ResourceReg.register(IMPORTER, PROCESSOR, ".vectorfont");
+	}
+	
+	public VectorFontRes(String name, File file)
+	{
+		super(name, file);
+	}
+	
+	public VectorFontRes()
+	{
+		super();
+	}
 	
 	@Override
 	public String getImporter() 

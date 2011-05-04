@@ -1,13 +1,25 @@
 package resources;
 
-public class PixelFont extends Resource 
+import java.io.File;
+
+public class PixelFontRes extends ResourceBase 
 {	
+	public PixelFontRes(String name, File file)
+	{
+		super(name, file);
+	}
+	
+	public PixelFontRes()
+	{
+		super();
+	}
+
 	private static final String IMPORTER = "PixelFontImporter";
 	private static final String PROCESSOR = "PixelFontProcessor";
 
 	static
 	{
-		registerResource(IMPORTER, PROCESSOR, ".pixelfont", ".png");
+		ResourceReg.register(IMPORTER, PROCESSOR, ".pixelfont", ".png");
 	}	
 	
 	@Override

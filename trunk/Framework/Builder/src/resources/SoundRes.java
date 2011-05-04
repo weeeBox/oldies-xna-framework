@@ -1,13 +1,25 @@
 package resources;
 
-public class Sound extends Resource 
+import java.io.File;
+
+public class SoundRes extends ResourceBase 
 {
 	private static final String IMPORTER = "WavImporter";
 	private static final String PROCESSOR = "SoundEffectProcessor";
 
 	static
 	{
-		registerResource(IMPORTER, PROCESSOR, ".wav");
+		ResourceReg.register(IMPORTER, PROCESSOR, ".wav");
+	}
+	
+	public SoundRes(String name, File file)
+	{
+		super(name, file);
+	}
+	
+	public SoundRes()
+	{
+		super();
 	}
 	
 	@Override
