@@ -1,13 +1,14 @@
+package resources;
 
-public class PixelFont extends Resource 
-{	
-	private static final String IMPORTER = "PixelFontImporter";
-	private static final String PROCESSOR = "PixelFontProcessor";
+public class Sound extends Resource 
+{
+	private static final String IMPORTER = "WavImporter";
+	private static final String PROCESSOR = "SoundEffectProcessor";
 
 	static
 	{
-		registerResource(IMPORTER, PROCESSOR);
-	}	
+		registerResource(IMPORTER, PROCESSOR, ".wav");
+	}
 	
 	@Override
 	public String getImporter() 
@@ -24,12 +25,13 @@ public class PixelFont extends Resource
 	@Override
 	public String getResourceType() 
 	{
-		return "BITMAP_FONT";
+		return "SOUND";
 	}
-	
+
 	@Override
 	public String getResourceTypePrefix() 
 	{
-		return "FNT_";
+		return "SND_";
 	}
+
 }

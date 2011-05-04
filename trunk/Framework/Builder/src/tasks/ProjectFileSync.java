@@ -1,6 +1,10 @@
+package tasks;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import utils.FileUtils;
 
 public class ProjectFileSync 
 {
@@ -21,6 +25,11 @@ public class ProjectFileSync
 	public void addFilter(String filter)
 	{
 		filters.add(filter);
+	}
+	
+	public void addFilters(List<String> filters)
+	{
+		this.filters.addAll(filters);
 	}
 	
 	public void sync(File contentDir)

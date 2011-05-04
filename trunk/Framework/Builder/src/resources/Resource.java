@@ -1,20 +1,36 @@
+package resources;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import tasks.ContentProjTask;
+import utils.pack.FileUtils;
 
 public abstract class Resource 
 {	
 	private String name;
 	private File file;
-	private Package pack;
+	private ResPackage pack;
 		
 	private static List<ContentPair> contentPairs = new ArrayList<ContentPair>();
+	private static List<String> filterExtensions = new ArrayList<String>();
 	
-	public static void registerResource(String importer, String processor)
+	public static void registerResource(String importer, String processor, String...filters)
 	{
 		ContentPair pair = new ContentPair(importer, processor);
 		if (!contentPairs.contains(pair))
+		{
 			contentPairs.add(pair);
+		}
+		
+		for (String filter : filters)
+		{
+			if (!filterExtensions.contains(filter))
+			{
+				filterExtensions.add(filter);
+			}
+		}
 	}
 	
 	public static List<ContentPair> getContentPairs() 
@@ -22,12 +38,17 @@ public abstract class Resource
 		return contentPairs;
 	}
 	
-	public Package getPackage() 
+	public static List<String> getFilters()
+	{
+		return filterExtensions;
+	}
+	
+	public ResPackage getPackage() 
 	{
 		return pack;
 	}
 
-	public void setPackage(Package parent) 
+	public void setPackage(ResPackage parent) 
 	{
 		this.pack = parent;
 	}
@@ -95,61 +116,4 @@ public abstract class Resource
 		ContentProjTask.fileSync.addFile(getFile());
 		ContentProjTask.projSync.addResource(this);
 	}	
-}
-
-class ContentPair
-{
-	private String importer;
-	private String processor;
-
-	public ContentPair(String importer, String processor) 
-	{
-		this.importer = importer;
-		this.processor = processor;
-	}
-
-	@Override
-	public int hashCode() 
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((importer == null) ? 0 : importer.hashCode());
-		result = prime * result
-				+ ((processor == null) ? 0 : processor.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) 
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ContentPair other = (ContentPair) obj;
-		if (importer == null) 
-		{
-			if (other.importer != null)
-				return false;
-		} 
-		else if (!importer.equals(other.importer))
-			return false;
-		if (processor == null) 
-		{
-			if (other.processor != null)
-				return false;
-		} 
-		else if (!processor.equals(other.processor))
-			return false;
-		return true;
-	}
-	
-	@Override
-	public String toString() 
-	{
-		return String.format("importer=%s processor=%s", importer, processor);
-	}
 }
