@@ -2,8 +2,9 @@
 
 <project name="resources" default="run">
 	<property name="dir.lib" value="lib" />
-	<property name="dir.classes" value="tmp" />
-	<property name="dir.restmp" value="${dir.classes}/res" />
+	<property name="dir.tmp" value="tmp" />
+	<property name="dir.classes" value="${dir.tmp}/classes" />
+	<property name="dir.restmp" value="${dir.tmp}/res" />
 	<property name="dir.source" value="src" />
 	<property name="dir.res" value="../Resources" />
 	<property name="dir.gfx" value="${dir.res}/Gfx" />
@@ -21,7 +22,7 @@
 	</path>
 
 	<target name="clean">
-		<delete dir="${dir.classes}" />
+		<delete dir="${dir.tmp}" />
 	</target>
 	
 	<target name="build">
@@ -35,7 +36,7 @@
 		  	<src path="${dir.source}" /> 
 			<classpath refid="libs"/>
 		</javac>
-		<taskdef name="content" classname="ContentProjTask">
+		<taskdef name="content" classname="tasks.ContentProjTask">
 			<classpath path="${dir.classes}"/>
 			<classpath refid="libs"/>
 		</taskdef>
