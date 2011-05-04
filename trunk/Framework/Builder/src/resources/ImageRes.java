@@ -19,7 +19,7 @@ public class ImageRes extends ResourceBase
 
 	static
 	{
-		ResourceReg.register(IMPORTER, PROCESSOR, ".png");
+		ResourceReg.register(IMPORTER, PROCESSOR);
 	}
 	
 	@Override

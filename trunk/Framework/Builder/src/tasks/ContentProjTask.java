@@ -8,8 +8,6 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
 import resources.PackageRes;
-import resources.ResourceBase;
-import resources.ResourceReg;
 
 public class ContentProjTask extends Task
 {
@@ -25,7 +23,6 @@ public class ContentProjTask extends Task
 	public ContentProjTask() 
 	{
 		fileSync = new ProjectFileSync();
-		fileSync.addFilters(ResourceReg.getFilters());
 		projSync = new ContentProjSync();
 	}
 	

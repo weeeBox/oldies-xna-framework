@@ -30,7 +30,7 @@ public class AtlasRes extends ResourceBase
 
 	static
 	{
-		ResourceReg.register(IMPORTER, PROCESSOR, ".atlas", ".png");
+		ResourceReg.register(IMPORTER, PROCESSOR);
 	}
 	
 	private List<ResourceBase> resources = new ArrayList<ResourceBase>();

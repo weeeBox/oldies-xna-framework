@@ -9,7 +9,7 @@ public class VectorFontRes extends ResourceBase
 
 	static
 	{
-		ResourceReg.register(IMPORTER, PROCESSOR, ".vectorfont");
+		ResourceReg.register(IMPORTER, PROCESSOR);
 	}
 	
 	public VectorFontRes(String name, File file)

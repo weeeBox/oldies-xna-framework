@@ -9,7 +9,7 @@ public class SoundRes extends ResourceBase
 
 	static
 	{
-		ResourceReg.register(IMPORTER, PROCESSOR, ".wav");
+		ResourceReg.register(IMPORTER, PROCESSOR);
 	}
 	
 	public SoundRes(String name, File file)
