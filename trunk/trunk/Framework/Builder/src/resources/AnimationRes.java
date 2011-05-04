@@ -17,7 +17,7 @@ public class AnimationRes extends ResourceBase
 
 	static
 	{
-		ResourceReg.register(IMPORTER, PROCESSOR, ".swp", ".swf", ".png");
+		ResourceReg.register(IMPORTER, PROCESSOR);
 	}
 	
 	public AnimationRes(String name, File file)

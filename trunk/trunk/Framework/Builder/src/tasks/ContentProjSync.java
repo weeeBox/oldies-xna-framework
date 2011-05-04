@@ -48,9 +48,12 @@ public class ContentProjSync
 	
 	private void processContentProj(Document doc, File projFile)
 	{	
-		clearOldItems(doc);
-		addNewItems(doc);
-		writeDocument(doc, projFile);
+		if (resources.size() > 0)
+		{
+			clearOldItems(doc);
+			addNewItems(doc);
+			writeDocument(doc, projFile);
+		}
 	}
 
 	private void clearOldItems(Document doc) 
@@ -71,14 +74,33 @@ public class ContentProjSync
 						String importer = importerElement.getText();
 						String processor = processorElement == null ? null : processorElement.getText();
 						ContentPair pair = new ContentPair(importer, processor);
-						if (contentPairs.contains(pair))							
-							e.remove(child);
+						if (contentPairs.contains(pair))
+						{
+							String name = child.elementText("Name");
+							String filename = child.attributeValue("Include");
+							
+							if (containsResource(name, filename))
+							{
+								e.remove(child);
+							}
+						}
 					}					
 				}
 			}
 			if (e.elements().isEmpty())
 				e.getParent().remove(e);
 		}
+	}
+	
+	private boolean containsResource(String name, String filename)
+	{
+		for (ResourceBase res : resources)
+		{
+			if (res.getShortName().equals(name) && res.getDestFile().getName().equals(filename))
+				return true;
+		}
+		
+		return false;
 	}
 	
 	private void addNewItems(Document doc) 

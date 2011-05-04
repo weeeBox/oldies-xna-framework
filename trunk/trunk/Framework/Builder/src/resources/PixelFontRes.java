@@ -19,7 +19,7 @@ public class PixelFontRes extends ResourceBase
 
 	static
 	{
-		ResourceReg.register(IMPORTER, PROCESSOR, ".pixelfont", ".png");
+		ResourceReg.register(IMPORTER, PROCESSOR);
 	}	
 	
 	@Override

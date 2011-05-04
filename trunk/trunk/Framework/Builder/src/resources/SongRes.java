@@ -9,7 +9,7 @@ public class SongRes extends ResourceBase
 
 	static
 	{
-		ResourceReg.register(IMPORTER, PROCESSOR, ".mp3");
+		ResourceReg.register(IMPORTER, PROCESSOR);
 	}
 	
 	public SongRes(String name, File file)
