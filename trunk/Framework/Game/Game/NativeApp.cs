@@ -14,7 +14,6 @@ namespace app
         public NativeApp(int width, int height, ContentManager content)
         {
             new ResFactory(content);            
-            new TextureManager(content);
 
             application = new Application(width, height);
             application.SetImpl(this);            

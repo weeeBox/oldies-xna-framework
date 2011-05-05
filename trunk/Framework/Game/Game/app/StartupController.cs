@@ -21,9 +21,9 @@ namespace app
             Application.sharedResourceMgr.LoadPacks(this, ResPacks.PACK_COMMON, ResPacks.PACK_MENU);            
         }
 
-        public void resourceLoaded(ResourceLoadInfo res)
+        public void resourceLoaded(ref ResourceLoadInfo res)
         {
-            Debug.WriteLine("Resource loaded: " + res.fileName);
+            Debug.WriteLine("Resource loaded: " + res.resName);
         }
 
         public void allResourcesLoaded()
