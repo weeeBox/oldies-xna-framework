@@ -96,11 +96,8 @@ namespace asap.anim
             {
                 CharacterInstance inst = displayList[depth];
                 if (inst != null)
-                {
-                    g.PushTransform();
-                    AddTransform(g, inst.Matrix);
-                    inst.Draw(g);
-                    g.PopTransform();
+                {                    
+                    inst.Draw(g);                    
                 }
             }            
         }
@@ -186,7 +183,7 @@ namespace asap.anim
                                 {                                    
                                     CharacterInstance instance = displayList[depth];
                                     Debug.Assert(placeObject.GetMatrix() != null);
-                                    instance.Matrix = placeObject.GetMatrix();                                    
+                                    instance.SetSwfMatrix(placeObject.GetMatrix());
                                 }
                             }
                         }
@@ -196,7 +193,7 @@ namespace asap.anim
                             Debug.Assert(placeObject.GetMatrix() != null);
                             int characterId = placeObject.GetCharacterId();
                             CharacterInstance instance = movie.CreateInstance(characterId);
-                            instance.Matrix = placeObject.GetMatrix();
+                            instance.SetSwfMatrix(placeObject.GetMatrix());
                             displayList[depth] = instance;                           
                         }                        
                         

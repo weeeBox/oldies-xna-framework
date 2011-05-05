@@ -183,9 +183,8 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <PropertyGroup>
-    <PreBuildEvent>pushd $(SolutionDir)Builder
-call ant
-popd</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!--
       To modify your build process, add your task inside one of the targets below and uncomment it. 
