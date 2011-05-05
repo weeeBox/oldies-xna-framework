@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using System.IO;
 
-namespace ContentExtension
+namespace ContentExtension.Animation
 {
     /// <summary>
     /// This class will be instantiated by the XNA Framework Content Pipeline
