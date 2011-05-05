@@ -7,9 +7,9 @@ namespace asap.graphics
     public class GameTexture : ManagedResource
     {
         private Texture2D tex;
-        private Rectangle bounds;       
+        private Rectangle bounds;
 
-        private ITextureManager tm;        
+        private Atlas atlas;
 
         public GameTexture()
         {
@@ -56,22 +56,21 @@ namespace asap.graphics
 
         public bool IsAdv
         {
-            get { return tm != null; }
+            get { return atlas != null; }
         }
 
         public void Unload()
         {
             if (tex != null)
             {
-                if (tm == null)
+                if (atlas == null)
                 {
                     tex.Dispose();
                     tex = null;
                 }
                 else
-                {
-                    tm.UnloadTexture(tex);
-                    tm = null;
+                {                    
+                    atlas = null;
                     tex = null;
                 }
             }
@@ -80,23 +79,18 @@ namespace asap.graphics
         public override void Dispose()
         {
             Unload();
-        }
+        }       
 
-        public void setTexture(ITextureManager tm, GameTexture image, int x, int y, int w, int h)
-        {
-            setTexture(tm, image.getTexture(), x, y, w, h);
-        }
-
-        public void setTexture(ITextureManager tm, Texture2D t, int x, int y, int w, int h)
+        public void setTexture(Atlas atlas, int x, int y, int w, int h)
         {
             Unload();
 
-            this.tex = t;
+            this.tex = atlas.Texture.getTexture();
             bounds.X = x;
             bounds.Y = y;
             bounds.Width = w;
             bounds.Height = h;
-            this.tm = tm;            
+            this.atlas = atlas;            
         }
 
         public void setTexture(Texture2D t)

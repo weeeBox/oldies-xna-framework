@@ -8,15 +8,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace asap.anim
 {
-    public class SwfPartset : ITextureManager, IDisposable
+    public class SwfPartset : Atlas
     {
-        private GameTexture[] images;
+        private GameTexture[] images;        
 
-        private GameTexture texture;
-
-        public SwfPartset(GameTexture texture, int size)
-        {            
-            this.texture = texture;
+        public SwfPartset(GameTexture texture, int size) : base(texture)
+        {                       
             images = new GameTexture[size];
         }        
 
@@ -26,7 +23,7 @@ namespace asap.anim
             Debug.Assert(images[index] == null, "Already exists: " + index);
 
             GameTexture image = new GameTexture();
-            image.setTexture(this, texture, x, y, width, height);
+            image.setTexture(this, x, y, width, height);
             images[index] = image; 
         }
 
@@ -39,8 +36,10 @@ namespace asap.anim
             }
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
+            base.Dispose();
+
             if (images != null)
             {
                 foreach (GameTexture img in images)
@@ -48,18 +47,7 @@ namespace asap.anim
                     img.Unload();
                 }
                 images = null;
-            }
-            if (texture != null)
-            {
-                texture.Unload();
-                texture.Dispose();
-                texture = null;
-            }
-        }
-
-        public void UnloadTexture(Texture2D tex)
-        {
-            // do nothing
-        }
+            }            
+        }        
     }
 }
