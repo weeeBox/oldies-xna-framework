@@ -45,7 +45,7 @@ namespace asap.visual
         {
             if (!passTransformationsToChilds)
             {
-                RestoreTransformations();
+                RestoreDrawState();
             }
 
             foreach (BaseElement c in childs)
@@ -58,7 +58,7 @@ namespace asap.visual
 
             if (passTransformationsToChilds)
             {
-                RestoreTransformations();
+                RestoreDrawState();
             }
         }
 

@@ -76,21 +76,7 @@ namespace asap.visual
 
         public virtual void Update(float delta)
         {         
-        }
-
-        public void RestoreTransformations()
-        {
-            if (color != Color.White)
-            {
-                AppGraphics.SetColor(Color.White);
-            }
-
-            // if any transformation
-            if (rotation != 0.0 || scaleX != 1.0 || scaleY != 1.0 || translateX != 0.0 || translateY != 0.0)
-            {
-                AppGraphics.PopMatrix();
-            }
-        }
+        }        
 
         public virtual void PreDraw(Graphics g)
         {
@@ -104,6 +90,31 @@ namespace asap.visual
                 drawY += parent.drawY + parent.height * parentAlignY;
             }
 
+            ApplyDrawState();
+        }        
+        
+        public virtual void PostDraw(Graphics g)
+        {
+            RestoreDrawState();
+        }
+                
+        public virtual void Draw(Graphics g)
+        {
+            PreDraw(g);
+            PostDraw(g);
+        }
+                
+        /////////////////////////////////////////////////////////////////////////////
+        // Draw state
+
+        protected void ApplyDrawState()
+        {
+            ApplyTransformations();
+            ApplyColor();
+        }
+
+        protected virtual void ApplyTransformations()
+        {
             bool changeScale = (scaleX != 1.0 || scaleY != 1.0);
             bool changeRotation = (rotation != 0.0);
             bool changeTranslate = (translateX != 0.0 || translateY != 0.0);
@@ -137,22 +148,37 @@ namespace asap.visual
                     AppGraphics.Translate(translateX, translateY);
                 }
             }
+        }
 
+        private void ApplyColor()
+        {
             if (color != Color.White)
             {
                 AppGraphics.SetColor(color);
             }
         }
 
-        public virtual void PostDraw(Graphics g)
+        protected void RestoreDrawState()
         {
+            RestoreColor();
             RestoreTransformations();
         }
 
-        public virtual void Draw(Graphics g)
+        protected virtual void RestoreTransformations()
         {
-            PreDraw(g);
-            PostDraw(g);
+            // if any transformation
+            if (rotation != 0.0 || scaleX != 1.0 || scaleY != 1.0 || translateX != 0.0 || translateY != 0.0)
+            {
+                AppGraphics.PopMatrix();
+            }
+        }
+
+        private void RestoreColor()
+        {
+            if (color != Color.White)
+            {
+                AppGraphics.SetColor(Color.White);
+            }
         }
 
         public BaseElement GetParent()
