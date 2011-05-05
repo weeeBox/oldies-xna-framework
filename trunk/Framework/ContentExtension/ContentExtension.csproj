@@ -50,9 +50,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimationImporter.cs" />
-    <Compile Include="AnimationInfo.cs" />
-    <Compile Include="AnimationWriter.cs" />
+    <Compile Include="Animation\AnimationImporter.cs" />
+    <Compile Include="Animation\AnimationInfo.cs" />
+    <Compile Include="Animation\AnimationWriter.cs" />
+    <Compile Include="Atlas\AtlasImporter.cs" />
+    <Compile Include="Atlas\AtlasInfo.cs" />
+    <Compile Include="Atlas\AtlasProcessor.cs" />
+    <Compile Include="Atlas\AtlasWriter.cs" />
+    <Compile Include="ContentTypeWriterEx.cs" />
+    <Compile Include="Font\Bitmap\BitmapFontImporter.cs" />
+    <Compile Include="Font\Bitmap\BitmapFontInfo.cs" />
+    <Compile Include="Font\Bitmap\BitmapFontProcessor.cs" />
+    <Compile Include="Font\Bitmap\BitmapFontWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
