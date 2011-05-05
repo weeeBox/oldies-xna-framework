@@ -57,15 +57,15 @@
   </Target>
   -->  
   <ItemGroup>
-    <Compile Include="buttonA.png">
-      <Name>buttonA</Name>
+    <Compile Include="tex_common.png">
+      <Name>tex_common</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="buttonB.png">
-      <Name>buttonB</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
+    <Compile Include="common.atlas">
+      <Name>common</Name>
+      <Importer>AtlasImporter</Importer>
+      <Processor>AtlasProcessor</Processor>
     </Compile>
     <Compile Include="tex_test.png">
       <Name>tex_test</Name>
@@ -75,6 +75,16 @@
     <Compile Include="test.swp">
       <Name>test</Name>
       <Importer>AnimationImporter</Importer>
+    </Compile>
+    <Compile Include="buttonA.png">
+      <Name>buttonA</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="buttonB.png">
+      <Name>buttonB</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
 </Project>
