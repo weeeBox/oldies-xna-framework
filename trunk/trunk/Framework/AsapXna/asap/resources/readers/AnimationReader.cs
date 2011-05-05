@@ -7,7 +7,7 @@ using swiff.com.jswiff;
 using swiff.com.jswiff.listeners;
 using swiff.com.jswiff.swfrecords.tags;
 
-namespace asap.resources
+namespace asap.resources.readers
 {
     public class AnimationReader : ContentTypeReader<SwfMovie>
     {

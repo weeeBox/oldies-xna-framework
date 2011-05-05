@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
 using asap.anim;
 using Microsoft.Xna.Framework.Graphics;
+using AsapXna.asap.resources.types;
 
 namespace asap.resources
 {
@@ -57,8 +58,13 @@ namespace asap.resources
                 instance = new GameTexture();
                 AddReference(path, instance);
             }
-            TextureManager.Instance.LoadTexture(path, instance);
-            return instance;
+            throw new NotImplementedException();
+            //return instance;
+        }
+
+        public AtlasRes loadAtlas(string resName)
+        {
+            return content.Load<AtlasRes>(resName);
         }
 
         public SwfMovie LoadSwfMovie(string path)
@@ -72,16 +78,7 @@ namespace asap.resources
         public StringsPack LoadStrings(string path)
         {
             return content.Load<StringsPack>(path);
-        }
-
-        public void UnloadResource(object res)
-        {
-            if (res is IDisposable)
-            {
-                IDisposable obj = (IDisposable)res;
-                obj.Dispose();
-            }
-        }        
+        }       
 
         public T FindUsedReference<T>(string name)
         {
@@ -94,6 +91,6 @@ namespace asap.resources
         {
             Debug.Assert(!usedReferences.ContainsKey(name), name);
             usedReferences.Add(name, obj);
-        }
+        }        
     }
 }

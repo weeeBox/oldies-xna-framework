@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using asap.app;
 using asap.core;
+using asap.graphics;
+using AsapXna.asap.resources.types;
 
 namespace asap.resources
 {
@@ -54,9 +56,10 @@ namespace asap.resources
 
         public void loadImmediately()
         {
-            foreach (ResourceLoadInfo info in loadQueue)
+            for (int resIndex = 0; resIndex < loadQueue.Count; ++resIndex)
             {
-                if (loadResource(info) != null)
+                ResourceLoadInfo info = loadQueue[resIndex];
+                if (loadResource(ref info) != null)
                 {
                     loaded++;
                 }
@@ -99,22 +102,40 @@ namespace asap.resources
             resources[resName] = null;         
         }        
 
-        public ManagedResource loadResource(ResourceLoadInfo r)
+        public ManagedResource loadResource(ref ResourceLoadInfo info)
         {
-            ManagedResource res = Load(r.resType, r.fileName);
-            if (r.resId >= 0)
+            ManagedResource res = Load(ref info);
+            if (info.resId >= 0)
             {
-                resources[r.resId] = res;
+                resources[info.resId] = res;
             }
             return res;
         }                               
         
-        protected ManagedResource Load(int resType, string resName)
+        protected virtual ManagedResource Load(ref ResourceLoadInfo info)
         {
+            int resType = info.resType;
+            string resName = info.resName;
+
             switch (resType)
             {
                 case ResType.IMAGE:
                     return ResFactory.GetInstance().LoadImage(resName);
+
+                case ResType.ATLAS:
+                {
+                    AtlasRes atlas = ResFactory.GetInstance().loadAtlas(resName);
+                    
+                    int resId = info.resId;                    
+                    foreach (AtlasPartInfo part in atlas.Parts)
+                    {
+                        GameTexture tex = new GameTexture();
+                        tex.setTexture(atlas, part.x, part.y, part.w, part.h);
+                        resources[++resId] = tex;
+                    }                    
+
+                    return atlas;
+                }                    
 
                 case ResType.SWF:
                     return ResFactory.GetInstance().LoadSwfMovie(resName);
@@ -132,13 +153,13 @@ namespace asap.resources
 
         public void OnTimer(Timer timer)
         {
-            ResourceLoadInfo r = loadQueue[loaded];
-            if (loadResource(r) != null)
+            ResourceLoadInfo info = loadQueue[loaded];
+            if (loadResource(ref info) != null)
             {
                 loaded++;
                 if (listener != null)
                 {
-                    listener.resourceLoaded(r);
+                    listener.resourceLoaded(ref info);
                 }
 
                 if (loaded == loadQueue.Count)

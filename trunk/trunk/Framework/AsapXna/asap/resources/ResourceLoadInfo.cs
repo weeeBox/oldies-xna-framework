@@ -5,15 +5,15 @@ using System.Text;
 
 namespace asap.resources
 {
-    public class ResourceLoadInfo
+    public struct ResourceLoadInfo
     {
-        public String fileName;
+        public String resName;
         public int resId;
         public int resType;
 
-        public ResourceLoadInfo(String fileName, int resId, int resType)
+        public ResourceLoadInfo(String resName, int resId, int resType)
         {
-            this.fileName = fileName;
+            this.resName = resName;
             this.resId = resId;
             this.resType = resType;
         }

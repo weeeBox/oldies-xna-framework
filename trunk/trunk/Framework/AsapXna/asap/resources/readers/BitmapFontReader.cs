@@ -3,7 +3,7 @@ using asap.graphics;
 using asap.resources;
 using Microsoft.Xna.Framework.Content;
 
-namespace asap.resouces
+namespace asap.resouces.readers
 {
     /// <summary>
     /// This class will be instantiated by the XNA Framework Content

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using asap.resources;
 
-namespace Flipstones2.res
+namespace asap.resouces.readers
 {
     public class StringsPackReader : ContentTypeReader<StringsPack>
     {

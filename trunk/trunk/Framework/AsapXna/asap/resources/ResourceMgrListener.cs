@@ -7,7 +7,7 @@ namespace asap.resources
 {
     public interface ResourceMgrListener
     {
-        void resourceLoaded(ResourceLoadInfo res);
+        void resourceLoaded(ref ResourceLoadInfo res);
         void allResourcesLoaded();
     }
 }

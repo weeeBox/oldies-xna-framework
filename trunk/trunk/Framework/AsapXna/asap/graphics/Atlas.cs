@@ -1,31 +1,39 @@
 ﻿using System.Collections.Generic;
+using asap.resources;
 
 namespace asap.graphics
 {
-    public class Atlas
+    public struct AtlasPartInfo
     {
-        private string textureName;
-        private List<SubTexData> parts;
+        public int x;
+        public int y;
+        public int w;
+        public int h;
+        public int ox;
+        public int oy;
+    }
 
-        public Atlas(string textureName, int imagesCount)
-        {            
-            this.textureName = textureName;
-            parts = new List<SubTexData>(imagesCount);
-        }
+    public class Atlas : ManagedResource
+    {
+        private GameTexture texture;        
 
-        public List<SubTexData> Parts 
+        public Atlas(GameTexture texture)
         {
-            get { return parts; }             
+            this.texture = texture;            
+        }        
+
+        public GameTexture Texture 
+        { 
+            get { return texture; }
         }
 
-        public void Add(SubTexData part)
+        public override void Dispose()
         {
-            parts.Add(part);
-        }
-
-        public string TextureName
-        {
-            get { return textureName; }
-        }
+            if (texture != null)    
+            {
+                texture.Dispose();
+                texture = null;
+            }
+        }        
     }
 }
