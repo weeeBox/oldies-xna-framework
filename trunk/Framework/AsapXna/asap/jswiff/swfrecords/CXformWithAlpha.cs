@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 
 using swiff.com.jswiff.io;
+using Microsoft.Xna.Framework;
+using asap.util;
+using System.Diagnostics;
 
 namespace swiff.com.jswiff.swfrecords
 {
@@ -13,21 +16,9 @@ namespace swiff.com.jswiff.swfrecords
      */
     public class CXformWithAlpha
     {
-        private int redMultTerm = 256;
-        
-        private int greenMultTerm = 256;
-        
-        private int blueMultTerm = 256;
-        
-        private int alphaMultTerm = 256;
-        
-        private int redAddTerm = 0;
-        
-        private int greenAddTerm = 0;
-        
-        private int blueAddTerm = 0;
-        
-        private int alphaAddTerm = 0;
+        private Color4 multTerm = new Color4(1.0f, 1.0f, 1.0f, 1.0f);
+
+        private Color4 addTerm = new Color4(0.0f, 0.0f, 0.0f, 0.0f);        
         
         private bool hasMultTerms;
         
@@ -54,80 +45,32 @@ namespace swiff.com.jswiff.swfrecords
             hasMultTerms = stream.ReadBooleanBit();
             int nBits = ((int)(stream.ReadUnsignedBits(4)));
             if (hasMultTerms) 
-            {
-                redMultTerm = ((int)(stream.ReadSignedBits(nBits)));
-                greenMultTerm = ((int)(stream.ReadSignedBits(nBits)));
-                blueMultTerm = ((int)(stream.ReadSignedBits(nBits)));
-                alphaMultTerm = ((int)(stream.ReadSignedBits(nBits)));
+            {                
+                multTerm.R = stream.ReadSignedBits(nBits) / 255.0f;
+                multTerm.G = stream.ReadSignedBits(nBits) / 255.0f;
+                multTerm.B = stream.ReadSignedBits(nBits) / 255.0f;
+                multTerm.A = stream.ReadSignedBits(nBits) / 255.0f;              
             } 
             if (hasAddTerms) 
             {
-                redAddTerm = ((int)(stream.ReadSignedBits(nBits)));
-                greenAddTerm = ((int)(stream.ReadSignedBits(nBits)));
-                blueAddTerm = ((int)(stream.ReadSignedBits(nBits)));
-                alphaAddTerm = ((int)(stream.ReadSignedBits(nBits)));
+                addTerm.R = stream.ReadSignedBits(nBits) / 255.0f;
+                addTerm.G = stream.ReadSignedBits(nBits) / 255.0f;
+                addTerm.B = stream.ReadSignedBits(nBits) / 255.0f;
+                addTerm.A = stream.ReadSignedBits(nBits) / 255.0f;                
             } 
             stream.Align();
-        }
+        }              
         
-        public virtual void SetAddTerms(int redAddTerm, int greenAddTerm, int blueAddTerm, int alphaAddTerm)
+        public Color4 GetAddTerm()
         {
-            this.redAddTerm = redAddTerm;
-            this.greenAddTerm = greenAddTerm;
-            this.blueAddTerm = blueAddTerm;
-            this.alphaAddTerm = alphaAddTerm;
-            hasAddTerms = true;
+            return addTerm;
         }
-        
-        public virtual int GetAlphaAddTerm()
+
+        public Color4 GetMulTerm()
         {
-            return alphaAddTerm;
+            return multTerm;
         }
-        
-        public virtual int GetAlphaMultTerm()
-        {
-            return alphaMultTerm;
-        }
-        
-        public virtual int GetBlueAddTerm()
-        {
-            return blueAddTerm;
-        }
-        
-        public virtual int GetBlueMultTerm()
-        {
-            return blueMultTerm;
-        }
-        
-        public virtual int GetGreenAddTerm()
-        {
-            return greenAddTerm;
-        }
-        
-        public virtual int GetGreenMultTerm()
-        {
-            return greenMultTerm;
-        }
-        
-        public virtual void SetMultTerms(int redMultTerm, int greenMultTerm, int blueMultTerm, int alphaMultTerm)
-        {
-            this.redMultTerm = redMultTerm;
-            this.greenMultTerm = greenMultTerm;
-            this.blueMultTerm = blueMultTerm;
-            this.alphaMultTerm = alphaMultTerm;
-            hasMultTerms = true;
-        }
-        
-        public virtual int GetRedAddTerm()
-        {
-            return redAddTerm;
-        }
-        
-        public virtual int GetRedMultTerm()
-        {
-            return redMultTerm;
-        }
-        
+
         public virtual bool HasAddTerms()
         {
             return hasAddTerms;

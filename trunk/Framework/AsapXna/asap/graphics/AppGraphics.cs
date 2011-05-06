@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace asap.graphics
 {
@@ -33,6 +31,7 @@ namespace asap.graphics
         private static BatchMode batchMode = BatchMode.None;
         private static Matrix matrix;
         public static Color drawColor;
+        private static GameEffect drawEffect;
         private static AppBlendMode blendMode = AppBlendMode.AlphaBlend;
 
         private static Stack<Matrix> matrixStack = new Stack<Matrix>();
@@ -50,7 +49,7 @@ namespace asap.graphics
             if (mode == BatchMode.Sprite)
             {
                 BlendState blendState = toBlendState(blendMode);                
-                sb.Begin(SpriteSortMode.Immediate, blendState, null, null, rasterizerState, null, m);
+                sb.Begin(SpriteSortMode.Immediate, blendState, null, null, rasterizerState, drawEffect == null ? null : drawEffect.Effect, m);
             }
             else if (mode == BatchMode.Geometry)
             {                
@@ -115,6 +114,15 @@ namespace asap.graphics
             }
         }       
 
+        public static void SetEffect(GameEffect effect)
+        {
+            if (drawEffect != effect)
+            {
+                EndBatch();
+                drawEffect = effect;
+            }
+        }
+
         public static void SetColor(Color color)
         {
             drawColor = color;
@@ -168,10 +176,10 @@ namespace asap.graphics
                 basicEffect.World = worldMatrix;
                 basicEffect.View = viewMatrix;
                 basicEffect.Projection = projection;
-                basicEffect.VertexColorEnabled = true;
+                basicEffect.VertexColorEnabled = true;                
 
                 rasterizerState = new RasterizerState();
-                rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;                
+                rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;                                
             }
         }
 

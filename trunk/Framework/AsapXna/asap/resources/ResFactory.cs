@@ -29,6 +29,7 @@ namespace asap.resources
             usedReferences = new Dictionary<string, object>();
 
             instance = this;
+            EmbededRes.Load(content);
         }
 
         public static ResFactory GetInstance()
@@ -79,6 +80,11 @@ namespace asap.resources
         {
             return content.Load<StringsPack>(path);
         }       
+
+        public void Dispose()
+        {
+            EmbededRes.Dispose();
+        }
 
         public T FindUsedReference<T>(string name)
         {

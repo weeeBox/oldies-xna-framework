@@ -64,7 +64,7 @@ namespace asap.anim
             currentFrame = -1;
             elaspedTime = 0;
             tagPointer = 0;
-            displayList.Clear();            
+            displayList.Clear();
         }
    
         public void Start()
@@ -72,6 +72,7 @@ namespace asap.anim
             Reset();            
             delay = 1.0f / FrameRate;
             state = PlayerState.PLAYING;
+            Tick(delay); // force the first frame to be shown
         }
 
         public void Stop()
@@ -179,11 +180,14 @@ namespace asap.anim
                             }
                             else
                             {
+                                CharacterInstance instance = displayList[depth];                                
                                 if (placeObject.HasMatrix())
-                                {                                    
-                                    CharacterInstance instance = displayList[depth];
-                                    Debug.Assert(placeObject.GetMatrix() != null);
+                                {                                                                        
                                     instance.SetSwfMatrix(placeObject.GetMatrix());
+                                }
+                                if (placeObject.HasColorTransform())
+                                {
+                                    instance.SetSwfColorTransform(placeObject.GetColorTransform());
                                 }
                             }
                         }
@@ -194,6 +198,10 @@ namespace asap.anim
                             int characterId = placeObject.GetCharacterId();
                             CharacterInstance instance = movie.CreateInstance(characterId);
                             instance.SetSwfMatrix(placeObject.GetMatrix());
+                            if (placeObject.HasColorTransform())
+                            {
+                                instance.SetSwfColorTransform(placeObject.GetColorTransform());
+                            }
                             displayList[depth] = instance;                           
                         }                        
                         

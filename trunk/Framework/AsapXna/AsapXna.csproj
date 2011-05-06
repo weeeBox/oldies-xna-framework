@@ -116,7 +116,12 @@
     <Compile Include="asap\core\TimerSource.cs" />
     <Compile Include="asap\graphics\AppGraphics.cs" />
     <Compile Include="asap\graphics\Atlas.cs" />
+    <Compile Include="asap\graphics\effects\BaseElementEffect.cs" />
+    <Compile Include="asap\graphics\GameEffect.cs" />
+    <Compile Include="asap\resources\EmbededRes.cs" />
     <Compile Include="asap\resources\types\AtlasRes.cs" />
+    <Compile Include="asap\util\Color4.cs" />
+    <Compile Include="asap\util\ColorTransform.cs" />
     <Compile Include="asap\visual\BaseAnimation.cs" />
     <Compile Include="asap\visual\BaseElement.cs" />
     <Compile Include="asap\visual\BaseElementContainer.cs" />

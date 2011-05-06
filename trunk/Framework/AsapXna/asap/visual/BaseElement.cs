@@ -1,5 +1,8 @@
 ﻿using asap.graphics;
+using asap.util;
 using Microsoft.Xna.Framework;
+using asap.resources;
+using asap.graphics.effects;
 
 namespace asap.visual
 {
@@ -26,8 +29,10 @@ namespace asap.visual
 
         public float scaleX;
         public float scaleY;
+                
+        public ColorTransform ctForm;
 
-        public Color color;
+        public GameEffect effect;
 
         public float translateX;
         public float translateY;
@@ -66,7 +71,7 @@ namespace asap.visual
             rotationCenterY = 0;
             scaleX = 1.0f;
             scaleY = 1.0f;
-            color = Color.White; //solidOpaqueRGBA;
+            ctForm = ColorTransform.NONE;
             translateX = 0;
             translateY = 0;
 
@@ -110,7 +115,7 @@ namespace asap.visual
         protected void ApplyDrawState()
         {
             ApplyTransformations();
-            ApplyColor();
+            ApplyEffect();
         }
 
         protected virtual void ApplyTransformations()
@@ -150,17 +155,24 @@ namespace asap.visual
             }
         }
 
-        private void ApplyColor()
-        {
-            if (color != Color.White)
+        private void ApplyEffect()
+        {            
+            if (!ctForm.Equals(ColorTransform.NONE))
             {
-                AppGraphics.SetColor(color);
+                BaseElementEffect baseEffect = EmbededRes.baseElementEffect;
+                baseEffect.SetCtForm(ref ctForm);
+                effect = baseEffect;
+            }
+
+            if (effect != null)
+            {
+                AppGraphics.SetEffect(effect);
             }
         }
 
         protected void RestoreDrawState()
         {
-            RestoreColor();
+            RestoreEffect();
             RestoreTransformations();
         }
 
@@ -173,11 +185,11 @@ namespace asap.visual
             }
         }
 
-        private void RestoreColor()
+        private void RestoreEffect()
         {
-            if (color != Color.White)
+            if (effect != null)
             {
-                AppGraphics.SetColor(Color.White);
+                AppGraphics.SetEffect(null);
             }
         }
 
@@ -189,6 +201,11 @@ namespace asap.visual
         public void SetParent(BaseElement parent)
         {
             this.parent = parent;
+        }        
+
+        public void SetTint(Color color)
+        {
+            ctForm = ColorTransform.Tint(color);
         }        
 
         public void SetEnabled(bool e)

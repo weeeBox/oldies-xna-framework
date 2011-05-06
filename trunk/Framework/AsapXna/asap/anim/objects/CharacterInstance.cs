@@ -1,14 +1,20 @@
-﻿using asap.visual;
-using swiff.com.jswiff.swfrecords;
+﻿using asap.graphics;
+using asap.visual;
 using Microsoft.Xna.Framework;
-using asap.graphics;
+using swiff.com.jswiff.swfrecords;
+using asap.util;
 
 namespace asap.anim.objects
 {
     public abstract class CharacterInstance : BaseElementContainer
     {
         private Matrix matrix = Matrix.Identity;
-        private bool hasTransform = false;
+        private bool hasTransform = false;        
+
+        public void SetSwfColorTransform(CXformWithAlpha ct)
+        {
+            ctForm = ColorTransform.Advance(ct.GetMulTerm(), ct.GetAddTerm());
+        }        
 
         public void SetSwfMatrix(SwfMatrix swfMatrix)
         {
