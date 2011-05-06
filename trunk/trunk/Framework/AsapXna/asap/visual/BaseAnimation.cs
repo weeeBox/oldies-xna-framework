@@ -5,6 +5,7 @@ using System.Text;
 using asap.visual;
 using Microsoft.Xna.Framework;
 using asap.graphics;
+using asap.util;
 
 namespace AsapXna.asap.visual
 {
@@ -28,18 +29,18 @@ namespace AsapXna.asap.visual
             public float y;
             public float scaleX;
             public float scaleY;
-            public Vector4 color;
+            public ColorTransform ctForm;
             public float rotation;
             public float time;
 
-            public KeyFrame(float x, float y, Color color, float scaleX, float scaleY, float rotation, float time)
+            public KeyFrame(float x, float y, ColorTransform ctForm, float scaleX, float scaleY, float rotation, float time)
             {
                 this.x = x;
                 this.y = y;
                 this.scaleX = scaleX;
                 this.scaleY = scaleY;
                 this.rotation = rotation;
-                this.color = new Vector4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
+                this.ctForm = ctForm;
                 this.time = time;
             }            
         }
@@ -143,10 +144,10 @@ namespace AsapXna.asap.visual
         {
             keyFrameTimeLeft -= delta;
 
-            color.R += (byte)(255.0f * currentStepPerSecond.color.X * delta);
-            color.G += (byte)(255.0f * currentStepPerSecond.color.Y * delta);
-            color.B += (byte)(255.0f * currentStepPerSecond.color.Z * delta);
-            color.A += (byte)(255.0f * currentStepPerSecond.color.W * delta);
+            ctForm.AddR += currentStepPerSecond.ctForm.AddR;
+            ctForm.AddG += currentStepPerSecond.ctForm.AddG;
+            ctForm.AddB += currentStepPerSecond.ctForm.AddB;
+            ctForm.AddA += currentStepPerSecond.ctForm.AddA;
             rotation += currentStepPerSecond.rotation * delta;
             scaleX += currentStepPerSecond.scaleX * delta;
             scaleY += currentStepPerSecond.scaleY * delta;
@@ -155,10 +156,10 @@ namespace AsapXna.asap.visual
 
             if (keyFrameTimeLeft <= 0)
             {
-                color.R = (byte)(keyFrames[nextKeyFrame].color.X * 255);
-                color.G = (byte)(keyFrames[nextKeyFrame].color.Y * 255);
-                color.B = (byte)(keyFrames[nextKeyFrame].color.Z * 255);
-                color.A = (byte)(keyFrames[nextKeyFrame].color.W * 255);
+                ctForm.AddR = keyFrames[nextKeyFrame].ctForm.AddR;
+                ctForm.AddG = keyFrames[nextKeyFrame].ctForm.AddG;
+                ctForm.AddB = keyFrames[nextKeyFrame].ctForm.AddB;
+                ctForm.AddA = keyFrames[nextKeyFrame].ctForm.AddA;
                 rotation = keyFrames[nextKeyFrame].rotation;
                 scaleX = keyFrames[nextKeyFrame].scaleX;
                 scaleY = keyFrames[nextKeyFrame].scaleY;
@@ -172,10 +173,9 @@ namespace AsapXna.asap.visual
         public void PlayTimeline()
         {
             nextKeyFrame = 1;
-            KeyFrame currentState = new KeyFrame(x, y, color, scaleY, scaleY, rotation, 0);
+            KeyFrame currentState = new KeyFrame(x, y, ctForm, scaleY, scaleY, rotation, 0);
             keyFrames[0] = currentState;
-            InitKeyFrameStep(keyFrames[0], keyFrames[nextKeyFrame], keyFrames[nextKeyFrame].time);
-            //[self initKeyFrameStepFrom:&keyFrames[0] To:&keyFrames[nextKeyFrame] withTime:keyFrames[nextKeyFrame].time];
+            InitKeyFrameStep(ref keyFrames[0], ref keyFrames[nextKeyFrame], keyFrames[nextKeyFrame].time);            
         }
 
         public void StopTimeline()
@@ -188,13 +188,13 @@ namespace AsapXna.asap.visual
             return nextKeyFrame != UNDEFINED_FRAME;
         }
 
-        private void InitKeyFrameStep(KeyFrame src, KeyFrame dst, float t)
+        private void InitKeyFrameStep(ref KeyFrame src, ref KeyFrame dst, float t)
         {
             keyFrameTimeLeft = t;
-            currentStepPerSecond.color.X = ((dst.color.X - src.color.X) / keyFrameTimeLeft);
-            currentStepPerSecond.color.Y = ((dst.color.Y - src.color.Y) / keyFrameTimeLeft);
-            currentStepPerSecond.color.Z = ((dst.color.Z - src.color.Z) / keyFrameTimeLeft);
-            currentStepPerSecond.color.W = ((dst.color.W - src.color.W) / keyFrameTimeLeft);
+            currentStepPerSecond.ctForm.AddR = ((dst.ctForm.AddR - src.ctForm.AddR) / keyFrameTimeLeft);
+            currentStepPerSecond.ctForm.AddG = ((dst.ctForm.AddG - src.ctForm.AddG) / keyFrameTimeLeft);
+            currentStepPerSecond.ctForm.AddB = ((dst.ctForm.AddB - src.ctForm.AddB) / keyFrameTimeLeft);
+            currentStepPerSecond.ctForm.AddA = ((dst.ctForm.AddA - src.ctForm.AddA) / keyFrameTimeLeft);
             currentStepPerSecond.rotation = (dst.rotation - src.rotation) / keyFrameTimeLeft;
             currentStepPerSecond.scaleX = (dst.scaleX - src.scaleX) / keyFrameTimeLeft;
             currentStepPerSecond.scaleY = (dst.scaleY - src.scaleY) / keyFrameTimeLeft;
@@ -218,12 +218,12 @@ namespace AsapXna.asap.visual
 
                     if (timelineDirReverse)
                     {
-                        InitKeyFrameStep(keyFrames[nextKeyFrame], keyFrames[nextKeyFrame - 1], keyFrames[nextKeyFrame].time);                        
+                        InitKeyFrameStep(ref keyFrames[nextKeyFrame], ref keyFrames[nextKeyFrame - 1], keyFrames[nextKeyFrame].time);                        
                         nextKeyFrame--;
                     }
                     else
                     {
-                        InitKeyFrameStep(keyFrames[nextKeyFrame], keyFrames[nextKeyFrame + 1], keyFrames[nextKeyFrame + 1].time);                        
+                        InitKeyFrameStep(ref keyFrames[nextKeyFrame], ref keyFrames[nextKeyFrame + 1], keyFrames[nextKeyFrame + 1].time);                        
                         nextKeyFrame++;
                     }
                     break;
@@ -232,7 +232,7 @@ namespace AsapXna.asap.visual
                 case Timeline.NO_LOOP:
                     if (nextKeyFrame < keyFramesCount - 1)
                     {
-                        InitKeyFrameStep(keyFrames[nextKeyFrame], keyFrames[nextKeyFrame + 1], keyFrames[nextKeyFrame + 1].time);                        
+                        InitKeyFrameStep(ref keyFrames[nextKeyFrame], ref keyFrames[nextKeyFrame + 1], keyFrames[nextKeyFrame + 1].time);                        
                         nextKeyFrame++;
                     }
                     else
@@ -240,7 +240,7 @@ namespace AsapXna.asap.visual
                         if (timelineLoopType == Timeline.REPLAY)
                         {
                             nextKeyFrame = 0;
-                            InitKeyFrameStep(keyFrames[nextKeyFrame], keyFrames[nextKeyFrame + 1], keyFrames[nextKeyFrame + 1].time);                            
+                            InitKeyFrameStep(ref keyFrames[nextKeyFrame], ref keyFrames[nextKeyFrame + 1], keyFrames[nextKeyFrame + 1].time);                            
                             nextKeyFrame++;
                         }
                         else

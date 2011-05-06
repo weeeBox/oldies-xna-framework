@@ -10,15 +10,16 @@ namespace asap.anim.objects
 {
     public class SpriteInstance : CharacterInstance
     {
-        private SwfPlayer player;        
+        private SwfPlayer player;                
 
         public SpriteInstance(DefineSprite sprite, SwfMovie movie)
         {            
             player = new SwfPlayer();
             player.SetMovie(movie);
             player.FramesCount = sprite.GetFrameCount();
-            player.Tags = sprite.GetControlTags();
+            player.Tags = sprite.GetControlTags();            
             player.Start();
+            player.AnimationType = AnimationType.LOOP;
         }                                
         
         public override void Draw(Graphics g)
