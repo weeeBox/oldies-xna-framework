@@ -56,6 +56,13 @@
   <Target Name="AfterBuild">
   </Target>
   -->  
+  <ItemGroup> 
+    <Compile Include="Embeded\BaseEffect.fx"> 
+      <Name>BaseEffect</Name>  
+      <Importer>EffectImporter</Importer>  
+      <Processor>EffectProcessor</Processor> 
+    </Compile> 
+  </ItemGroup>  
   <ItemGroup>
     <Compile Include="tex_common.png">
       <Name>tex_common</Name>
