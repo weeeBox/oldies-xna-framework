@@ -1,6 +1,6 @@
+using asap.anim.objects;
 using asap.graphics;
 using Microsoft.Xna.Framework;
-
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -17,7 +17,7 @@ namespace app
         private Graphics appGraphics;
 
         GraphicsDeviceManager graphics;
-        NativeApp app;        
+        NativeApp app;
 
         GamePadState gamePadState;
 #if WINDOWS
@@ -70,7 +70,7 @@ namespace app
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            app.Dispose();
         }
 
         /// <summary>

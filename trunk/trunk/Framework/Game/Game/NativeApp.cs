@@ -61,5 +61,10 @@ namespace app
         {
             return running;
         }
+
+        public void Dispose()
+        {
+            ResFactory.GetInstance().Dispose();
+        }
     }
 }
