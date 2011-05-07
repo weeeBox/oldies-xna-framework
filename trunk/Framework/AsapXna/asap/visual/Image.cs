@@ -19,7 +19,7 @@ namespace AsapXna.asap.visual
         public override void Draw(Graphics g)
         {
             PreDraw(g);
-            g.DrawImage(texture, drawX, drawY);
+            g.DrawImage(texture, 0, 0);
             PostDraw(g);
         }
     }

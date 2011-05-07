@@ -179,7 +179,7 @@ namespace asap.graphics
                 basicEffect.VertexColorEnabled = true;                
 
                 rasterizerState = new RasterizerState();
-                rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;                                
+                rasterizerState.CullMode = CullMode.None;
             }
         }
 

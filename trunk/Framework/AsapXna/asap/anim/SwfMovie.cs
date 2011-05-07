@@ -1,17 +1,18 @@
 using System;
-
 using System.Collections.Generic;
-
-using swiff.com.jswiff.swfrecords.tags;
 using asap.anim.objects;
 using asap.graphics;
-using swiff.com.jswiff.swfrecords;
 using asap.resources;
+using swiff.com.jswiff;
+using swiff.com.jswiff.swfrecords;
+using swiff.com.jswiff.swfrecords.tags;
 
 namespace asap.anim
 {
     public class SwfMovie : ManagedResource
     {
+        private int width;
+        private int height;
         private int framesCount;
         private int frameRate;
 
@@ -19,10 +20,12 @@ namespace asap.anim
 
         private SwfLibrary library;        
 
-        public SwfMovie(int framesCount, int frameRate)
+        public SwfMovie(SWFDocument document)
         {
-            this.framesCount = framesCount;
-            this.frameRate = frameRate;
+            this.width = document.GetWidth();
+            this.height = document.GetHeight();
+            this.framesCount = document.GetFrameCount();
+            this.frameRate = document.GetFrameRate();
             tags = new List<Tag>();
             library = new SwfLibrary();
         }                
@@ -65,6 +68,16 @@ namespace asap.anim
         public int FrameRate
         {
             get { return frameRate; }
+        }
+
+        public int GetWidth()
+        {
+            return width;
+        }
+
+        public int GetHeight()
+        {
+            return height;
         }
 
         public CharacterInstance CreateInstance(int characterId)

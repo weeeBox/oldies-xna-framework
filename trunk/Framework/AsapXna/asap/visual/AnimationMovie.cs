@@ -15,11 +15,11 @@ namespace asap.visual
 
         private bool needUpdatePlayer;
 
-        public AnimationMovie(SwfMovie movie)
+        public AnimationMovie(SwfMovie movie) : base(movie.GetWidth(), movie.GetHeight())
         {
             player = new SwfPlayer();
             player.SetMovie(movie);
-            needUpdatePlayer = true;
+            needUpdatePlayer = true;            
         }
 
         public AnimationMovie(SwfPlayer player)
@@ -35,8 +35,8 @@ namespace asap.visual
 
         public override void Draw(Graphics g)
         {
-            PreDraw(g);
-            player.Draw(g);
+            PreDraw(g);            
+            player.Draw(g);            
             PostDraw(g);
         }
 

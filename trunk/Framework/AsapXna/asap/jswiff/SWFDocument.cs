@@ -155,6 +155,16 @@ namespace swiff.com.jswiff
         {
             return header.GetFrameSize();
         }
+
+        public int GetWidth()
+        {
+            return (int)(GetFrameSize().GetXMax() - GetFrameSize().GetXMin()) / 20;
+        }
+
+        public int GetHeight()
+        {
+            return (int)(GetFrameSize().GetYMax() - GetFrameSize().GetYMin()) / 20;
+        }
         
         public virtual void SetMetadata(String metadata)
         {
