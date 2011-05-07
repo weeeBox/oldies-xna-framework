@@ -42,10 +42,13 @@ namespace asap.anim
         private int frameRate;
         private List<Tag> tags;
 
+        private SwfPlayerCache instanceCache;
+
         public SwfPlayer()
         {            
             displayList = new SwfDisplayList();
             animationType = AnimationType.NORMAL;
+            instanceCache = new SwfPlayerCache();
         }
 
         public void SetMovie(SwfMovie movie)
@@ -126,12 +129,11 @@ namespace asap.anim
             if (state == PlayerState.PLAYING)
             {
                 elaspedTime += delta;                
-
-                int oldFrame = currentFrame;
-                currentFrame = (int)(FrameRate * elaspedTime);
-                if (currentFrame != oldFrame)
+                                
+                int frame = (int)(FrameRate * elaspedTime);
+                if (frame != currentFrame)
                 {                    
-                    ProcessFrame(currentFrame);
+                    ProcessFrame(frame);
                 }
 
                 int maxDepth = displayList.Size;
@@ -148,6 +150,8 @@ namespace asap.anim
 
         private void ProcessFrame(int currentFrame)
         {
+            this.currentFrame = currentFrame;
+
             List<Tag> tags = Tags;
             int tagsCount = tags.Count;
 
@@ -240,7 +244,7 @@ namespace asap.anim
                 Debug.Assert(placeObject.HasCharacter());
                 Debug.Assert(placeObject.GetMatrix() != null);
                 int characterId = placeObject.GetCharacterId();
-                CharacterInstance instance = movie.CreateInstance(characterId);
+                CharacterInstance instance = CreateInstance(characterId, depth);
                 instance.SetSwfMatrix(placeObject.GetMatrix());
                 if (placeObject.HasColorTransform())
                 {
@@ -254,7 +258,7 @@ namespace asap.anim
                 displayList[depth] = instance;
             }
         }
-
+        
         private void DoRemoveObject(Tag tag)
         {
             int depth;
@@ -289,6 +293,17 @@ namespace asap.anim
         public List<CharacterInstance> FindInstancesOf(Type type)
         {
             return displayList.FindInstancesOf(type);
+        }
+
+        private CharacterInstance CreateInstance(int characterId, int depth)
+        {
+            CharacterInstance instance = instanceCache.FindCached(characterId, depth, currentFrame);
+            if (instance == null)
+            {
+                instance = movie.CreateInstance(characterId);
+                instanceCache.AddCached(instance, depth, currentFrame);
+            }
+            return instance;
         }
 
         public int FramesCount
