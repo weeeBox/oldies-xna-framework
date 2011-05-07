@@ -1,15 +1,29 @@
-﻿using asap.graphics;
+﻿using System;
+using asap.graphics;
+using asap.util;
 using asap.visual;
 using Microsoft.Xna.Framework;
 using swiff.com.jswiff.swfrecords;
-using asap.util;
 
 namespace asap.anim.objects
 {
-    public abstract class CharacterInstance : BaseElementContainer
+    public abstract class CharacterInstance : BaseElementContainer, IDisposable
     {
-        private Matrix matrix = Matrix.Identity;
-        private bool hasTransform = false;        
+        private Matrix matrix;
+        private bool hasTransform;
+        private int characterId;
+
+        public CharacterInstance(int characterId)
+        {
+            this.characterId = characterId;
+            Reset();
+        }
+
+        private void Reset()
+        {
+            matrix = Matrix.Identity;
+            hasTransform = false;
+        }
 
         public void SetSwfColorTransform(CXformWithAlpha ct)
         {
@@ -43,6 +57,15 @@ namespace asap.anim.objects
             {
                 AppGraphics.PopMatrix();
             }
+        }
+
+        public int GetCharacterId()
+        {
+            return characterId;
+        }
+
+        public virtual void Dispose()
+        {            
         }
     }
 }

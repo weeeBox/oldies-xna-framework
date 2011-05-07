@@ -1,20 +1,17 @@
 using System;
-
 using System.Collections.Generic;
-
-
 using swiff.com.jswiff.io;
 
 namespace swiff.com.jswiff.swfrecords.tags
 {
     public class SymbolClass : Tag
     {
-        private Dictionary<String, SymbolClass.SymbolClassEntry>  pairs;
+        private Dictionary<String, int>  symbols;
         
         public SymbolClass() 
         {
             code = TagConstants.SYMBOL_CLASS;
-            pairs = new Dictionary<String, SymbolClass.SymbolClassEntry> ();
+            symbols = new Dictionary<String, int>();
         }
         
         public override void SetData(byte[] data) /* throws IOException */
@@ -25,18 +22,18 @@ namespace swiff.com.jswiff.swfrecords.tags
             {
                 int tagId = inStream.ReadUI16();
                 String className = inStream.ReadString();
-                pairs.Add(className, new SymbolClassEntry(tagId , className));
+                symbols.Add(className, tagId);
             }
         }
         
-        public virtual void AddSymbolPair(int tagId, String className)
+        public virtual void AddSymbol(int tagId, String className)
         {
-            pairs.Add(className, new SymbolClassEntry(tagId , className));
+            symbols.Add(className, tagId);
         }
         
-        public virtual Dictionary<String, SymbolClass.SymbolClassEntry>  GetPairs()
+        public virtual Dictionary<String, int> GetSymbols()
         {
-            return pairs;
+            return symbols;
         }
         
         public class SymbolClassEntry

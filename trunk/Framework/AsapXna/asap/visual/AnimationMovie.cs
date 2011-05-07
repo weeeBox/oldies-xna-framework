@@ -49,6 +49,11 @@ namespace asap.visual
             }
         } 
       
+        public SwfPlayer GetPlayer()
+        {
+            return player;
+        }
+
         public AnimationType AnimationType
         {
             get { return player.AnimationType; }

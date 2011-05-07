@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using swiff.com.jswiff.swfrecords.tags;
 using System.Diagnostics;
 using asap.graphics;
+using swiff.com.jswiff.swfrecords.tags;
 
 namespace asap.anim
 {
@@ -12,17 +10,38 @@ namespace asap.anim
     {
         private Dictionary<int, DefinitionTag> tags;
         private List<SwfPartset> partsets;
+        private Dictionary<string, DefineSprite> namedSymbols;
 
         public SwfLibrary()
         {
             tags = new Dictionary<int, DefinitionTag>();
+            namedSymbols = new Dictionary<string, DefineSprite>();
             partsets = new List<SwfPartset>();
+        }
+
+        public void AddNamedSymbol(string name, int characterId)
+        {
+            Debug.Assert(tags.ContainsKey(characterId), "Can't find library tag: " + characterId);
+            DefinitionTag tag = tags[characterId];
+            Debug.Assert(tag != null, "Can't find character: " + characterId);
+            Debug.Assert(tag is DefineSprite, "Can't cast tag to DefineSprite: " + tag.ToString());
+            namedSymbols.Add(name, (DefineSprite)tag);
         }
 
         public void Add(DefinitionTag tag)
         {
             Debug.Assert(!tags.ContainsKey(tag.GetCharacterId()), "Library duplicate: " + tag.GetCharacterId() + " " + tag);
             tags.Add(tag.GetCharacterId(), tag);
+        }
+
+        public DefineSprite getNamedSymbol(string name)
+        {
+            if (namedSymbols.ContainsKey(name))
+            {
+                return namedSymbols[name];
+            }
+
+            return null;
         }
 
         public DefinitionTag this[int characterId]

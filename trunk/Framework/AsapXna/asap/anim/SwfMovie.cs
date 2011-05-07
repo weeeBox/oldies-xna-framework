@@ -15,7 +15,8 @@ namespace asap.anim
         private int framesCount;
         private int frameRate;
 
-        private List<Tag> tags;
+        private List<Tag> tags;        
+
         private SwfLibrary library;        
 
         public SwfMovie(int framesCount, int frameRate)
@@ -29,6 +30,11 @@ namespace asap.anim
         public void AddPartset(SwfPartset partset)
         {
             library.AddPartset(partset);
+        }
+
+        public void AddNamedSymbol(string name, int characterId)
+        {
+            library.AddNamedSymbol(name, characterId);
         }
 
         public void AddDefinitionTag(DefinitionTag tag)
@@ -71,7 +77,7 @@ namespace asap.anim
                     DefinePackedImage packedImage = (DefinePackedImage)tag;
                     int imageId = packedImage.ImageId;
                     GameTexture image = library.GetImage(imageId);
-                    return new BitmapInstance(image);
+                    return new BitmapInstance(tag.GetCharacterId(), image);
                 }
 
                 case TagConstants.DEFINE_SHAPE:
