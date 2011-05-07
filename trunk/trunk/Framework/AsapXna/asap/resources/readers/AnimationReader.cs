@@ -17,7 +17,7 @@ namespace asap.resources.readers
             SWFDocument doc = readDocument(input.BaseStream);            
             List<Tag> tags = doc.GetTags();
 
-            SwfMovie movie = new SwfMovie(doc.GetFrameCount(), doc.GetFrameRate());            
+            SwfMovie movie = new SwfMovie(doc);
 
             foreach (Tag tag in tags)
             {

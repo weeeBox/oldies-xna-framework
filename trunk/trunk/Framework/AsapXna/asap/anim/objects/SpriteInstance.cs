@@ -34,6 +34,16 @@ namespace asap.anim.objects
             set { name = value; }
         }
 
+        public SpriteInstance FindInstance(string name)
+        {
+            return player.FindInstance(name);
+        }
+
+        public List<CharacterInstance> CurrentFrameChilds
+        {
+            get { return player.FindInstancesOf(typeof(CharacterInstance)); }
+        }
+
         public override void Draw(Graphics g)
         {
             base.PreDraw(g);

@@ -65,6 +65,8 @@ namespace asap.anim
                     {
                         return sprite;
                     }
+
+                    return sprite.FindInstance(name);
                 }
             }
             return null;
@@ -75,7 +77,7 @@ namespace asap.anim
             List<CharacterInstance> instances = new List<CharacterInstance>();
             foreach (CharacterInstance obj in objects)
             {
-                if (obj.GetType() == type)
+                if (type.IsAssignableFrom(obj.GetType()))
                 {
                     instances.Add(obj);
                 }

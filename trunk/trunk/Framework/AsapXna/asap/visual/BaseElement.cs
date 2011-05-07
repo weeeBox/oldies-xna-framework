@@ -12,13 +12,18 @@ namespace asap.visual
         public const float ALIGN_CENTER = 0.5f;
         public const float ALIGN_MAX = 1.0f;        
                 
+#if DEBUG
+        public Color borderColor = Color.White;
+        public bool drawBorder;
+#endif
+
         public bool visible;
         public bool updateable;        
 
         public float x;
         public float y;
-        public float drawX;
-        public float drawY;
+        private float drawX;
+        private float drawY;
 
         public float width;
         public float height;
@@ -91,16 +96,16 @@ namespace asap.visual
 
             if (parent != null)
             {
-                drawX += parent.drawX + parent.width * parentAlignX;
-                drawY += parent.drawY + parent.height * parentAlignY;
-            }
+                drawX += parent.width * parentAlignX;
+                drawY += parent.height * parentAlignY;
+            }            
 
-            ApplyDrawState();
+            ApplyDrawState(g);
         }        
         
         public virtual void PostDraw(Graphics g)
         {
-            RestoreDrawState();
+            RestoreDrawState(g);
         }
                 
         public virtual void Draw(Graphics g)
@@ -112,10 +117,11 @@ namespace asap.visual
         /////////////////////////////////////////////////////////////////////////////
         // Draw state
 
-        protected void ApplyDrawState()
-        {
+        protected void ApplyDrawState(Graphics g)
+        {            
             ApplyTransformations();
             ApplyEffect();
+            g.Translate(drawX, drawY);
         }
 
         protected virtual void ApplyTransformations()
@@ -170,10 +176,17 @@ namespace asap.visual
             }
         }
 
-        protected void RestoreDrawState()
-        {
+        protected void RestoreDrawState(Graphics g)
+        {            
+#if DEBUG
+            if (drawBorder)
+            {
+                AppGraphics.DrawRect(0, 0, width, height, borderColor);
+            }
+#endif
+            g.Translate(-drawX, -drawY);
             RestoreEffect();
-            RestoreTransformations();
+            RestoreTransformations();            
         }
 
         protected virtual void RestoreTransformations()
