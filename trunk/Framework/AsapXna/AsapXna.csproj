@@ -101,6 +101,7 @@
     <Compile Include="asap\anim\SwfLibrary.cs" />
     <Compile Include="asap\anim\SwfMovie.cs" />
     <Compile Include="asap\anim\SwfPlayer.cs" />
+    <Compile Include="asap\anim\SwfPlayerCache.cs" />
     <Compile Include="asap\app\BaseApp.cs" />
     <Compile Include="asap\app\AppImpl.cs" />
     <Compile Include="asap\core\Controller.cs" />
