@@ -5,6 +5,7 @@ using System.Text;
 using asap.graphics;
 using asap.anim;
 using asap.core;
+using asap.anim.objects;
 
 namespace asap.visual
 {
@@ -52,6 +53,21 @@ namespace asap.visual
         public SwfPlayer GetPlayer()
         {
             return player;
+        }
+
+        public SpriteInstance FindInstance(string name)
+        {
+            return GetPlayer().FindInstance(name);
+        }
+
+        public List<CharacterInstance> FindInstances(int characterId)
+        {
+            return GetPlayer().FindInstances(characterId);
+        }
+
+        public List<CharacterInstance> FindInstancesOf(Type type)
+        {
+            return GetPlayer().FindInstancesOf(type);
         }
 
         public AnimationType AnimationType

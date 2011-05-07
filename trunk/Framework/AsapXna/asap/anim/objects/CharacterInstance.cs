@@ -12,10 +12,12 @@ namespace asap.anim.objects
         private Matrix matrix;
         private bool hasTransform;
         private int characterId;
+        private int code;
 
-        public CharacterInstance(int characterId)
+        public CharacterInstance(int code, int characterId)
         {
             this.characterId = characterId;
+            this.code = code;
             Reset();
         }
 
@@ -62,6 +64,11 @@ namespace asap.anim.objects
         public int GetCharacterId()
         {
             return characterId;
+        }
+
+        public int GetCode()
+        {
+            return code;
         }
 
         public virtual void Dispose()

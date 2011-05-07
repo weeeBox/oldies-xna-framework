@@ -13,7 +13,7 @@ namespace asap.anim.objects
         private SwfPlayer player;
         private string name;
 
-        public SpriteInstance(DefineSprite sprite, SwfMovie movie) : base(sprite.GetCharacterId())
+        public SpriteInstance(DefineSprite sprite, SwfMovie movie) : base(CharacterConstansts.SPRITE, sprite.GetCharacterId())
         {            
             player = new SwfPlayer();
             player.SetMovie(movie);

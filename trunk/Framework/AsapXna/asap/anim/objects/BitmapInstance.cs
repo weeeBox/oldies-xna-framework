@@ -7,7 +7,7 @@ namespace asap.anim.objects
     {
         private GameTexture image;
 
-        public BitmapInstance(int characterId, GameTexture image) : base(characterId)
+        public BitmapInstance(int characterId, GameTexture image) : base(CharacterConstansts.BITMAP, characterId)
         {
             this.image = image;
         }
