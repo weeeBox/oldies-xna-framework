@@ -39,15 +39,7 @@ namespace asap.resources.readers
                     movie.AddPartset(partset);
                 }                
                 else if (tag is DefinitionTag)
-                {
-                    if (code == TagConstants.PLACE_OBJECT_2)
-                    {
-                        PlaceObject2 placeObject = (PlaceObject2)tag;
-                        if (placeObject.HasName())
-                        {
-
-                        }
-                    }
+                {                    
                     movie.AddDefinitionTag((DefinitionTag)tag);
                 }
                 else if (tag is SymbolClass)

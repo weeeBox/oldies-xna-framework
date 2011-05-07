@@ -54,6 +54,22 @@ namespace asap.anim
             }
         }
 
+        public SpriteInstance FindInstance(string name)
+        {
+            foreach (CharacterInstance obj in objects)
+            {                
+                if (obj.GetCode() == CharacterConstansts.SPRITE)
+                {
+                    SpriteInstance sprite = (SpriteInstance)obj;                    
+                    if (name.Equals(sprite.Name))
+                    {
+                        return sprite;
+                    }
+                }
+            }
+            return null;
+        }
+
         public List<CharacterInstance> FindInstancesOf(Type type)
         {
             List<CharacterInstance> instances = new List<CharacterInstance>();

@@ -276,9 +276,19 @@ namespace asap.anim
         // Helpers
         /////////////////////////////////////////////////////////////////////////////
         
+        public SpriteInstance FindInstance(string name)
+        {
+            return displayList.FindInstance(name);
+        }
+
         public List<CharacterInstance> FindInstances(int characterId)
         {
             return displayList.FindInstances(characterId);
+        }
+
+        public List<CharacterInstance> FindInstancesOf(Type type)
+        {
+            return displayList.FindInstancesOf(type);
         }
 
         public int FramesCount
