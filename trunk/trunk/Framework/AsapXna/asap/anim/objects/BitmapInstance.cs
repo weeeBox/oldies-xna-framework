@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using asap.graphics;
+﻿using asap.graphics;
+using swiff.com.jswiff.swfrecords.tags;
 
 namespace asap.anim.objects
 {
@@ -10,7 +7,7 @@ namespace asap.anim.objects
     {
         private GameTexture image;
 
-        public BitmapInstance(GameTexture image)
+        public BitmapInstance(int characterId, GameTexture image) : base(characterId)
         {
             this.image = image;
         }

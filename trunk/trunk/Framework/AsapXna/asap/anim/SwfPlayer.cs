@@ -164,71 +164,123 @@ namespace asap.anim
                     case TagConstants.PLACE_OBJECT:
                     case TagConstants.PLACE_OBJECT_3:
                     {
+                        PlaceObject3 placeObject = (PlaceObject3)tag;
                         throw new NotImplementedException();                        
                     }
-                    case TagConstants.PLACE_OBJECT_2:                    
-                    {
-                        PlaceObject2 placeObject = (PlaceObject2)tag;
-                        bool isMove = placeObject.IsMove();                        
-                        int depth = placeObject.GetDepth();
-                        if (isMove)
-                        {
-                            bool hasCharacter = placeObject.HasCharacter();  
-                            if (hasCharacter)
-                            {
-                                throw new NotImplementedException(placeObject.ToString());
-                            }
-                            else
-                            {
-                                CharacterInstance instance = displayList[depth];                                
-                                if (placeObject.HasMatrix())
-                                {                                                                        
-                                    instance.SetSwfMatrix(placeObject.GetMatrix());
-                                }
-                                if (placeObject.HasColorTransform())
-                                {
-                                    instance.SetSwfColorTransform(placeObject.GetColorTransform());
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Debug.Assert(placeObject.HasCharacter());
-                            Debug.Assert(placeObject.GetMatrix() != null);
-                            int characterId = placeObject.GetCharacterId();
-                            CharacterInstance instance = movie.CreateInstance(characterId);
-                            instance.SetSwfMatrix(placeObject.GetMatrix());
-                            if (placeObject.HasColorTransform())
-                            {
-                                instance.SetSwfColorTransform(placeObject.GetColorTransform());
-                            }
-                            displayList[depth] = instance;                           
-                        }                        
-                        
+                    case TagConstants.PLACE_OBJECT_2:                   
+                        doPlaceObject2(tag);                        
                         break;
-                    }                        
+                    case TagConstants.REMOVE_OBJECT:
+                    case TagConstants.REMOVE_OBJECT_2:
+                        DoRemoveObject(tag);
+                        break;                    
                 }
             }            
 
-            if (tagPointer == tagsCount)
-            {                
-                Stop();
-
-                switch (animationType)
-                {
-                    case AnimationType.NORMAL:
-                        break;
-                    case AnimationType.LOOP:
-                        Start();
-                        break;
-                    case AnimationType.PING_PONG:
-                        throw new NotImplementedException();
-                    default:
-                        throw new NotImplementedException();                        
-                }
+            if (IsAnimationFinished())
+            {
+                OnAnimationFinished();
             }
         }        
         
+        private bool IsAnimationFinished()
+        {
+            return tagPointer == Tags.Count;
+        }
+
+        protected virtual void OnAnimationFinished()
+        {
+            Stop();
+
+            switch (animationType)
+            {
+                case AnimationType.NORMAL:
+                    break;
+                case AnimationType.LOOP:
+                    Start();
+                    break;
+                case AnimationType.PING_PONG:
+                    throw new NotImplementedException();
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        /////////////////////////////////////////////////////////////////////////////
+        // Tags logic
+        /////////////////////////////////////////////////////////////////////////////
+
+        private void doPlaceObject2(Tag tag)
+        {
+            PlaceObject2 placeObject = (PlaceObject2)tag;
+            bool isMove = placeObject.IsMove();
+            int depth = placeObject.GetDepth();
+            if (isMove)
+            {
+                bool hasCharacter = placeObject.HasCharacter();
+                if (hasCharacter)
+                {
+                    throw new NotImplementedException(placeObject.ToString());
+                }
+                else
+                {
+                    CharacterInstance instance = displayList[depth];
+                    if (placeObject.HasMatrix())
+                    {
+                        instance.SetSwfMatrix(placeObject.GetMatrix());
+                    }
+                    if (placeObject.HasColorTransform())
+                    {
+                        instance.SetSwfColorTransform(placeObject.GetColorTransform());
+                    }
+                }
+            }
+            else
+            {
+                Debug.Assert(placeObject.HasCharacter());
+                Debug.Assert(placeObject.GetMatrix() != null);
+                int characterId = placeObject.GetCharacterId();
+                CharacterInstance instance = movie.CreateInstance(characterId);
+                instance.SetSwfMatrix(placeObject.GetMatrix());
+                if (placeObject.HasColorTransform())
+                {
+                    instance.SetSwfColorTransform(placeObject.GetColorTransform());
+                }
+                if (placeObject.HasName())
+                {
+                    Debug.Assert(instance is SpriteInstance);
+                    ((SpriteInstance)instance).Name = placeObject.GetName();
+                }
+                displayList[depth] = instance;
+            }
+        }
+
+        private void DoRemoveObject(Tag tag)
+        {
+            int depth;
+            switch (tag.GetCode())
+            {
+                case TagConstants.REMOVE_OBJECT_2:
+                    depth = ((RemoveObject2)tag).GetDepth();
+                    break;
+                case TagConstants.REMOVE_OBJECT:
+                    depth = ((RemoveObject)tag).GetDepth();
+                    break;
+                default:
+                    throw new NotImplementedException(tag.GetCode().ToString());
+            }            
+            displayList[depth] = null;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////
+        // Helpers
+        /////////////////////////////////////////////////////////////////////////////
+        
+        public List<CharacterInstance> FindInstances(int characterId)
+        {
+            return displayList.FindInstances(characterId);
+        }
+
         public int FramesCount
         {
             get { return framesCount; }

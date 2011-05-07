@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using swiff.com.jswiff;
 using swiff.com.jswiff.listeners;
 using swiff.com.jswiff.swfrecords.tags;
+using System.Diagnostics;
 
 namespace asap.resources.readers
 {
@@ -37,10 +38,35 @@ namespace asap.resources.readers
 
                     movie.AddPartset(partset);
                 }                
-                if (tag is DefinitionTag)
+                else if (tag is DefinitionTag)
                 {
+                    if (code == TagConstants.PLACE_OBJECT_2)
+                    {
+                        PlaceObject2 placeObject = (PlaceObject2)tag;
+                        if (placeObject.HasName())
+                        {
+
+                        }
+                    }
                     movie.AddDefinitionTag((DefinitionTag)tag);
-                }                
+                }
+                else if (tag is SymbolClass)
+                {
+                    SymbolClass symbolClass = (SymbolClass)tag;
+                    Dictionary<string, int> symbols = symbolClass.GetSymbols();
+                    foreach (KeyValuePair<string, int> symbol in symbols)
+                    {
+                        string name = symbol.Key;
+                        int characterId = symbol.Value;
+                        if (characterId == 0)
+                        {                            
+                            Debug.WriteLine("Ignore main timeline: " + name);                            
+                            continue;
+                        }
+                        Debug.WriteLine("Add symbol: " + name + "=" + characterId);
+                        movie.AddNamedSymbol(name, characterId);
+                    }
+                }
                 else
                 {                    
                     movie.AddControlTag(tag);

@@ -10,18 +10,30 @@ namespace asap.anim.objects
 {
     public class SpriteInstance : CharacterInstance
     {
-        private SwfPlayer player;                
+        private SwfPlayer player;
+        private string name;
 
-        public SpriteInstance(DefineSprite sprite, SwfMovie movie)
+        public SpriteInstance(DefineSprite sprite, SwfMovie movie) : base(sprite.GetCharacterId())
         {            
             player = new SwfPlayer();
             player.SetMovie(movie);
             player.FramesCount = sprite.GetFrameCount();
             player.Tags = sprite.GetControlTags();            
             player.Start();
-            player.AnimationType = AnimationType.LOOP;
+            player.AnimationType = AnimationType.LOOP;            
         }                                
         
+        public bool HasName
+        {
+            get { return name != null; }
+        }
+
+        public string Name
+        {
+            get { return name; }            
+            set { name = value; }
+        }
+
         public override void Draw(Graphics g)
         {
             base.PreDraw(g);

@@ -12,15 +12,15 @@ namespace swiff.com.jswiff.swfrecords.tags
      */
     abstract public class Tag
     {
-        public bool forceLongHeader;
+        protected bool forceLongHeader;
         
-        public short code;
+        protected short code;
         
-        public int Length;        
+        protected int Length;        
         
         private short swfVersion = 7;
         
-        private bool shiftJIS;
+        protected bool shiftJIS;
         
         public virtual int GetCode()
         {

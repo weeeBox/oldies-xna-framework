@@ -11,7 +11,7 @@ namespace swiff.com.jswiff.swfrecords.tags
      */
     abstract public class DefinitionTag : Tag
     {
-        public int characterId;
+        protected int characterId;
         
         public virtual void SetCharacterId(int characterId)
         {
