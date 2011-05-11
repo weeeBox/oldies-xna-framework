@@ -6,11 +6,11 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace asap.resources
 {
-    public class Sound : BaseSound
+    public class GameSound : BaseSound
     {
         private SoundEffect effect;
 
-        public Sound(SoundEffect effect)
+        public GameSound(SoundEffect effect)
         {
             this.effect = effect;
         }
@@ -22,6 +22,11 @@ namespace asap.resources
                 effect.Dispose();
                 effect = null;
             }
+        }
+
+        public SoundEffectInstance CreateInstance()
+        {
+            return effect.CreateInstance();
         }
     }
 }
