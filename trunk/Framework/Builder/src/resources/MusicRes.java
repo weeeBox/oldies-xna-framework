@@ -2,7 +2,7 @@ package resources;
 
 import java.io.File;
 
-public class SongRes extends ResourceBase 
+public class MusicRes extends ResourceBase 
 {
 	private static final String IMPORTER = "Mp3Importer";
 	private static final String PROCESSOR = "SongProcessor";
@@ -12,12 +12,12 @@ public class SongRes extends ResourceBase
 		ResourceReg.register(IMPORTER, PROCESSOR);
 	}
 	
-	public SongRes(String name, File file)
+	public MusicRes(String name, File file)
 	{
 		super(name, file);
 	}
 	
-	public SongRes()
+	public MusicRes()
 	{
 		super();
 	}
@@ -37,13 +37,13 @@ public class SongRes extends ResourceBase
 	@Override
 	public String getResourceType() 
 	{
-		return "SONG";
+		return "MUSIC";
 	}
 
 	@Override
 	public String getResourceTypePrefix() 
 	{
-		return "SONG_";
+		return "MUSIC_";
 	}
 
 }
