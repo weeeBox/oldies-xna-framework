@@ -2,13 +2,19 @@
 using System.Diagnostics;
 using asap.core;
 using asap.graphics;
+using asap.resources;
+using asap.sound;
 using asap.ui;
 
 namespace asap.app
 {
-    public class BaseApp : TimerSource
+    public abstract class BaseApp : TimerSource
     {
         private static BaseApp instance;
+
+        public static ResourceMgr sharedResourceMgr;
+
+        public static SoundMgr sharedSoundMgr;
 
         private TickListener tickListener;
         
@@ -33,7 +39,10 @@ namespace asap.app
             this.width = width;
             this.height = height;
             timerController = new TimerController();
-        }
+
+            sharedResourceMgr = CreateResourceMgr();
+            sharedSoundMgr = CreateSoundMgr();
+        }        
         
         public virtual void SetTickListener(TickListener listener)
         {
@@ -164,5 +173,8 @@ namespace asap.app
         {
             return new Timer(GetInstance(), listener);
         }
+
+        protected abstract ResourceMgr CreateResourceMgr();
+        protected abstract SoundMgr CreateSoundMgr();
     }    
 }

@@ -5,6 +5,7 @@ using asap.app;
 using asap.core;
 using asap.graphics;
 using AsapXna.asap.resources.types;
+using asap.anim;
 
 namespace asap.resources
 {
@@ -15,20 +16,22 @@ namespace asap.resources
         private TimerController timerController;
         private Timer timer;
 
+        private ResourceLoadInfo[][] resourcesData;
         private ManagedResource[] resources;
         private List<ResourceLoadInfo> loadQueue;                
         private int loaded;        
 
         public ResourceMgrListener listener;
 
-        public ResourceMgr(int capacity)
+        public ResourceMgr(int capacity, ResourceLoadInfo[][] resourcesData)
         {
+            this.resourcesData = resourcesData;
             timerController = new TimerController();                       
             resources = new ManagedResource[capacity];
             loadQueue = new List<ResourceLoadInfo>(capacity);            
         }
 
-        public void initLoading()
+        public void InitLoading()
         {
             loadQueue.Clear();
             loaded = 0;
@@ -39,6 +42,37 @@ namespace asap.resources
         {            
             loadQueue.Add(info);
         }
+
+        public void LoadPacks(ResourceMgrListener listener, params int[] packs)
+        {
+            InitLoading();
+            foreach (int packIndex in packs)
+            {
+                AddPackToLoad(packIndex);
+            }
+            StartLoading(listener);
+        }
+
+        private void AddPackToLoad(int packIndex)
+        {
+            Debug.Assert(packIndex >= 0 && packIndex < resourcesData.Length);
+
+            ResourceLoadInfo[] infos = resourcesData[packIndex];
+            for (int resIndex = 0; resIndex < infos.Length; ++resIndex)
+            {
+                AddResourceToLoadQueue(ref infos[resIndex]);
+            }
+        }
+
+        private void UnloadPack(int packIndex)
+        {
+            Debug.Assert(packIndex >= 0 && packIndex < resourcesData.Length);
+            ResourceLoadInfo[] infos = resourcesData[packIndex];
+            for (int resIndex = 0; resIndex < infos.Length; ++resIndex)
+            {
+                FreeResource(infos[resIndex].resId);
+            }
+        }        
 
         public void StartLoading()
         {
@@ -54,12 +88,12 @@ namespace asap.resources
             timer.Schedule(LOADING_TIME_INTERVAL, true);
         }
 
-        public void loadImmediately()
+        public void LoadImmediately()
         {
             for (int resIndex = 0; resIndex < loadQueue.Count; ++resIndex)
             {
                 ResourceLoadInfo info = loadQueue[resIndex];
-                if (loadResource(ref info) != null)
+                if (LoadResource(ref info) != null)
                 {
                     loaded++;
                 }
@@ -71,12 +105,12 @@ namespace asap.resources
             }
         }
 
-        public bool isBusy()
+        public bool IsBusy()
         {
             return timer.IsScheduled();
         }
 
-        public int getPercentLoaded()
+        public int GetPercentLoaded()
         {
             if (loadQueue.Count == 0)
             {
@@ -88,21 +122,21 @@ namespace asap.resources
             }
         }
 
-        protected ManagedResource getResource(int resName)
+        public ManagedResource GetResource(int resName)
         {
             ManagedResource resource = resources[resName];
             Debug.Assert(resource != null, "Resource not loaded: " + resName);
             return resource;
         }        
 
-        public void freeResource(int resName)
+        public void FreeResource(int resName)
         {
             Debug.Assert(resources[resName] != null);
             resources[resName].Dispose();
             resources[resName] = null;         
         }        
 
-        public ManagedResource loadResource(ref ResourceLoadInfo info)
+        public ManagedResource LoadResource(ref ResourceLoadInfo info)
         {
             ManagedResource res = Load(ref info);
             if (info.resId >= 0)
@@ -142,6 +176,12 @@ namespace asap.resources
 
                 case ResType.SWF:
                     return ResFactory.GetInstance().LoadSwfMovie(resName);
+
+                case ResType.MUSIC:
+                    return ResFactory.GetInstance().LoadMusic(resName);
+
+                case ResType.SOUND:
+                    return ResFactory.GetInstance().LoadSound(resName);
             }
 
             Debug.Assert(false, "Can't load resource: " + resName);
@@ -157,7 +197,7 @@ namespace asap.resources
         public void OnTimer(Timer timer)
         {
             ResourceLoadInfo info = loadQueue[loaded];
-            if (loadResource(ref info) != null)
+            if (LoadResource(ref info) != null)
             {
                 loaded++;
                 if (listener != null)
@@ -193,6 +233,31 @@ namespace asap.resources
                 timer.Cancel();
                 timer = null;
             }
+        }
+
+        public GameTexture GetTexture(int id)
+        {
+            return (GameTexture)GetResource(id);
+        }
+
+        public SwfMovie GetMovie(int id)
+        {
+            return (SwfMovie)GetResource(id);
+        }
+
+        public BaseFont GetFont(int id)
+        {
+            return (BaseFont)GetResource(id);
+        }
+
+        public GameSound GetSound(int id)
+        {
+            return (GameSound)GetResource(id);
+        }        
+
+        public GameMusic GetMusic(int id)
+        {
+            return (GameMusic)GetResource(id);
         }
     }
 }

@@ -6,13 +6,18 @@ using Microsoft.Xna.Framework.Media;
 
 namespace asap.resources
 {
-    public class Music : BaseSound
+    public class GameMusic : BaseSound
     {
         private Song song;
 
-        public Music(Song song)
+        public GameMusic(Song song)
         {
             this.song = song;
+        }
+
+        public Song GetSong()
+        {
+            return song;
         }
 
         public override void Dispose()

@@ -14,7 +14,8 @@ namespace asap.resources
         public const int BITMAP_FONT = 4;
         public const int SYSTEM_FONT = 5;
         public const int SWF = 6;
+        public const int EFFECT = 7;
 
-        public const int TYPES_COUNT = 7;
+        public const int USER_TYPE = 255;
     }
 }

@@ -75,6 +75,16 @@ namespace asap.resources
             }
         }
 
+        public GameMusic LoadMusic(string resName)
+        {
+            return new GameMusic(content.Load<Song>(resName));
+        }
+
+        public GameSound LoadSound(string resName)
+        {
+            return new GameSound(content.Load<SoundEffect>(resName));
+        }
+
         public StringsPack LoadStrings(string path)
         {
             return content.Load<StringsPack>(path);
