@@ -2,6 +2,7 @@
 using asap.app;
 using asap.ui;
 using asap.sound;
+using asap.resources;
 
 namespace app
 {
@@ -11,11 +12,7 @@ namespace app
 
         public static ScreenManager sharedScreenMgr;
 
-        public static ScreensView sharedScreensView;
-
-        public static AppResourceMgr sharedResourceMgr;
-
-        public static SoundManager sharedSoundMgr;
+        public static ScreensView sharedScreensView;                
 
         public static AppRootController sharedRootController;
 
@@ -24,9 +21,7 @@ namespace app
             sharedCheatMgr = new CheatManager();
             sharedCheatMgr.AddCheatListener(this);
             sharedScreenMgr = new ScreenManager(this);
-            sharedScreensView = new ScreensView();
-            sharedResourceMgr = new AppResourceMgr();
-            sharedSoundMgr = new SoundManager();
+            sharedScreensView = new ScreensView();            
             sharedRootController = new AppRootController();
             SetTickListener(sharedRootController);
         }
@@ -46,6 +41,16 @@ namespace app
         public static Application Instance
         {
             get { return (Application)GetInstance(); }
-        }        
+        }
+
+        protected override ResourceMgr CreateResourceMgr()
+        {
+            return new AppResourceMgr();
+        }
+
+        protected override SoundMgr CreateSoundMgr()
+        {
+            return new SoundMgr(16); // fix me
+        }
     }
 }

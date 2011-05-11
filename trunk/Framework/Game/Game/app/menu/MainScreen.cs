@@ -9,6 +9,9 @@ using AsapXna.asap.visual;
 using asap.util;
 using Microsoft.Xna.Framework;
 using asap.graphics;
+using asap.resources;
+using asap.sound;
+using System;
 
 namespace Game.app.menu
 {
@@ -61,11 +64,27 @@ namespace Game.app.menu
             text.y = 100;
             text.drawBorder = true;
             AddChild(text);
-        }     
+
+            MusicChannel channel = Application.sharedSoundMgr.PlayMusic(Res.MUSIC_MUSIC, true);
+            channel.Volume = 0.1f;
+            Debug.WriteLine(channel.State);
+        }
+
+        private float elasped;
+        private Random random = new Random();
 
         public override void Update(float delta)
         {
-            base.Update(delta);            
+            base.Update(delta);
+
+            elasped += delta;
+            if (elasped > 0.2f)
+            {
+                elasped = 0.0f;
+                SoundChannel channel = Application.sharedSoundMgr.Play(Res.SND_SOUND);
+                channel.Pan = (float)(-1 + random.NextDouble() * 2);
+                channel.Pitch = (float)(-1 + random.NextDouble() * 2);                
+            }
         }
     }
 }
