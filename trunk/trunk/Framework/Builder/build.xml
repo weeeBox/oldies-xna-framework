@@ -77,7 +77,10 @@
 				<anim name="anim" file="${dir.gfx}/test.swf" />							    
 				<image name="ui_button_a2" file="${dir.gfx}/buttonA.png" />
 				<image name="ui_button_b2" file="${dir.gfx}/buttonB.png" />
-				<image name="duck_dead" file="${dir.gfx}/duck_dead.png" />				
+				<image name="duck_dead" file="${dir.gfx}/duck_dead.png" />
+				
+				<music name="music" file="${dir.sound}/music.mp3" />
+				<sound name="sound" file="${dir.sound}/sound.wav" />
 			</package>
 		</content>
 	</target>

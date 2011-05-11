@@ -95,9 +95,9 @@ public class PackageRes extends ProductClass
 		addResource(sound);
 	}
 	
-	public void addSong(SongRes song)
+	public void addMusic(MusicRes music)
 	{
-		addResource(song);
+		addResource(music);
 	}
 	
 	public void addAnim(AnimationRes ani)
