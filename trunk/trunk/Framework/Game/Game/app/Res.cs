@@ -17,11 +17,13 @@ namespace app
 		public const int ATLAS_COMMON = 0;
 		public const int IMG_UI_BUTTON_A = 1;
 		public const int IMG_UI_BUTTON_B = 2;
+		public const int FNT_FONT_TEST = 3;
 		// PACK_MENU
-		public const int ANI_SWF_TEST = 3;
-		public const int IMG_UI_BUTTON_A2 = 4;
-		public const int IMG_UI_BUTTON_B2 = 5;
-		public const int RES_COUNT = 6;
+		public const int ANI_ANIM = 4;
+		public const int IMG_UI_BUTTON_A2 = 5;
+		public const int IMG_UI_BUTTON_B2 = 6;
+		public const int IMG_DUCK_DEAD = 7;
+		public const int RES_COUNT = 8;
 	}
 	
 	public class Resources
@@ -32,13 +34,15 @@ namespace app
 			new ResourceLoadInfo[]
 			{
 				new ResourceLoadInfo("common", Res.ATLAS_COMMON, ResType.ATLAS),
+				new ResourceLoadInfo("font_test", Res.FNT_FONT_TEST, ResType.BITMAP_FONT),
 			},
 			// PACK_MENU
 			new ResourceLoadInfo[]
 			{
-				new ResourceLoadInfo("test", Res.ANI_SWF_TEST, ResType.SWF),
+				new ResourceLoadInfo("test", Res.ANI_ANIM, ResType.SWF),
 				new ResourceLoadInfo("buttonA", Res.IMG_UI_BUTTON_A2, ResType.IMAGE),
 				new ResourceLoadInfo("buttonB", Res.IMG_UI_BUTTON_B2, ResType.IMAGE),
+				new ResourceLoadInfo("duck_dead", Res.IMG_DUCK_DEAD, ResType.IMAGE),
 			},
 		};
 	}

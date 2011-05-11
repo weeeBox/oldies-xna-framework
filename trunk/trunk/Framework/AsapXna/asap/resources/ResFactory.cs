@@ -56,11 +56,10 @@ namespace asap.resources
             GameTexture instance = FindUsedReference<GameTexture>(path);
             if (instance == null)
             {
-                instance = new GameTexture();
+                instance = LoadImage(path);
                 AddReference(path, instance);
-            }
-            throw new NotImplementedException();
-            //return instance;
+            }            
+            return instance;
         }
 
         public AtlasRes loadAtlas(string resName)

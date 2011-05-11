@@ -164,9 +164,6 @@
     <Compile Include="asap\ui\ViewComposite.cs" />
     <Compile Include="asap\ui\ViewController.cs" />
     <Compile Include="asap\ui\ViewIterator.cs" />
-    <Compile Include="asap\util\FontTextDataProvider.cs" />
-    <Compile Include="asap\util\StringWrapper.cs" />
-    <Compile Include="asap\util\TextDataProvider.cs" />
     <Compile Include="asap\jswiff\io\InputBitStream.cs" />
     <Compile Include="asap\jswiff\listeners\SWFDocumentReader.cs" />
     <Compile Include="asap\jswiff\listeners\SWFListener.cs" />
@@ -413,6 +410,7 @@
   <ItemGroup>
     <Compile Include="asap\visual\Image.cs" />
     <Compile Include="asap\visual\AnimationMovie.cs" />
+    <Compile Include="asap\visual\Text.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

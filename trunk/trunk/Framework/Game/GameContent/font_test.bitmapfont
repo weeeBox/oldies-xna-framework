@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<font filename="tex_common" internalLeading="9" ascender="45" descender="8" externalLeading="0" charOffset="-1.0" spaceWidth="10">
+  <char value="!" x="104" y="62" w="16" h="43" ox="0" oy="4"/>
+  <char value="%" x="88" y="518" w="34" h="39" ox="0" oy="7"/>
+  <char value="(" x="62" y="4" w="21" h="50" ox="0" oy="0"/>
+  <char value=")" x="91" y="4" w="22" h="50" ox="0" oy="0"/>
+  <char value="+" x="82" y="660" w="30" h="38" ox="0" oy="8"/>
+  <char value="," x="113" y="272" w="11" h="18" ox="0" oy="35"/>
+  <char value="-" x="4" y="753" w="28" h="17" ox="0" oy="18"/>
+  <char value="." x="40" y="753" w="16" h="15" ox="0" oy="31"/>
+  <char value="/" x="4" y="566" w="27" h="39" ox="0" oy="7"/>
+  <char value="0" x="87" y="171" w="32" h="42" ox="0" oy="6"/>
+  <char value="1" x="44" y="322" w="20" h="41" ox="0" oy="6"/>
+  <char value="2" x="45" y="421" w="33" h="40" ox="0" oy="6"/>
+  <char value="3" x="72" y="322" w="36" h="41" ox="0" oy="6"/>
+  <char value="4" x="62" y="62" w="34" h="46" ox="0" oy="3"/>
+  <char value="5" x="4" y="372" w="30" h="41" ox="0" oy="6"/>
+  <char value="6" x="4" y="120" w="31" h="43" ox="0" oy="4"/>
+  <char value="7" x="39" y="566" w="31" h="39" ox="0" oy="7"/>
+  <char value="8" x="4" y="222" w="29" h="42" ox="0" oy="6"/>
+  <char value="9" x="78" y="566" w="30" h="39" ox="0" oy="6"/>
+  <char value=":" x="108" y="470" w="16" h="35" ox="0" oy="11"/>
+  <char value="?" x="41" y="222" w="32" h="42" ox="0" oy="5"/>
+  <char value="A" x="81" y="222" w="30" h="42" ox="0" oy="6"/>
+  <char value="B" x="86" y="421" w="35" h="40" ox="0" oy="6"/>
+  <char value="C" x="4" y="613" w="28" h="39" ox="0" oy="7"/>
+  <char value="D" x="45" y="707" w="33" h="37" ox="0" oy="7"/>
+  <char value="E" x="4" y="272" w="27" h="42" ox="0" oy="6"/>
+  <char value="F" x="4" y="470" w="28" h="40" ox="0" oy="6"/>
+  <char value="G" x="43" y="120" w="33" h="43" ox="0" oy="5"/>
+  <char value="H" x="39" y="272" w="29" h="42" ox="0" oy="5"/>
+  <char value="I" x="40" y="470" w="16" h="40" ox="0" oy="6"/>
+  <char value="J" x="76" y="272" w="29" h="42" ox="0" oy="5"/>
+  <char value="K" x="84" y="120" w="34" h="43" ox="0" oy="4"/>
+  <char value="L" x="40" y="613" w="26" h="39" ox="0" oy="6"/>
+  <char value="M" x="42" y="372" w="42" h="41" ox="0" oy="6"/>
+  <char value="N" x="4" y="421" w="33" h="41" ox="0" oy="6"/>
+  <char value="O" x="4" y="322" w="32" h="42" ox="0" oy="6"/>
+  <char value="P" x="74" y="613" w="29" h="39" ox="0" oy="7"/>
+  <char value="Q" x="4" y="171" w="35" h="43" ox="0" oy="6"/>
+  <char value="R" x="92" y="372" w="32" h="41" ox="0" oy="6"/>
+  <char value="S" x="4" y="660" w="31" h="39" ox="0" oy="7"/>
+  <char value="T" x="47" y="171" w="32" h="43" ox="0" oy="5"/>
+  <char value="U" x="43" y="660" w="31" h="39" ox="0" oy="7"/>
+  <char value="V" x="64" y="470" w="36" h="40" ox="0" oy="6"/>
+  <char value="W" x="4" y="518" w="38" h="40" ox="0" oy="6"/>
+  <char value="X" x="4" y="707" w="33" h="38" ox="0" oy="7"/>
+  <char value="Y" x="50" y="518" w="30" h="40" ox="0" oy="6"/>
+  <char value="Z" x="86" y="707" w="35" h="37" ox="0" oy="8"/>
+</font>

@@ -135,7 +135,10 @@ namespace asap.resources
                     }                    
 
                     return atlas;
-                }                    
+                }
+
+                case ResType.BITMAP_FONT:
+                    return ResFactory.GetInstance().LoadFont(resName);
 
                 case ResType.SWF:
                     return ResFactory.GetInstance().LoadSwfMovie(resName);

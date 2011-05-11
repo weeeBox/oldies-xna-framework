@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using asap.graphics;
-using asap.resources;
 using Microsoft.Xna.Framework.Content;
 
-namespace asap.resouces.readers
+namespace asap.resources.readers
 {
     /// <summary>
     /// This class will be instantiated by the XNA Framework Content
@@ -18,41 +16,48 @@ namespace asap.resouces.readers
         protected override BitmapFont Read(ContentReader input, BitmapFont existingInstance)
         {
             string texture = input.ReadString();
-            GameTexture fontImage = ResFactory.GetInstance().LoadManagedImage(texture);
+            GameTexture fontTexture = ResFactory.GetInstance().LoadManagedImage(texture);            
 
-            BitmapFont font = new BitmapFont();
-            font.fontImage = fontImage;
+            sbyte internalLeading = input.ReadSByte();
+            sbyte ascender = input.ReadSByte();
+            sbyte descender = input.ReadSByte();
+            sbyte externalLeading = input.ReadSByte();
+            float charOffset = input.ReadSingle();            
+            sbyte spaceWidth = input.ReadSByte();
+            
+            int charsCount = input.ReadInt16();
+            int totalCharsCount = charsCount + 1; // the first will be space
+            BitmapFont font = new BitmapFont(fontTexture, totalCharsCount);
 
-            font.capHeight = input.ReadSByte();
-            font.ascent = input.ReadSByte();
-            font.tracking = input.ReadSByte();
-            font.lineHeight = input.ReadSByte();
-            font.descent = input.ReadSByte();            
-            int charsCnt = input.ReadInt16();
-            sbyte[] charsAscent = new sbyte[charsCnt];
-            short[] charsOx = new short[charsCnt];
-            short[] charsOy = new short[charsCnt];
-            sbyte[] charsW = new sbyte[charsCnt];
-            sbyte[] charsH = new sbyte[charsCnt];
-            Dictionary<char, int> charIndices = new Dictionary<char, int>(charsCnt);
-            char c;
-            for (int i = 0; i < charsCnt; i++)
+            // the first character is space. If user attempt to draw illegal character, the space will be drawn instead (blank space)
+            CharInfo space;
+            space.chr = ' ';
+            space.x = 0;
+            space.y = 0;
+            space.width = spaceWidth;
+            space.height = 0;
+            space.ox = 0;
+            space.oy = 0;
+            font.SetCharInfo(space, 0);
+
+            for (int charIndex = 1; charIndex < totalCharsCount; charIndex++)
             {
-                c = input.ReadChar();
-                charIndices.Add(c, i);
-                charsAscent[i] = input.ReadSByte();
-                charsOx[i] = input.ReadInt16();
-                charsOy[i] = input.ReadInt16();
-                charsW[i] = input.ReadSByte();
-                charsH[i] = input.ReadSByte();
+                CharInfo info;
+                info.chr = input.ReadChar();
+                info.x = input.ReadInt16();
+                info.y = input.ReadInt16();
+                info.width = input.ReadSByte();
+                info.height = input.ReadSByte();
+                info.ox = input.ReadSByte();
+                info.oy = input.ReadSByte();
+                font.SetCharInfo(info, charIndex);
             }
 
-            font.charsAscent = charsAscent;
-            font.charsOx = charsOx;
-            font.charsOy = charsOy;
-            font.charsW = charsW;
-            font.charsH = charsH;
-            font.charIndices = charIndices;
+            font.InternalLeading = internalLeading;
+            font.Ascender = ascender;
+            font.Descender = descender;
+            font.ExternalLeading = externalLeading;
+            font.CharOffset = charOffset;           
 
             return font;
         }

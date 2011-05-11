@@ -56,5 +56,10 @@ namespace app
         {
             return (SwfMovie)getResource(id);
         }
+
+        public BaseFont GetFont(int id)
+        {
+            return (BaseFont)getResource(id);
+        }
     }    
 }
