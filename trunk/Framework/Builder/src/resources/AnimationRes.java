@@ -35,30 +35,33 @@ public class AnimationRes extends ResourceBase
 	{
 		preProcess();
 		
-		try
-		{		
-			String simpleFilename = FileUtils.getFilenameNoExt(getSourceFile());
-			
-			File output = new File(getProductsDir(), simpleFilename + ".swp");
-			setDestFile(output);
-			
-			AnimationReader exporter = new AnimationReader();
-			SwfAnimation animation = exporter.read(getSourceFile());
-			
-			AnimationWriter writer = new AnimationWriter();
-			writer.write(animation, output);
-			
-			String texname = "tex_" + simpleFilename;
-			File textureFile = new File(getProductsDir(), texname + ".png");
-			addDependingRes(new ImageRes(texname, textureFile));			
-
-			postProcess();		
-			
-		}
-		catch (IOException e)
+		if (sourceChanged())
 		{
-			e.printStackTrace();
-			throw new BuildException(e.getMessage());
+			try
+			{		
+				String simpleFilename = FileUtils.getFilenameNoExt(getSourceFile());
+				
+				File output = new File(getProductDir(), simpleFilename + ".swp");
+				setDestFile(output);
+				
+				AnimationReader exporter = new AnimationReader();
+				SwfAnimation animation = exporter.read(getSourceFile());
+				
+				AnimationWriter writer = new AnimationWriter();
+				writer.write(animation, output);
+				
+				String texname = "tex_" + simpleFilename;
+				File textureFile = new File(getProductDir(), texname + ".png");
+				addChildRes(new ImageRes(texname, textureFile));			
+	
+				postProcess();		
+				
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+				throw new BuildException(e.getMessage());
+			}
 		}
 	}
 	

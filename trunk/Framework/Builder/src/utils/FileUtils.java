@@ -1,4 +1,5 @@
 package utils;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -144,5 +145,13 @@ public class FileUtils
 			return filename;
 		
 		return filename.substring(0, dotIndex);
+	}
+
+	public static File changeExt(File file, String ext)
+	{
+		String simpleName = getFilenameNoExt(file);
+		if (!ext.startsWith("."))
+			ext = "." + ext;		
+		return new File(file.getParentFile(), simpleName + ext);
 	}
 }

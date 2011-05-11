@@ -2,20 +2,20 @@ package resources;
 
 import java.io.File;
 
-public class PixelFontRes extends ResourceBase 
+public class BitmapFontRes extends ResourceBase 
 {	
-	public PixelFontRes(String name, File file)
+	public BitmapFontRes(String name, File file)
 	{
 		super(name, file);
 	}
 	
-	public PixelFontRes()
+	public BitmapFontRes()
 	{
 		super();
 	}
 
-	private static final String IMPORTER = "PixelFontImporter";
-	private static final String PROCESSOR = "PixelFontProcessor";
+	private static final String IMPORTER = "BitmapFontImporter";
+	private static final String PROCESSOR = "BitmapFontProcessor";
 
 	static
 	{

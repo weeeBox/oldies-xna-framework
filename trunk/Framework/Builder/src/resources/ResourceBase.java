@@ -2,8 +2,10 @@ package resources;
 
 import java.io.File;
 
-import resources.cache.Product;
-import resources.cache.ProductClass;
+import org.apache.tools.ant.BuildException;
+
+import product.Product;
+import product.ProductClass;
 import tasks.ContentProjTask;
 import utils.FileUtils;
 
@@ -30,22 +32,24 @@ public abstract class ResourceBase extends ProductClass
 	public void process()
 	{
 		preProcess();
-		
-		FileUtils.copy(getSourceFile(), getDestFile());
-		
 		postProcess();
 	}
 
 	protected void preProcess()
 	{
-		File productsDir = new File(getPackage().getProductsDir(), name.toUpperCase());
+		File productsDir = new File(getPackage().getProductDir(), name.toUpperCase());
 		productsDir.mkdir();
 		
-		setProductsFile(new File(productsDir, name + ".xml"));
-		loadProductsCache();
+		setProductFile(productsDir, name);
 		
-		addProduct(new Product(name, sourceFile));
-		destFile = new File(getProductsDir(), sourceFile.getName());
+		Product product = new Product(name);
+		if (sourceFile != null)
+		{
+			product.addFileAttribute(sourceFile);
+		}
+		setProduct(product);
+		
+		destFile = sourceFile;
 	}
 	
 	protected void postProcess()
@@ -57,7 +61,7 @@ public abstract class ResourceBase extends ProductClass
 		}
 	}
 	
-	protected void addDependingRes(ResourceBase res)
+	protected void addChildRes(ResourceBase res)
 	{
 		res.destFile = res.sourceFile;
 		res.addToSync();
@@ -96,7 +100,7 @@ public abstract class ResourceBase extends ProductClass
 	
 	public String getShortName()
 	{
-		return FileUtils.getFilenameNoExt(sourceFile);
+		return FileUtils.getFilenameNoExt(destFile);
 	}
 	
 	public File getSourceFile() 
@@ -129,21 +133,4 @@ public abstract class ResourceBase extends ProductClass
 	{
 		return String.format("name='%s' path='%s'", name, sourceFile);
 	}	
-
-	@Override
-	public boolean equals(Object obj) 
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ResourceBase other = (ResourceBase) obj;
-		if (!sourceFile.equals(other.sourceFile))
-			return false;
-		if (!name.equals(other.name))
-			return false;
-		return true;
-	}
 }

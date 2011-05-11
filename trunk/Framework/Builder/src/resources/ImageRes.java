@@ -4,6 +4,8 @@ import java.io.File;
 
 public class ImageRes extends ResourceBase 
 {
+	private boolean dxtCompressed;
+	
 	public ImageRes(String name, File file)
 	{
 		super(name, file);
@@ -44,5 +46,15 @@ public class ImageRes extends ResourceBase
 	public String getResourceTypePrefix() 
 	{
 		return "IMG_";
+	}
+
+	public boolean isDxtCompressed()
+	{
+		return dxtCompressed;
+	}
+
+	public void setDxtCompressed(boolean dxtCompressed)
+	{
+		this.dxtCompressed = dxtCompressed;
 	}
 }
