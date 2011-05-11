@@ -100,21 +100,19 @@ namespace asap.sound
             {
                 SoundChannel channel = channels[i];
                 if (channel == null)
-                {
-                    Debug.WriteLine("Create instance at: " + i);
+                {                    
                     channel = new SoundChannel();
                     channels[i] = channel;
                     return channel;
                 }
 
                 if (channel.State == SoundChannelState.STOPPED)
-                {
-                    Debug.WriteLine("Find dead at: " + i);
+                {                    
                     return channel;
                 }
             }
 
-            Debug.WriteLine("Found noting");
+            Debug.WriteLine("Can't play effect");
             return null;
         }
     }    
