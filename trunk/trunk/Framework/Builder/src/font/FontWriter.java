@@ -28,10 +28,12 @@ public class FontWriter
 	{			
 		Element root = document.addElement("font");
 		root.addAttribute("filename", texName);
-		root.addAttribute("charOffset", Integer.toString(info.getCharOffset()));
-		root.addAttribute("lineOffset", Integer.toString(info.getLineOffset()));
+		root.addAttribute("internalLeading", Integer.toString(info.getInternalLeading()));
+		root.addAttribute("ascender", Integer.toString(info.getAscender()));
+		root.addAttribute("descender", Integer.toString(info.getDescender()));
+		root.addAttribute("externalLeading", Integer.toString(info.getExternalLeading()));
+		root.addAttribute("charOffset", Float.toString(info.getCharOffset()));
 		root.addAttribute("spaceWidth", Integer.toString(info.getSpaceWidth()));
-		root.addAttribute("fontOffset", Integer.toString(info.getFontOffset()));
 		
 		List<CharImage>chars = info.getCharsImages();
 		for (CharImage c : chars) 

@@ -2,18 +2,14 @@ package font;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
 public class FontExtractor 
 {	
-	public static FontInfo extract(File fontFile, String chars) throws IOException 
+	public static FontInfo extract(BufferedImage fontImage, String chars) throws IOException 
 	{
-		BufferedImage fontImage = ImageIO.read(fontFile);
 		int width = fontImage.getWidth();
 		int height = fontImage.getHeight();
 		int[] argb = new int[width * height];

@@ -13,7 +13,9 @@ public class ContentProjTask extends Task
 {
 	private File projFile;
 	private File codeFile;
+	
 	private List<PackageRes> packages = new ArrayList<PackageRes>();
+	private List<PackageRes> packagesCache = new ArrayList<PackageRes>();
 	
 	public static ProjectFileSync fileSync;
 	public static ContentProjSync projSync;

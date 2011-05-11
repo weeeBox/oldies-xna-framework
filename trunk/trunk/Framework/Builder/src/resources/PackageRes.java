@@ -4,8 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import resources.cache.Product;
-import resources.cache.ProductClass;
+import product.Product;
+import product.ProductClass;
+
 import tasks.ContentProjTask;
 
 public class PackageRes extends ProductClass
@@ -13,6 +14,15 @@ public class PackageRes extends ProductClass
 	private List<ResourceBase> resources = new ArrayList<ResourceBase>();
 	
 	private String name;
+
+	public PackageRes()
+	{
+	}
+	
+	public PackageRes(String name)
+	{
+		this.name = name;
+	}
 	
 	public String getName() 
 	{
@@ -26,14 +36,22 @@ public class PackageRes extends ProductClass
 	
 	public void process()
 	{
-		File productsDir = new File(ContentProjTask.resDir, name);
+		String productName = name;
+		File productsDir = new File(ContentProjTask.resDir, productName);
 		productsDir.mkdir();
 		
-		setProductsFile(new File(productsDir, name + ".xml"));
+		setProductFile(productsDir, name);
 		loadProductsCache();
 		
 		Product product = new Product(name);
-		addProduct(product);
+		product.addAttribute("count", resources.size());
+		for (ResourceBase res : resources)
+		{
+			product.addNode("resource")
+				   .addAttribute("name", res.getName())
+				   .addAttribute("product", productName + "/" + makeProductName(res.getName()) );
+		}		
+		setProduct(product);
 		
 		if (sourceChanged())
 		{
@@ -62,7 +80,7 @@ public class PackageRes extends ProductClass
 		addResource(atlas);
 	}
 	
-	public void addPixelFont(PixelFontRes font)
+	public void addPixelFont(BitmapFontRes font)
 	{
 		addResource(font);
 	}

@@ -10,8 +10,8 @@ import javax.imageio.ImageIO;
 
 import org.apache.tools.ant.BuildException;
 
-import tasks.ContentProjTask;
-
+import product.Product;
+import product.ProductNode;
 
 import atlas.Atlas;
 import atlas.AtlasImage;
@@ -49,43 +49,61 @@ public class AtlasRes extends ResourceBase
 	@Override
 	public void process() 
 	{		
-		List<Packable> packables = process(resources);
+		preProcess();
 		
-		AtlasPacker packer = new AtlasPacker();
-		packer.doPacking(packables, AtlasPacker.FAST);
-		
-		Atlas atlas = new Atlas(getName());
-		for (int imageIndex = 0; imageIndex < packables.size(); ++imageIndex)
-		{			
-			AtlasImage img = (AtlasImage) packables.get(imageIndex);
-			atlas.add(img);
-		}
-		
-		try 
-		{
-			File parentDir = ContentProjTask.resDir;
-			File atlasfFile = new File(parentDir, atlas.getName() + ".atlas");
-			File textureFile = new File(parentDir, atlas.getTexName() + ".png");
+		if (sourceChanged())
+		{	
+			addToProduct(resources);
 			
-			setFile(atlasfFile);
+			List<Packable> packables = process(resources);
 			
-			AtlasWriter writer = new AtlasWriter();
-			writer.write(atlas, atlasfFile, textureFile);
+			AtlasPacker packer = new AtlasPacker();
+			packer.doPacking(packables, AtlasPacker.FAST);
 			
-			ImageRes textureImage = new ImageRes(atlas.getTexName(), textureFile);
-			textureImage.process();
+			Atlas atlas = new Atlas(getName());
+			for (int imageIndex = 0; imageIndex < packables.size(); ++imageIndex)
+			{			
+				AtlasImage img = (AtlasImage) packables.get(imageIndex);
+				atlas.add(img);
+			}
 			
-			ContentProjTask.fileSync.addFile(atlasfFile);
-			ContentProjTask.projSync.addResource(this);
+			try 
+			{
+				File parentDir = getProductDir();
+				File atlasfFile = new File(parentDir, atlas.getName() + ".atlas");
+				File textureFile = new File(parentDir, atlas.getTexName() + ".png");
+				
+				setDestFile(atlasfFile);
+				
+				AtlasWriter writer = new AtlasWriter();
+				writer.write(atlas, atlasfFile, textureFile);
+				
+				ImageRes textureImage = new ImageRes(atlas.getTexName(), textureFile);
+				addChildRes(textureImage);
+				
+				exportFonts(resources);
+				postProcess();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
 			
-			exportFonts(resources);
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
 		}
 	}
 	
+	private void addToProduct(List<ResourceBase> resources)
+	{
+		Product product = getProduct();
+		product.addAttribute("count", resources.size());
+		
+		for (ResourceBase res : resources)
+		{
+			ProductNode imageElement = product.addNode("image");
+			Product.addFileAttribute(imageElement, res.getSourceFile());
+		}
+	}
+
 	private void exportFonts(List<ResourceBase> resources) 
 	{
 		try 
@@ -106,12 +124,12 @@ public class AtlasRes extends ResourceBase
 	{
 		String fontName = info.getName();
 		
-		File fontOutput = new File(ContentProjTask.resDir, fontName + ".pixelfont");
+		File fontOutput = new File(getProductDir(), fontName + ".bitmapfont");
 		FontWriter writer = new FontWriter(info, "tex_" + getName());
 		writer.write(fontOutput);
 		
-		PixelFontRes pixelFont = new PixelFontRes(fontName, fontOutput);
-		pixelFont.process();
+		BitmapFontRes pixelFont = new BitmapFontRes(fontName, fontOutput);
+		addChildRes(pixelFont);
 		
 		getPackage().addPixelFont(pixelFont);
 	}
@@ -126,6 +144,9 @@ public class AtlasRes extends ResourceBase
 				try 
 				{
 					BufferedImage image = ImageIO.read(res.getSourceFile());
+					if (image == null)
+						throw new BuildException("Can't read image: " + res.getSourceFile());
+					
 					AtlasImage atlasImage = new AtlasImage(image);
 					packables.add(atlasImage);
 				} 
@@ -134,7 +155,7 @@ public class AtlasRes extends ResourceBase
 					e.printStackTrace();
 				}
 			}
-			else if (res instanceof PixelFontRes)
+			else if (res instanceof BitmapFontRes)
 			{
 				File file = res.getSourceFile();
 				try 
@@ -164,7 +185,7 @@ public class AtlasRes extends ResourceBase
 		resources.add(res);
 	}
 	
-	public void addPixelFont(PixelFontRes font)
+	public void addFont(BitmapFontRes font)
 	{
 		resources.add(font);
 	}

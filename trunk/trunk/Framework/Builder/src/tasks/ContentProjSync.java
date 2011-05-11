@@ -96,6 +96,9 @@ public class ContentProjSync
 	{
 		for (ResourceBase res : resources)
 		{
+			if (res.getDestFile() == null)
+				throw new BuildException("Res '" + res.getName() + "' doesn't have a dest file");
+			
 			if (res.getShortName().equals(name) && res.getDestFile().getName().equals(filename))
 				return true;
 		}
