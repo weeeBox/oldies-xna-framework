@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline.Processors;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
+using System.Diagnostics;
 
 namespace ContentExtension.Font.Bitmap
 {
@@ -22,13 +23,15 @@ namespace ContentExtension.Font.Bitmap
         {
             output.Write(value.SourceName);
 
-            output.Write(value.CharOffset);
-            output.Write(value.LineOffset);
+            output.Write(value.InternalLeading);
+            output.Write(value.Ascender);
+            output.Write(value.Descender);
+            output.Write(value.ExternalLeading);
+            output.Write(value.CharOffset);            
             output.Write(value.SpaceWidth);
-            output.Write(value.FontOffset);
             
-            output.Write(value.CharsCount);
-            
+            output.Write(value.CharsCount);           
+
             List<CharInfo> chars = value.Chars;
             foreach (CharInfo c in chars)
             {

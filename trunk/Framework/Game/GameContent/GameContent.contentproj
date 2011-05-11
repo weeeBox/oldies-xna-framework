@@ -69,6 +69,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="font_test.bitmapfont">
+      <Name>font_test</Name>
+      <Importer>BitmapFontImporter</Importer>
+      <Processor>BitmapFontProcessor</Processor>
+    </Compile>
     <Compile Include="common.atlas">
       <Name>common</Name>
       <Importer>AtlasImporter</Importer>
@@ -90,6 +95,11 @@
     </Compile>
     <Compile Include="buttonB.png">
       <Name>buttonB</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="duck_dead.png">
+      <Name>duck_dead</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -1,0 +1,5 @@
+externalLeading=0
+charOffset=-1
+chars=!%()+,-./0123456789:?ABCDEFGHIJKLMNOPQRSTUVWXYZ
+space=10
+file=psd

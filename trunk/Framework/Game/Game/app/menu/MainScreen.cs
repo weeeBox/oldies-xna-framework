@@ -1,30 +1,71 @@
-﻿using app;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using app;
 using app.menu;
+using asap.anim;
+using asap.anim.objects;
 using asap.visual;
 using AsapXna.asap.visual;
-using Microsoft.Xna.Framework;
-using asap.anim;
 using asap.util;
+using Microsoft.Xna.Framework;
+using asap.graphics;
 
 namespace Game.app.menu
 {
     public class MainScreen : Screen
     {
+        private SpriteInstance sprite;
+
         public MainScreen() : base(ScreenId.MAIN_MENU)
         {
-            AnimationMovie movie = new AnimationMovie(Application.sharedResourceMgr.GetMovie(Res.ANI_SWF_TEST));
+            AnimationMovie movie = new AnimationMovie(Application.sharedResourceMgr.GetMovie(Res.ANI_ANIM));
             movie.AnimationType = AnimationType.LOOP;
+            movie.alignX = movie.parentAlignX = 0.5f;
             movie.Start();
-            AddChild(movie);
+            movie.drawBorder = true;
+            
+            SpriteInstance hand = movie.FindInstance("duckHand");
+            Image duck = new Image(Application.sharedResourceMgr.GetTexture(Res.IMG_DUCK_DEAD));
+            duck.rotation = -MathHelper.PiOver4;
+            duck.x = 0;
+            duck.y = 60;
+            hand.AddChild(duck);
 
-            BaseAnimation animation = new BaseAnimation(new Image(Application.sharedResourceMgr.GetTexture(Res.IMG_UI_BUTTON_A)));            
-            animation.x = animation.y = 100;            
-            animation.TurnTimelineSupportWithMaxKeyFrames(1);
-            animation.AddKeyFrame(new BaseAnimation.KeyFrame(animation.x, animation.y, ColorTransform.NONE, 1.0f, 1.0f, MathHelper.TwoPi, 1.5f));
-            animation.PlayTimeline();
+            float xmax = 100;
+            float xmin = -100;
+            float time = 1.0f;
+
+            BaseAnimation animation = new BaseAnimation(movie);            
+            animation.alignX = animation.parentAlignX = 0.5f;
+            animation.TurnTimelineSupportWithMaxKeyFrames(5);
             animation.SetTimelineLoopType(BaseAnimation.Timeline.REPLAY);
+            animation.AddKeyFrame(new BaseAnimation.KeyFrame(animation.x + xmax, animation.y, ColorTransform.NONE, 1.0f, 1.0f, 0.0f, time));
+            animation.AddKeyFrame(new BaseAnimation.KeyFrame(animation.x + xmax, animation.y, ColorTransform.NONE, -1.0f, 1.0f, 0.0f, 0.0f));
+            animation.AddKeyFrame(new BaseAnimation.KeyFrame(animation.x + xmin, animation.y, ColorTransform.NONE, -1.0f, 1.0f, 0.0f, 2 * time));
+            animation.AddKeyFrame(new BaseAnimation.KeyFrame(animation.x + xmin, animation.y, ColorTransform.NONE, 1.0f, 1.0f, 0.0f, 0.0f));
+            animation.AddKeyFrame(new BaseAnimation.KeyFrame(animation.x, animation.y, ColorTransform.NONE, 1.0f, 1.0f, 0.0f, time));
+            animation.PlayTimeline();
 
             AddChild(animation);
-        }                
+            //sprite = movie.FindInstance("InstanceName");
+            //List<CharacterInstance> childs = sprite.CurrentFrameChilds;            
+            //Image image = new Image(Application.sharedResourceMgr.GetTexture(Res.IMG_UI_BUTTON_A));
+            //image.x = 50;
+            //image.y = -50;
+            //childs[0].AddChild(image);            
+
+            BaseFont font = Application.sharedResourceMgr.GetFont(Res.FNT_FONT_TEST);
+            Text text = new Text(font, "THIS IS TEST THIS IS TEST THIS IS TEST THIS IS TEST THIS IS TEST", 180);            
+            text.SetAlign(TextAlign.RIGHT);
+            text.x = 100;
+            text.y = 100;
+            text.drawBorder = true;
+            AddChild(text);
+        }     
+
+        public override void Update(float delta)
+        {
+            base.Update(delta);            
+        }
     }
 }

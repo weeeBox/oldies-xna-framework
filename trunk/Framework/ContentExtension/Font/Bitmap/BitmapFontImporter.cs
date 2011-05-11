@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 
 using System.IO;
 using System.Xml;
+using System.Globalization;
 
 namespace ContentExtension.Font.Bitmap
 {    
@@ -16,7 +17,7 @@ namespace ContentExtension.Font.Bitmap
     {
         public override BitmapFontInfo Import(string filename, ContentImporterContext context)
         {
-            BitmapFontInfo fontInfo = null;
+            BitmapFontInfo fontInfo = null;            
 
             using (XmlTextReader reader = new XmlTextReader(File.Open(filename, FileMode.Open)))
             {
@@ -35,32 +36,31 @@ namespace ContentExtension.Font.Bitmap
 
                                 if (nodeName == "font")
                                 {
-                                    string sourceFilename = attributes["filename"];
-                                    int charOffset = int.Parse(attributes["charOffset"]);
-                                    int lineOffset = int.Parse(attributes["lineOffset"]);
-                                    int spaceWidth = int.Parse(attributes["spaceWidth"]);
-                                    int fontOffset = int.Parse(attributes["fontOffset"]);
+                                    NumberFormatInfo nf = new CultureInfo("en-US").NumberFormat;
 
+                                    string sourceFilename = attributes["filename"];
                                     int index = sourceFilename.LastIndexOf('.');
                                     string sourceName = index == -1 ? sourceFilename : sourceFilename.Substring(0, index);
                                     fontInfo = new BitmapFontInfo(sourceName);
-                                    fontInfo.LineOffset = lineOffset;
-                                    fontInfo.CharOffset = charOffset;
-                                    fontInfo.SpaceWidth = spaceWidth;
-                                    fontInfo.FontOffset = fontOffset;
+                                    fontInfo.InternalLeading = sbyte.Parse(attributes["internalLeading"]);
+                                    fontInfo.Ascender = sbyte.Parse(attributes["ascender"]);
+                                    fontInfo.Descender = sbyte.Parse(attributes["descender"]);
+                                    fontInfo.ExternalLeading = sbyte.Parse(attributes["externalLeading"]);
+                                    fontInfo.CharOffset = float.Parse(attributes["charOffset"], nf);                                    
+                                    fontInfo.SpaceWidth = sbyte.Parse(attributes["spaceWidth"]);                                    
                                 }
                                 else if (nodeName == "char")
                                 {
                                     char charValue = attributes["value"][0];
-                                    int charX = int.Parse(attributes["x"]);
-                                    int charY = int.Parse(attributes["y"]);
-                                    int charWidth = int.Parse(attributes["w"]);
-                                    int charHeight = int.Parse(attributes["h"]);
-                                    int charOx = int.Parse(attributes["ox"]);
-                                    int charOy = int.Parse(attributes["oy"]);
+                                    short charX = short.Parse(attributes["x"]);
+                                    short charY = short.Parse(attributes["y"]);
+                                    sbyte charWidth = sbyte.Parse(attributes["w"]);
+                                    sbyte charHeight = sbyte.Parse(attributes["h"]);
+                                    sbyte charOx = sbyte.Parse(attributes["ox"]);
+                                    sbyte charOy = sbyte.Parse(attributes["oy"]);
 
                                     CharInfo charInfo = new CharInfo(charValue, charX, charY, charWidth, charHeight, charOx, charOy);
-                                    fontInfo.addCharInfo(charInfo);
+                                    fontInfo.AddCharInfo(charInfo);
                                 }
                             }
                             break;

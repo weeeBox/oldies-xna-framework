@@ -4,250 +4,240 @@ using System.Collections.Generic;
 
 
 using asap.resources;
+using asap.util;
+using System.Diagnostics;
 
 namespace asap.graphics
 {
+    public struct CharInfo
+    {
+        public char chr;
+        public short x;
+        public short y;
+        public sbyte width;
+        public sbyte height;
+        public sbyte ox;
+        public sbyte oy;
+    }
+
     public class BitmapFont : BaseFont
-     {
-        private const int VERSION = 103;
-        
-        /** 
-         *
-         */
-        public int capHeight;
-        
-        /** 
-         *
-         */
-        public int ascent;
-        
-        /** 
-         *
-         */
-        public int tracking;
-        
-        /** 
-         *
-         */
-        public int lineHeight;
-        
-        /** 
-         *
-         */
-        public int descent;
-        
-        /** 
-         *
-         */
-        public sbyte[] charsAscent;
-        
-        public Dictionary<char, int> charIndices;
-        
-        /** 
-         * Массив размеров по ширине всех символов
-         */
-        public sbyte[] charsW;
-        
-        /** 
-         * Массив размеров по высоте всех символов
-         */
-        public sbyte[] charsH;
-        
-        /** 
-         * Расстояние по X до изображения символа в картинке шрифта.
-         */
-        public short[] charsOx;
-        
-        /** 
-         * Расстояние по Y до изображения символа в картинке шрифта.
-         */
-        public short[] charsOy;
-        
-        /** 
-         * Изображение шрифта
-         */
-        public GameTexture fontImage;       
-        
-        
-        /** 
-         * Создает графический шрифт из потока, с разными палитрами
-         *
-         * @param is Входной поток с данными шрифта
-         * @param palette Информация о палитрах, можно получить используя <code>ImageEx.loadPaletteDiff</code>
-         * @param paletteNums номера палитр
-         * @throws Exception ошибка чтения из потока
-         */
-        public BitmapFont() /* throws Exception */ 
+    {
+        private sbyte ascender;
+
+        private sbyte descender;
+
+        private sbyte internalLeading;
+
+        private float charOffset;
+
+        private sbyte externalLeading;
+
+        private short spaceWidth;
+
+        public Dictionary<char, int> charsIndices;
+
+        public CharInfo[] chars;
+                
+        public GameTexture fontTexture;
+
+        public BitmapFont(GameTexture fontTexture, int charsCount)
         {
-            //int signatureF = _is.Read();
-            //int signatureN = _is.Read();
-            //int signatureT = _is.Read();
-            //Debug.Assert(((signatureF == 'F') && (signatureN == 'N')) && (signatureT == 'T'), "Font: unknown format");
-            //int version = _is.Read();
-            //Debug.Assert(version == (VERSION), "Font: unknown version");
-            //capHeight = _is.Read();
-            //ascent = _is.Read();
-            //tracking = unchecked((sbyte)(_is.Read()));
-            //lineHeight = unchecked((sbyte)(_is.Read()));
-            //descent = unchecked((sbyte)(_is.Read()));
-            //DataInputStream dis = new DataInputStream(_is);
-            //int charsCnt = dis.ReadShort();
-            //charsAscent = new sbyte[charsCnt];
-            //charsOx = new short[charsCnt];
-            //charsOy = new short[charsCnt];
-            //charsW = new sbyte[charsCnt];
-            //charsH = new sbyte[charsCnt];
-            //charIndices = new Dictionary<char, int>(charsCnt);
-            //char c;
-            //for (int i = 0; i < charsCnt; i++) 
-            //{
-            //    c = dis.ReadChar();
-            //    charIndices.Add(c, i);
-            //    charsAscent[i] = dis.ReadByte();
-            //    charsOx[i] = dis.ReadShort();
-            //    charsOy[i] = dis.ReadShort();
-            //    charsW[i] = dis.ReadByte();
-            //    charsH[i] = dis.ReadByte();
-            //}
-            //fontImage = ResFactory.GetInstance().CreateImage(_is, _is.Available());
-            throw new NotImplementedException();
+            this.fontTexture = fontTexture;
+            charsIndices = new Dictionary<char, int>(charsCount);
+            chars = new CharInfo[charsCount];
         }
-        
-        public virtual void SetPalette(int paletteNum)
+
+        public void SetCharInfo(CharInfo info, int index)
         {
+            Debug.Assert(index >= 0 && index < chars.Length);
+            Debug.Assert(!charsIndices.ContainsKey(info.chr), "Can't add char twice: '" + info.chr +"' at " + index);
+            chars[index] = info;
+            charsIndices.Add(info.chr, index);
         }
-        
-        public override void DrawString(Graphics g, String str, int x, int y)
-        {            
+
+        public override void DrawString(Graphics g, String str, float x, float y)
+        {
             int len = str.Length;
             int num;
-            bool fontImageFlippedHorizontally = false;
-            bool fontImageFlippedVertically = false;
-            for (int i = 0; i < len; i++) 
-            {                
-                num = GetCharIndex(str[i]);
-                int charW = charsW[num];
-                int charH = charsH[num];
-                int charX = x;
-                int charY = y;
-                if (fontImageFlippedHorizontally)
-                    charX += (charsW[num]) - charW;
-                
-                if (fontImageFlippedVertically)
-                    charY += (charsH[num]) - ((charsAscent[num]) + charH);
-                
-                else
-                    charY += (ascent) - (charsAscent[num]);
-                
-                if (charW > 0) 
-                {
-                    g.DrawImage(fontImage, charsOx[num], charsOy[num], charW, charH, charX, charY);
-                } 
-                x += (charsW[num]) + (tracking);
+            for (int i = 0; i < len; i++)
+            {
+                num = GetCharIndex(str[i]);                
+                DrawChar(g, ref chars[num], x, y);
+                x += chars[num].width + charOffset;
             }
         }
-        
-        public override void DrawChar(Graphics g, char ch, int x, int y)
+
+        public override void DrawChar(Graphics g, char ch, float x, float y)
         {
-            int num = GetCharIndex(ch);
-            int charW = charsW[num];
-            int charH = charsH[num];
-            if (charW > 0) 
-            {
-                g.DrawImage(fontImage, charsOx[num], charsOy[num], charW, charH, x, (((ascent) - (charsAscent[num])) + y));
-            } 
+            int charIndex = GetCharIndex(ch);
+            DrawChar(g, ref chars[charIndex], x, y);
         }
-        
-        public override void DrawString(Graphics g, String str, int x, int y, int anchor)
+
+        private void DrawChar(Graphics g, ref CharInfo info, float x, float y)
         {
-            int width = GetStringWidth(str);
-            //if ((anchor & (Graphics.RIGHT)) != 0) 
+            int charW = info.width;
+            int charH = info.height;
+            if (charH > 0 && charW > 0)
+            {
+                g.DrawImage(fontTexture, info.x, info.y, charW, charH, x + info.ox, y + info.oy - InternalLeading);
+            }
+        }
+
+        public override void DrawString(Graphics g, String str, float x, float y, int anchor)
+        {
+            //int width = GetStringWidth(str);
+            //if ((anchor & (Graphics.RIGHT)) != 0)
             //{
             //    x -= width;
-            //} 
-            //else if ((anchor & (Graphics.HCENTER)) != 0) 
+            //}
+            //else if ((anchor & (Graphics.HCENTER)) != 0)
             //{
             //    x -= width >> 1;
-            //} 
-            //if ((anchor & (Graphics.BOTTOM)) != 0) 
+            //}
+            //if ((anchor & (Graphics.BOTTOM)) != 0)
             //{
             //    y -= (ascent) + (descent);
-            //} 
-            //else if ((anchor & (Graphics.VCENTER)) != 0) 
+            //}
+            //else if ((anchor & (Graphics.VCENTER)) != 0)
             //{
             //    y -= ((ascent) + (descent)) >> 1;
             //} 
             DrawString(g, str, x, y);
         }
-        
-        public virtual void SetTransform(int transform)
+
+        public sbyte InternalLeading
         {
+            get { return internalLeading; }
+            set { internalLeading = value; }
         }
-        
-        public override int GetCapHeight()
+
+        public sbyte Ascender
         {
-            return capHeight;
+            get { return ascender; }
+            set { ascender = value; }
         }
-        
-        public override int GetAscent()
+
+        public sbyte Descender
         {
-            return ascent;
-        }
-        
-        public override int GetDescent()
+            get { return descender; }
+            set { descender = value; }
+        }        
+
+        public float CharOffset
         {
-            return descent;
+            get { return charOffset; }
+            set { charOffset = value; }
         }
-        
-        public override int GetLineHeight()
+
+        public sbyte ExternalLeading
         {
-            return lineHeight;
+            get { return externalLeading; }
+            set { externalLeading = value; }
         }
-        
+
+        public short SpaceWidth
+        {
+            get { return spaceWidth; }
+            set { spaceWidth = value; }
+        }
+
         public override int GetHeight()
         {
-            return (descent) + (ascent);
+            return ascender - internalLeading;
         }
-        
-        public override int GetStringWidth(String str)
+
+        public override int GetLineOffset()
         {
-            int w = 0;
-            for (int i = (str.Length) - 1; i >= 0; i--) 
+            return internalLeading + externalLeading;
+        }        
+
+        public override float GetStringWidth(String str)
+        {
+            float w = 0;
+            for (int i = 0; i < str.Length; ++i)
             {
-                w += (GetCharWidth(str[i])) + (tracking);
+                w += GetCharWidth(str[i]) + charOffset;
             }
-            if ((str.Length) >= 1)
-                w -= tracking;
-            
+            if (str.Length >= 1)
+            {
+                w -= charOffset;
+            }
+
             return w;
         }
-        
+
         public override int GetCharWidth(char ch)
         {
-            return charsW[GetCharIndex(ch)];
-        }
-        
-        public override void SetTracking(int value)
-        {
-            this.tracking = value;
-        }
-        
-        public override int GetTracking()
-        {
-            return tracking;
-        }
-        
-        private int GetCharIndex(char ch)
-        {
-            if (!charIndices.ContainsKey(ch))
-                return 0;
-            
-            return charIndices[ch];
-        }
-        
-        public virtual String[] WrapString(String str, int width)
-        {
-            return null;
+            int index = GetCharIndex(ch);
+            return chars[index].width;
         }        
-    }    
+
+        private int GetCharIndex(char ch)
+        {            
+            int index;
+            charsIndices.TryGetValue(ch, out index); // 0 in case of failure
+
+            return index;
+        }        
+
+        public override List<FormattedString> WrapString(string text, float width)
+        {
+            List<FormattedString> strings = new List<FormattedString>();
+
+            int strLen = text.Length;            
+            int xc = 0;
+            float wordWidth = 0;
+            int strStartIndex = 0;
+            int wordLastCharIndex = 0;
+            float stringWidth = 0;
+            int charIndex = 0;
+            while (charIndex < strLen)
+            {
+                int curCharIndex = charIndex;
+                char curChar = text[curCharIndex];
+                charIndex++;
+                if ((curChar == ' ') || (curChar == '\n'))
+                {
+                    wordLastCharIndex = curCharIndex;
+                    if ((stringWidth == 0) && (wordWidth > 0))
+                        wordWidth -= charOffset;
+
+                    stringWidth += wordWidth;
+                    wordWidth = 0;
+                    xc = charIndex;
+                    if (curChar == ' ')
+                    {
+                        xc--;
+                        wordWidth = GetCharWidth(curChar) + charOffset;
+                    }
+                }
+                else
+                {
+                    wordWidth += GetCharWidth(curChar) + charOffset;
+                }
+                if ((((stringWidth + wordWidth) > width) && (wordLastCharIndex != strStartIndex)) || (curChar == '\n'))
+                {
+                    string sub = text.Substring(strStartIndex, wordLastCharIndex - strStartIndex);
+                    strings.Add(new FormattedString(sub, GetStringWidth(sub)));
+
+                    char xcc;
+                    while (xc < text.Length && (xcc = text[xc]) == ' ')
+                    {
+                        wordWidth -= GetCharWidth(xcc) + charOffset;
+                        xc++;
+                    }
+                    wordWidth -= charOffset;
+                    strStartIndex = xc;
+                    wordLastCharIndex = strStartIndex;
+                    stringWidth = 0;
+                }
+            }
+            if (wordWidth != 0)
+            {
+                string sub = text.Substring(strStartIndex, strLen - strStartIndex);
+                strings.Add(new FormattedString(sub, GetStringWidth(sub)));
+            }
+            return strings;
+        }
+    }
 }

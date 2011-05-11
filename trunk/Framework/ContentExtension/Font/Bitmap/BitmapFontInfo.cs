@@ -8,14 +8,14 @@ namespace ContentExtension.Font.Bitmap
     public struct CharInfo
     {
         public char chr;
-        public int x;
-        public int y;
-        public int w;
-        public int h;
-        public int ox;
-        public int oy;
+        public short x;
+        public short y;
+        public sbyte w;
+        public sbyte h;
+        public sbyte ox;
+        public sbyte oy;
 
-        public CharInfo(char chr, int x, int y, int w, int h, int ox, int oy)
+        public CharInfo(char chr, short x, short y, sbyte w, sbyte h, sbyte ox, sbyte oy)
         {
             this.chr = chr;
             this.x = x;
@@ -29,21 +29,15 @@ namespace ContentExtension.Font.Bitmap
 
     public class BitmapFontInfo
     {
-        private int charOffset;
-        private int lineOffset;
-        private int spaceWidth;
-        private int fontOffset;
-        private string sourceName;
-
         private List<CharInfo> chars;
 
         public BitmapFontInfo(string sourcePath)
         {
-            this.sourceName = sourcePath;
+            SourceName = sourcePath;
             chars = new List<CharInfo>();
         }
 
-        public void addCharInfo(CharInfo e)
+        public void AddCharInfo(CharInfo e)
         {
             chars.Add(e);
         }
@@ -53,38 +47,23 @@ namespace ContentExtension.Font.Bitmap
             get { return chars; }
         }
 
-        public string SourceName
-        {
-            get { return sourceName; }
-        }
+        public string SourceName { get; internal set; }
 
-        public int LineOffset
-        {
-            get { return lineOffset; }
-            set { lineOffset = value; }
-        }
+        public sbyte InternalLeading { get; internal set; }
 
-        public int CharOffset
-        {
-            get { return charOffset; }
-            set { charOffset = value; }
-        }
+        public sbyte Ascender { get; internal set; }
 
-        public int CharsCount
-        {
-            get { return chars.Count; }
-        }
+        public sbyte Descender { get; internal set; }
 
-        public int SpaceWidth
-        {
-            get { return spaceWidth; }
-            set { spaceWidth = value; }
-        }
+        public sbyte ExternalLeading { get; internal set; }
 
-        public int FontOffset
+        public float CharOffset { get; internal set; }
+
+        public sbyte SpaceWidth { get; internal set; }        
+
+        public short CharsCount
         {
-            get { return fontOffset; }
-            set { fontOffset = value; }
-        }
+            get { return (short)chars.Count; }
+        }        
     }   
 }
