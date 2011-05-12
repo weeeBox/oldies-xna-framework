@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="resources" default="run">
+<project name="Builder">
 	<property name="dir.lib" value="lib" />
 	<property name="dir.tmp" value="tmp" />
+	<property name="dir.source" value="src" />
 	<property name="dir.classes" value="${dir.tmp}/classes" />
 	<property name="dir.restmp" value="${dir.tmp}/res" />
-	<property name="dir.source" value="src" />
-	<property name="dir.res" value="../Resources" />
-	<property name="dir.gfx" value="${dir.res}/Gfx" />
-	<property name="dir.sound" value="${dir.res}/Sound" />
-	<property name="dir.content" value="../Game/GameContent" />
-	<property name="file.proj" value="${dir.content}/GameContent.contentproj" />
-	<property name="file.code" value="../Game/Game/app/Res.cs" />
-	
 	<property name="dir.utils" value="D:\dev\java\workspaces\foospace\foo-utils"/> <!--Fix me!!!-->
 	<property name="dir.psd" value="${dir.utils}\PsdParser"/>
 	<property name="dir.swf" value="${dir.utils}\SwfExport"/>
@@ -51,37 +44,9 @@
 		<javac destdir="${dir.classes}" debug="true" encoding="UTF-8">
 		  	<src path="${dir.source}" /> 
 			<classpath refid="libs"/>
-		</javac>
-		
-		<!-- Content task -->
-		<taskdef name="content" classname="tasks.ContentProjTask">
-			<classpath path="${dir.classes}"/>
-			<classpath refid="libs"/>
-		</taskdef>
+		</javac>		
 		
 		<!-- Res output -->
 		<mkdir dir="${dir.restmp}"/>
-	</target>
-	
-	<target name="run" depends="build">		
-		<content projFile="${file.proj}" codeFile="${file.code}" resTemp="${dir.restmp}">			
-			<package name="PACK_COMMON">
-				<atlas name="common">
-					<image name="ui_button_a" file="${dir.gfx}/buttonA.png" />
-					<image name="ui_button_b" file="${dir.gfx}/buttonB.png" />
-					<font name="test" file="${dir.gfx}/font_test.font" />
-				</atlas>				
-			</package>
-			
-			<package name="PACK_MENU">
-				<anim name="anim" file="${dir.gfx}/test.swf" />							    
-				<image name="ui_button_a2" file="${dir.gfx}/buttonA.png" />
-				<image name="ui_button_b2" file="${dir.gfx}/buttonB.png" />
-				<image name="duck_dead" file="${dir.gfx}/duck_dead.png" />
-				
-				<music name="music" file="${dir.sound}/music.mp3" />
-				<sound name="sound" file="${dir.sound}/sound.wav" />
-			</package>
-		</content>
-	</target>
+	</target>	
 </project>
