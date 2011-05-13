@@ -2,8 +2,6 @@ using System;
 
 using System.Collections.Generic;
 
-
-
 namespace asap.ui
 {
     public interface ViewComposite
@@ -13,7 +11,5 @@ namespace asap.ui
         int IndexOf(View view);
         int GetViewX(int index);
         int GetViewY(int index);
-    }
-    
-    
+    }    
 }
