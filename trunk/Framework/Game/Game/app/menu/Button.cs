@@ -5,7 +5,7 @@ using asap.ui;
 
 namespace app.menu
 {
-    public abstract class Button : View, KeyListener, PointerListener, Focusable
+    public abstract class Button : UiComponent, KeyListener, PointerListener, Focusable
     {
         private bool focused = false;
         

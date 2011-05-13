@@ -4,19 +4,19 @@ using asap.visual;
 
 namespace asap.ui
 {
-    public class View : BaseElementContainer
+    public class UiComponent : BaseElementContainer
     {        
-        public View() : this(0, 0)
+        public UiComponent() : this(0, 0)
         {
         }
 
-        public View(float width, float height) : base(width, height)
+        public UiComponent(float width, float height) : base(width, height)
         {
         }
 
-        public void ResizeToFitViews()
+        public void ResizeToFitChilds()
         {
-            ResizeToFitViews(true, true);
+            ResizeToFitChilds(true, true);
         }
         
         public void AddMargin(int margin)
@@ -42,7 +42,7 @@ namespace asap.ui
             height = bottom - top;            
         }
         
-        public void ResizeToFitViews(bool horizontally, bool vertically)
+        public void ResizeToFitChilds(bool horizontally, bool vertically)
         {
             Debug.Assert(horizontally || vertically);
             if (ChildsCount() == 0)
@@ -74,14 +74,14 @@ namespace asap.ui
             }            
         }
         
-        public void ResizeHorizontallyToFitViews()
+        public void ResizeHorizontallyToFitChilds()
         {
-            ResizeToFitViews(true, false);            
+            ResizeToFitChilds(true, false);            
         }
         
-        public void ResizeVerticallyToFitViews()
+        public void ResizeVerticallyToFitChilds()
         {
-            ResizeToFitViews(false, true);            
+            ResizeToFitChilds(false, true);            
         }
         
         public void ArrangeVert(float distance)
@@ -114,59 +114,59 @@ namespace asap.ui
             ArrangeHelper(true);            
         }
         
-        public void AttachLeft(BaseElement view)
+        public void AttachLeft(BaseElement component)
         {
-            AttachLeft(view, 0.0f);
+            AttachLeft(component, 0.0f);
         }
 
-        public void AttachLeft(BaseElement view, float indent)
+        public void AttachLeft(BaseElement component, float indent)
         {
-            view.x = indent;
+            component.x = indent;
         }
         
-        public void AttachHCenter(BaseElement view)
+        public void AttachHCenter(BaseElement component)
         {
-            view.x = 0.5f * (Width - view.Width);            
+            component.x = 0.5f * (Width - component.Width);            
         }
         
-        public void AttachRight(BaseElement view)
+        public void AttachRight(BaseElement component)
         {
-            AttachRight(view, 0.0f);
+            AttachRight(component, 0.0f);
         }
 
-        public void AttachRight(BaseElement view, float indent)
+        public void AttachRight(BaseElement component, float indent)
         {
-            view.x = Width - view.Width - indent;
+            component.x = Width - component.Width - indent;
         }
         
-        public void AttachTop(BaseElement view)
+        public void AttachTop(BaseElement component)
         {
-            AttachTop(view, 0);
+            AttachTop(component, 0);
         }
 
-        public void AttachTop(BaseElement view, float indent)
+        public void AttachTop(BaseElement component, float indent)
         {
-            view.y = indent;
+            component.y = indent;
         }
         
-        public void AttachVCenter(BaseElement view)
+        public void AttachVCenter(BaseElement component)
         {
-            view.y = 0.5f * (Height - view.Height);
+            component.y = 0.5f * (Height - component.Height);
         }
         
-        public void AttachBottom(BaseElement view, float indent)
+        public void AttachBottom(BaseElement component, float indent)
         {
-            view.y = Height - view.height - indent;
+            component.y = Height - component.height - indent;
         }
         
-        public void AttachVert(BaseElement view, float align)
+        public void AttachVert(BaseElement component, float align)
         {
-            view.y = align * (Height - view.Height);
+            component.y = align * (Height - component.Height);
         }
         
-        public void AttachHor(BaseElement view, float align)
+        public void AttachHor(BaseElement component, float align)
         {
-            view.x = align * (Width - view.Width);
+            component.x = align * (Width - component.Width);
         }
         
         public void AttachHCenterAll()
@@ -215,16 +215,16 @@ namespace asap.ui
             }
             for (int i = 0; i < ChildsCount(); i++) 
             {
-                BaseElement view = GetChild(i);
+                BaseElement child = GetChild(i);
                 if (hor) 
                 {                    
-                    view.x = pos;
-                    pos += view.Width + dist;
+                    child.x = pos;
+                    pos += child.Width + dist;
                 } 
                 else 
                 {                    
-                    view.y = pos;
-                    pos += view.Height + dist;
+                    child.y = pos;
+                    pos += child.Height + dist;
                 }
             }
         } 

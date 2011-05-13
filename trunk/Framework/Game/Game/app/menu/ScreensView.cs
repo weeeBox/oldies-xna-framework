@@ -11,9 +11,9 @@ using asap.graphics;
 namespace app.menu
 {
     /** 
-     * Provide stack of screens and view of active/visible screens
+     * Provide stack of screens and component of active/visible screens
      */
-    public class ScreensView : View, TickListener
+    public class ScreensView : UiComponent, TickListener
     {
         private const int MAX_SCREENS_COUNT = 5;
         

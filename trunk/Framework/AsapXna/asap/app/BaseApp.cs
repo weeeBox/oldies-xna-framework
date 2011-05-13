@@ -24,7 +24,7 @@ namespace asap.app
 
         private TimerController timerController;
 
-        private View mainView;        
+        private UiComponent mainView;        
 
         private AppImpl appImpl;
 
@@ -59,7 +59,7 @@ namespace asap.app
             keyListener = listener;
         }
         
-        public virtual void SetMainView(View mainView)
+        public virtual void SetMainView(UiComponent mainView)
         {
             this.mainView = mainView;
         }
