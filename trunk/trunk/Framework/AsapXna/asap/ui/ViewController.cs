@@ -9,15 +9,15 @@ namespace asap.ui
 {
     public class ViewController : KeyListener, PointerListener
      {
-        private View root;
+        private UiComponent root;
         
-        private View focusedView;
+        private UiComponent focusedView;
         
         private ViewIterator focusIterator;
         
         private bool isKeyPressedHandledByFocus;
         
-        private View activeView;
+        private UiComponent activeView;
         
         private int activeViewX;
         
@@ -27,7 +27,7 @@ namespace asap.ui
         
         private List<FocusListener>  focusListeners = new List<FocusListener> ();
         
-        public ViewController(View root) 
+        public ViewController(UiComponent root) 
         {
             Debug.Assert(root != null);
             this.root = root;
@@ -48,7 +48,7 @@ namespace asap.ui
             focusListeners.Remove(focusListener);
         }
         
-        public virtual View GetFocus()
+        public virtual UiComponent GetFocus()
         {
             return focusedView;
         }
@@ -221,12 +221,12 @@ namespace asap.ui
         {
             Debug.Assert((activeView) == null);
             ViewIterator iterator = new ViewIterator(root);
-            for (View view = iterator.Last(); view != null; view = iterator.Prev()) 
+            for (UiComponent component = iterator.Last(); component != null; component = iterator.Prev()) 
             {
-                if (view is PointerListener) 
+                if (component is PointerListener) 
                 {
-                    View[] path = iterator.GetPath();
-                    Debug.Assert(view == (path[((path.Length) - 1)]));
+                    UiComponent[] path = iterator.GetPath();
+                    Debug.Assert(component == (path[((path.Length) - 1)]));
                     int absX = 0;
                     int absY = 0;
                     for (int i = 0; i < ((path.Length) - 1); i++) 
@@ -236,9 +236,9 @@ namespace asap.ui
                         absX += composite.GetViewX(index);
                         absY += composite.GetViewY(index);
                     }
-                    if (view.Contains((x - absX), (y - absY))) 
+                    if (component.Contains((x - absX), (y - absY))) 
                     {
-                        activeView = view;
+                        activeView = component;
                         activeViewX = absX;
                         activeViewY = absY;
                         return ;
@@ -258,11 +258,11 @@ namespace asap.ui
         
         public virtual void FocusFirstView()
         {
-            for (View view = focusIterator.First(); view != null; view = focusIterator.Next()) 
+            for (UiComponent component = focusIterator.First(); component != null; component = focusIterator.Next()) 
             {
-                if ((view is Focusable) && (((Focusable)(view)).CanAcceptFocus(FocusType.FORWARD))) 
+                if ((component is Focusable) && (((Focusable)(component)).CanAcceptFocus(FocusType.FORWARD))) 
                 {
-                    SetViewFocused(view, FocusType.FORWARD);
+                    SetViewFocused(component, FocusType.FORWARD);
                     return ;
                 } 
             }
@@ -270,11 +270,11 @@ namespace asap.ui
         
         public virtual void FocusLastView()
         {
-            for (View view = focusIterator.Last(); view != null; view = focusIterator.Prev()) 
+            for (UiComponent component = focusIterator.Last(); component != null; component = focusIterator.Prev()) 
             {
-                if ((view is Focusable) && (((Focusable)(view)).CanAcceptFocus(FocusType.BACKWARD))) 
+                if ((component is Focusable) && (((Focusable)(component)).CanAcceptFocus(FocusType.BACKWARD))) 
                 {
-                    SetViewFocused(view, FocusType.BACKWARD);
+                    SetViewFocused(component, FocusType.BACKWARD);
                     return ;
                 } 
             }
@@ -282,67 +282,67 @@ namespace asap.ui
         
         public virtual void FocusNextView()
         {
-            View next = FindNextFocus(true);
+            UiComponent next = FindNextFocus(true);
             SetViewFocused(next, FocusType.FORWARD);
         }
         
         public virtual void FocusPrevView()
         {
-            View next = FindNextFocus(false);
+            UiComponent next = FindNextFocus(false);
             SetViewFocused(next, FocusType.BACKWARD);
         }
         
-        public virtual void FocusView(View view)
+        public virtual void FocusView(UiComponent component)
         {
-            if (view == (focusedView))
+            if (component == (focusedView))
                 return ;
             
-            if (view == null) 
+            if (component == null) 
             {
-                SetViewFocused(view, FocusType.DIRECT);
+                SetViewFocused(component, FocusType.DIRECT);
                 return ;
             } 
-            Debug.Assert(view is Focusable);
-            for (View candidate = focusIterator.First(); candidate != null; candidate = focusIterator.Next()) 
+            Debug.Assert(component is Focusable);
+            for (UiComponent candidate = focusIterator.First(); candidate != null; candidate = focusIterator.Next()) 
             {
-                if (candidate == view) 
+                if (candidate == component) 
                 {
-                    SetViewFocused(view, FocusType.DIRECT);
+                    SetViewFocused(component, FocusType.DIRECT);
                     return ;
                 } 
             }
             Debug.Assert(false);
         }
         
-        private void SetViewFocused(View view, FocusType focusType)
+        private void SetViewFocused(UiComponent component, FocusType focusType)
         {
-            if (view != (focusedView)) 
+            if (component != (focusedView)) 
             {
-                View prev = focusedView;
+                UiComponent prev = focusedView;
                 if ((focusedView) != null)
                     ((Focusable)(focusedView)).Blur();
                 
-                focusedView = view;
+                focusedView = component;
                 if ((focusedView) != null)
                     ((Focusable)(focusedView)).Focus(focusType);
                 
-                FireFocusChanged(focusType, prev, view);
+                FireFocusChanged(focusType, prev, component);
             } 
         }
         
-        private View FindNextFocus(bool forward)
+        private UiComponent FindNextFocus(bool forward)
         {
-            View view;
-            while ((view = forward ? focusIterator.Next() : focusIterator.Prev()) != null) 
+            UiComponent component;
+            while ((component = forward ? focusIterator.Next() : focusIterator.Prev()) != null) 
             {
-                if ((view is Focusable) && (((Focusable)(view)).CanAcceptFocus((forward ? FocusType.FORWARD : FocusType.BACKWARD))))
-                    return view;
+                if ((component is Focusable) && (((Focusable)(component)).CanAcceptFocus((forward ? FocusType.FORWARD : FocusType.BACKWARD))))
+                    return component;
                 
             }
             return null;
         }
         
-        private void FireFocusChanged(FocusType focusType, View prev, View current)
+        private void FireFocusChanged(FocusType focusType, UiComponent prev, UiComponent current)
         {
             for (int i = 0; i < focusListeners.Count; i++)
                 focusListeners[i].FocusChanged(focusType, prev, current);

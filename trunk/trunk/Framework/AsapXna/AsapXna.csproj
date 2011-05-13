@@ -164,7 +164,7 @@
     <Compile Include="asap\ui\FocusListener.cs" />
     <Compile Include="asap\ui\FocusType.cs" />
     <Compile Include="asap\ui\ScreenManager.cs" />
-    <Compile Include="asap\ui\View.cs" />
+    <Compile Include="asap\ui\UiComponent.cs" />
     <Compile Include="asap\ui\ViewComposite.cs" />
     <Compile Include="asap\ui\ViewController.cs" />
     <Compile Include="asap\ui\ViewIterator.cs" />

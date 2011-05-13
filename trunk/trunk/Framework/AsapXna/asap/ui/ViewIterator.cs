@@ -11,30 +11,30 @@ namespace asap.ui
      {
         private const int INITIAL_STACK_SIZE = 4;
         
-        private View[] stack;
+        private UiComponent[] stack;
         
         private int pos;
         
-        private View root;
+        private UiComponent root;
         
-        public ViewIterator(View root) 
+        public ViewIterator(UiComponent root) 
         {
             this.root = root;
-            stack = new View[INITIAL_STACK_SIZE];
+            stack = new UiComponent[INITIAL_STACK_SIZE];
             pos = -1;
         }
         
-        public virtual View[] GetPath()
+        public virtual UiComponent[] GetPath()
         {
-            View[] res = new View[(pos) + 1];
+            UiComponent[] res = new UiComponent[(pos) + 1];
             Array.Copy(stack, 0, res, 0, ((pos) + 1));
             return res;
         }
         
-        public virtual View Last()
+        public virtual UiComponent Last()
         {
             Clean();
-            View v = root;
+            UiComponent v = root;
             while (true) 
             {
                 Push(v);
@@ -46,21 +46,21 @@ namespace asap.ui
             }
         }
         
-        public virtual View First()
+        public virtual UiComponent First()
         {
             Clean();
             Push(root);
             return root;
         }
         
-        public virtual View Prev()
+        public virtual UiComponent Prev()
         {
             if (!(IsEmpty())) 
             {
-                View top = Pop();
+                UiComponent top = Pop();
                 if (!(IsEmpty())) 
                 {
-                    View prev = Pop();
+                    UiComponent prev = Pop();
                     int index = GetChildIndex(prev, top);
                     if (index > 0) 
                     {
@@ -68,7 +68,7 @@ namespace asap.ui
                         Push(prev);
                         while (true) 
                         {
-                            View newTop = GetChild(prev, index);
+                            UiComponent newTop = GetChild(prev, index);
                             Push(newTop);
                             if ((GetChildrenCount(newTop)) == 0)
                                 return newTop;
@@ -87,7 +87,7 @@ namespace asap.ui
             return null;
         }
         
-        public virtual View Next()
+        public virtual UiComponent Next()
         {
             if (IsEmpty()) 
             {
@@ -96,11 +96,11 @@ namespace asap.ui
             } 
             else 
             {
-                View top = Pop();
+                UiComponent top = Pop();
                 if ((GetChildrenCount(top)) > 0) 
                 {
                     Push(top);
-                    View newTop = GetChild(top, 0);
+                    UiComponent newTop = GetChild(top, 0);
                     Push(newTop);
                     return newTop;
                 } 
@@ -108,13 +108,13 @@ namespace asap.ui
                 {
                     while (!(IsEmpty())) 
                     {
-                        View prev = Pop();
+                        UiComponent prev = Pop();
                         int index = GetChildIndex(prev, top);
                         if ((index + 1) < (GetChildrenCount(prev))) 
                         {
                             index++;
                             Push(prev);
-                            View newTop = GetChild(prev, index);
+                            UiComponent newTop = GetChild(prev, index);
                             Push(newTop);
                             return newTop;
                         } 
@@ -125,27 +125,27 @@ namespace asap.ui
             return null;
         }
         
-        private int GetChildIndex(View view, View child)
+        private int GetChildIndex(UiComponent component, UiComponent child)
         {
-            Debug.Assert(view is ViewComposite);
-            return ((ViewComposite)(view)).IndexOf(child);
+            Debug.Assert(component is ViewComposite);
+            return ((ViewComposite)(component)).IndexOf(child);
         }
         
-        private int GetChildrenCount(View view)
+        private int GetChildrenCount(UiComponent component)
         {
-            if (view is ViewComposite) 
+            if (component is ViewComposite) 
             {
-                ViewComposite composite = ((ViewComposite)(view));
+                ViewComposite composite = ((ViewComposite)(component));
                 return composite.GetViewsCount();
             } 
             return 0;
         }
         
-        private View GetChild(View view, int index)
+        private UiComponent GetChild(UiComponent component, int index)
         {
-            if (view is ViewComposite) 
+            if (component is ViewComposite) 
             {
-                ViewComposite composite = ((ViewComposite)(view));
+                ViewComposite composite = ((ViewComposite)(component));
                 Debug.Assert((index >= 0) && (index < (composite.GetViewsCount())));
                 return composite.GetView(index);
             } 
@@ -164,22 +164,22 @@ namespace asap.ui
         {
             while ((pos) >= (stack.Length)) 
             {
-                View[] newItems = new View[(stack.Length) * 2];
+                UiComponent[] newItems = new UiComponent[(stack.Length) * 2];
                 Array.Copy(stack, 0, newItems, 0, stack.Length);
                 stack = newItems;
             }
         }
         
-        private void Push(View view)
+        private void Push(UiComponent component)
         {
             (pos)++;
             EnsureCapacity();
-            stack[pos] = view;
+            stack[pos] = component;
         }
         
-        private View Pop()
+        private UiComponent Pop()
         {
-            View res = stack[pos];
+            UiComponent res = stack[pos];
             stack[pos] = null;
             (pos)--;
             return res;

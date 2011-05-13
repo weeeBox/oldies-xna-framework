@@ -11,9 +11,9 @@ using asap.graphics;
 namespace app.menu
 {
     /** 
-     * Fullscreen view, a single item of screens flow
+     * Fullscreen component, a single item of screens flow
      */
-    public class Screen : View, KeyListener, TickListener, TimerSource
+    public class Screen : UiComponent, KeyListener, TickListener, TimerSource
     {
         public ScreenId id;        
         

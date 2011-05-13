@@ -6,7 +6,7 @@ namespace asap.ui
     {
         private BaseApp app;
         
-        private View root;
+        private UiComponent root;
         
         private ViewController viewController;
         
@@ -17,7 +17,7 @@ namespace asap.ui
             viewController = null;
         }
         
-        public virtual void SetRoot(View root)
+        public virtual void SetRoot(UiComponent root)
         {
             if ((viewController) != null) 
             {
@@ -37,7 +37,7 @@ namespace asap.ui
             app.SetPointerListener(viewController);
         }
         
-        public virtual void FocusChanged(FocusType focusType, View prev, View current)
+        public virtual void FocusChanged(FocusType focusType, UiComponent prev, UiComponent current)
         {
             if ((viewController) != null) 
             {
