@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using asap.graphics;
-using asap.util;
-using asap.visual;
 
-namespace AsapXna.asap.visual
+namespace asap.visual
 {
     public enum TextAlign
     {
@@ -53,6 +51,14 @@ namespace AsapXna.asap.visual
         {
             return text;
         }        
+
+        public void SetText(String text)
+        {
+            if (this.text != text)
+            {
+                SetText(text, width, false);
+            }
+        }
 
         public void SetText(String text, float width, bool reasize)
         {

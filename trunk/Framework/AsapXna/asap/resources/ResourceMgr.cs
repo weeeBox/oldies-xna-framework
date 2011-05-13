@@ -53,7 +53,7 @@ namespace asap.resources
             StartLoading(listener);
         }
 
-        private void AddPackToLoad(int packIndex)
+        public void AddPackToLoad(int packIndex)
         {
             Debug.Assert(packIndex >= 0 && packIndex < resourcesData.Length);
 
@@ -64,7 +64,7 @@ namespace asap.resources
             }
         }
 
-        private void UnloadPack(int packIndex)
+        public void UnloadPack(int packIndex)
         {
             Debug.Assert(packIndex >= 0 && packIndex < resourcesData.Length);
             ResourceLoadInfo[] infos = resourcesData[packIndex];
