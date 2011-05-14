@@ -112,34 +112,36 @@ namespace app
         {
             return false;
         }
-        
-        public virtual bool KeyPressed(int keyCode, int keyAction)
+
+        public virtual bool KeyPressed(KeyEvent evt)
         {
-            if (!(engaged)) 
-            {
-                if (keyCode == (KeyCode.CHEAT)) 
-                {
-                    EngageCheats();
-                    return true;
-                } 
-                else 
-                {
-                    return false;
-                }
-            } 
-            else 
-            {
-                if ((keyCode >= (KeyCode.NUM_0)) && (keyCode <= (KeyCode.NUM_9))) 
-                {
-                    ProcessCheatDigit((keyCode - (KeyCode.NUM_0)));
-                    return true;
-                } 
-                else 
-                {
-                    engaged = false;
-                    return true;
-                }
-            }
+            //if (!(engaged)) 
+            //{
+            //    if (keyCode == (KeyCode.CHEAT)) 
+            //    {
+            //        EngageCheats();
+            //        return true;
+            //    } 
+            //    else 
+            //    {
+            //        return false;
+            //    }
+            //} 
+            //else 
+            //{
+            //    if ((keyCode >= (KeyCode.NUM_0)) && (keyCode <= (KeyCode.NUM_9))) 
+            //    {
+            //        ProcessCheatDigit((keyCode - (KeyCode.NUM_0)));
+            //        return true;
+            //    } 
+            //    else 
+            //    {
+            //        engaged = false;
+            //        return true;
+            //    }
+            //}
+
+            return false;
         }
         
         public virtual bool KeyReleased(int keyCode, int keyAction)

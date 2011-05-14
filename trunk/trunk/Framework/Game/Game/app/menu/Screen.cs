@@ -2,17 +2,13 @@ using System;
 
 using System.Collections.Generic;
 
-
 using asap.ui;
 using asap.core;
 using asap.app;
 using asap.graphics;
 
 namespace app.menu
-{
-    /** 
-     * Fullscreen component, a single item of screens flow
-     */
+{    
     public class Screen : UiComponent, KeyListener, TickListener, TimerSource
     {
         public ScreenId id;        
@@ -66,9 +62,9 @@ namespace app.menu
             backCode = code;
         }
         
-        public virtual bool KeyPressed(int keyCode, int keyAction)
+        public virtual bool KeyPressed(KeyEvent evt)
         {
-            if (keyCode == (KeyCode.CANCEL)) 
+            if (evt.action == KeyAction.BACK) 
             {
                 if ((backButton) != null) 
                 {
@@ -83,18 +79,18 @@ namespace app.menu
             } 
             return false;
         }
-        
-        public virtual bool KeyReleased(int keyCode, int keyAction)
+
+        public virtual bool KeyReleased(KeyEvent evt)
         {
             return false;
         }
-        
-        public virtual bool KeyRepeated(int keyCode, int keyAction)
+ 
+        public override FocusTraversalPolicy GetFocusTraversalPolicy()
         {
-            return false;
+            if (focusTraversalPolicy != null)
+                return focusTraversalPolicy;
+
+            return InputManager.GetDefaultFocusTraversalPolicy();
         }
-        
-    }
-    
-    
+    }    
 }
