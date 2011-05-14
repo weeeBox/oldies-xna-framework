@@ -96,28 +96,20 @@ namespace asap.app
                 pointerListener.PointerDragged(x, y, fingerId);
             } 
         }
-        
-        public virtual void KeyPressed(int keyCode, int keyAction)
+
+        public virtual void KeyPressed(KeyEvent evt)
         {
             if ((keyListener) != null) 
             {
-                keyListener.KeyPressed(keyCode, keyAction);
+                keyListener.KeyPressed(evt);
             } 
         }
-        
-        public virtual void KeyReleased(int keyCode, int keyAction)
+
+        public virtual void KeyReleased(KeyEvent evt)
         {
             if ((keyListener) != null) 
             {
-                keyListener.KeyReleased(keyCode, keyAction);
-            } 
-        }
-        
-        public virtual void KeyRepeated(int keyCode, int keyAction)
-        {
-            if ((keyListener) != null) 
-            {
-                keyListener.KeyRepeated(keyCode, keyAction);
+                keyListener.KeyReleased(evt);
             } 
         }        
         
@@ -172,6 +164,15 @@ namespace asap.app
         public static Timer CreateTimer(TimerListener listener)
         {
             return new Timer(GetInstance(), listener);
+        }
+
+        public virtual void GamePadConnected(int playerIndex)
+        {            
+        }
+
+        public virtual void GamePadDisconnected(int playerIndex)
+        {
+            
         }
 
         protected abstract ResourceMgr CreateResourceMgr();

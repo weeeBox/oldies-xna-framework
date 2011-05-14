@@ -1,16 +1,19 @@
+using asap.core;
 using asap.app;
 
 namespace asap.ui
 {
-    public class ScreenManager : FocusListener
+    public class InputManager : FocusListener, KeyListener
     {
+        private static FocusTraversalPolicy defaultFocusTraversalPolicy = new DefaultFocusTraversalPolicy();
+
         private BaseApp app;
         
         private UiComponent root;
         
-        private ViewController viewController;
+        private ViewController viewController;        
         
-        public ScreenManager(BaseApp app) 
+        public InputManager(BaseApp app) 
         {
             this.app = app;
             root = null;
@@ -28,13 +31,20 @@ namespace asap.ui
             {
                 viewController = new ViewController(root);
                 viewController.AddFocusListener(this);
+                FocusTraversalPolicy focusTraversal = root.GetFocusTraversalPolicy();
+                if (focusTraversal != null)
+                {
+                    viewController.FocusView(focusTraversal.GetDefaultComponent(root));
+                }
             } 
             else
                 viewController = null;
             
+            //app.SetMainView(root);
+            //app.SetKeyListener(viewController);
+            //app.SetPointerListener(viewController);
             app.SetMainView(root);
-            app.SetKeyListener(viewController);
-            app.SetPointerListener(viewController);
+            app.SetKeyListener(this);
         }
         
         public virtual void FocusChanged(FocusType focusType, UiComponent prev, UiComponent current)
@@ -53,6 +63,21 @@ namespace asap.ui
                     } 
                 } 
             } 
+        }
+
+        public bool KeyPressed(KeyEvent evt)
+        {            
+            return viewController.KeyPressed(evt);
+        }
+
+        public bool KeyReleased(KeyEvent evt)
+        {
+            return viewController.KeyReleased(evt);
         }        
+
+        public static FocusTraversalPolicy GetDefaultFocusTraversalPolicy()
+        {
+            return defaultFocusTraversalPolicy;
+        }
     }    
 }

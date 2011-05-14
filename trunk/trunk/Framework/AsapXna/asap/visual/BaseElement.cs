@@ -17,11 +17,12 @@ namespace asap.visual
         public bool drawBorder;
 #endif
 
-        public bool visible;
-        public bool updateable;        
+        private bool visible;
+        private bool updateable;        
 
         public float x;
         public float y;
+
         private float drawX;
         private float drawY;
 
@@ -221,15 +222,24 @@ namespace asap.visual
             ctForm = ColorTransform.Tint(color);
         }        
 
-        public void SetEnabled(bool e)
+        public void SetVisible(bool visible)
         {
-            visible = e;
-            updateable = e;
+            this.visible = visible;
         }
 
-        public bool IsEnabled()
+        public bool IsVisible()
         {
-            return (visible && updateable);
+            return visible;
+        }
+
+        public void SetUpdatable(bool updateable)
+        {
+            this.updateable = updateable;
+        }
+
+        public bool IsUpdatable()
+        {
+            return updateable;
         }
 
         public void SetAlign(float alignX, float alignY)
