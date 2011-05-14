@@ -106,28 +106,20 @@ namespace app.menu
         {
             this.focused = false;
         }
-        
-        public virtual bool KeyPressed(int keyCode, int keyAction)
+
+        public virtual bool KeyPressed(KeyEvent evt)
         {
-            if (keyCode == (KeyCode.OK)) 
+            if (evt.action == KeyAction.OK) 
             {
                 Click();
                 return true;
             } 
             return false;
         }
-        
-        public virtual bool KeyReleased(int keyCode, int keyAction)
+
+        public virtual bool KeyReleased(KeyEvent evt)
         {
             return false;
-        }
-        
-        public virtual bool KeyRepeated(int keyCode, int keyAction)
-        {
-            return false;
-        }
-        
-    }
-    
-    
+        }        
+    }    
 }

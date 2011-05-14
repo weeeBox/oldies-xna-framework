@@ -13,19 +13,9 @@ namespace app
     {
         private const int WIDTH = 1280;
         private const int HEIGHT = 720;
-
-        private Graphics appGraphics;
-
+        
         GraphicsDeviceManager graphics;
-        NativeApp app;
-
-        GamePadState gamePadState;
-#if WINDOWS
-        KeyboardState keyboardState;
-#endif
-
-        bool mousePressed;
-        int mouseLastX, mouseLastY;
+        NativeApp app;        
 
         public TestGame()
         {
@@ -44,13 +34,9 @@ namespace app
         /// </summary>
         protected override void Initialize()
         {
-            gamePadState = GamePad.GetState(PlayerIndex.One);
-
 #if WINDOWS
-            IsMouseVisible = true;
-            keyboardState = Keyboard.GetState();
+            IsMouseVisible = true;            
 #endif
-
             base.Initialize();
         }
 
@@ -59,8 +45,7 @@ namespace app
         /// all of your content.
         /// </summary>
         protected override void LoadContent()
-        {
-            appGraphics = new Graphics(WIDTH, HEIGHT);
+        {            
             app = new NativeApp(WIDTH, HEIGHT, Content);
         }
 
@@ -80,8 +65,6 @@ namespace app
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            updateInput();            
-
             if (app.isRunning())
             {
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -93,65 +76,7 @@ namespace app
             }
 
             base.Update(gameTime);
-        }
-
-        private void updateInput()
-        {
-            if (mousePressed)
-            {
-                if (Mouse.GetState().LeftButton == ButtonState.Released)
-                {
-                    mousePressed = false;
-                    mouseLastX = Mouse.GetState().X;
-                    mouseLastY = Mouse.GetState().Y;
-                    app.PointerReleased(mouseLastX, mouseLastY);
-                }
-                else
-                {
-                    int mouseX = Mouse.GetState().X;
-                    int mouseY = Mouse.GetState().Y;
-                    if (mouseX != mouseLastX || mouseY != mouseLastY)
-                    {
-                        app.PointerDragged(mouseX, mouseY);
-                    }
-                    mouseLastX = mouseX;
-                    mouseLastY = mouseY;
-                }
-            }
-            else
-            {
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                {
-                    mousePressed = true;
-                    mouseLastX = Mouse.GetState().X;
-                    mouseLastY = Mouse.GetState().Y;
-                    app.PointerPressed(mouseLastX, mouseLastY);
-                }
-            }
-
-            // check for back press
-            GamePadState oldGamePadState = gamePadState;
-            gamePadState = GamePad.GetState(PlayerIndex.One);
-            if (gamePadState.IsButtonDown(Buttons.Back) && oldGamePadState.IsButtonUp(Buttons.Back))
-            {
-                backPressed();
-            }
-
-            // check windows key press
-#if WINDOWS
-            KeyboardState oldKeyboardState = keyboardState;
-            keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.Escape) && oldKeyboardState.IsKeyUp(Keys.Escape))
-            {
-                backPressed();
-            }
-#endif
-        }
-
-        private void backPressed()
-        {
-            app.BackPressed();
-        }
+        }        
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -161,10 +86,8 @@ namespace app
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            appGraphics.Begin(GraphicsDevice);
-            app.Draw(appGraphics);
-            appGraphics.End();
-            
+            app.Draw(GraphicsDevice);            
+
             base.Draw(gameTime);            
         }
     }

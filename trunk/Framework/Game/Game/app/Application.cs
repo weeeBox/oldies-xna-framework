@@ -1,8 +1,8 @@
 ﻿using app.menu;
 using asap.app;
-using asap.ui;
-using asap.sound;
 using asap.resources;
+using asap.sound;
+using asap.ui;
 
 namespace app
 {
@@ -10,7 +10,7 @@ namespace app
     {
         public static CheatManager sharedCheatMgr;
 
-        public static ScreenManager sharedScreenMgr;
+        public static InputManager sharedScreenMgr;
 
         public static ScreensView sharedScreensView;                
 
@@ -20,7 +20,7 @@ namespace app
         {
             sharedCheatMgr = new CheatManager();
             sharedCheatMgr.AddCheatListener(this);
-            sharedScreenMgr = new ScreenManager(this);
+            sharedScreenMgr = new InputManager(this);
             sharedScreensView = new ScreensView();            
             sharedRootController = new AppRootController();
             SetTickListener(sharedRootController);
@@ -38,6 +38,16 @@ namespace app
             sharedRootController.OnStart();
         }
 
+        public override void GamePadConnected(int playerIndex)
+        {
+            sharedRootController.GamePadConnected(playerIndex);
+        }
+
+        public override void GamePadDisconnected(int playerIndex)
+        {
+            sharedRootController.GamePadDisconnected(playerIndex);
+        }
+
         public static Application Instance
         {
             get { return (Application)GetInstance(); }
@@ -51,6 +61,6 @@ namespace app
         protected override SoundMgr CreateSoundMgr()
         {
             return new SoundMgr(16); // fix me
-        }
+        }        
     }
 }
