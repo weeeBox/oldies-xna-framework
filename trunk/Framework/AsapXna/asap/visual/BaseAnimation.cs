@@ -87,7 +87,7 @@ namespace AsapXna.asap.visual
 
         public override void Draw(Graphics g)
         {
-            if (target.visible)
+            if (target.IsVisible())
             {
                 PreDraw(g);
                 target.Draw(g);
@@ -102,7 +102,7 @@ namespace AsapXna.asap.visual
                 UpdateTimeline(delta);
             }
 
-            if (target.updateable)
+            if (target.IsUpdatable())
             {
                 target.Update(delta);
             }

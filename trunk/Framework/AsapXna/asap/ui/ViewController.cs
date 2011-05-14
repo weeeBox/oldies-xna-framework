@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace asap.ui
 {
     public class ViewController : KeyListener, PointerListener
-     {
+    {
         private UiComponent root;
         
         private UiComponent focusedView;
@@ -52,62 +52,44 @@ namespace asap.ui
         {
             return focusedView;
         }
-        
-        public virtual bool KeyPressed(int keyCode, int keyAction)
+
+        public virtual bool KeyPressed(KeyEvent evt)
         {
             if ((root) is KeyListener) 
             {
-                if (((KeyListener)(root)).KeyPressed(keyCode, keyAction)) 
+                if (((KeyListener)(root)).KeyPressed(evt)) 
                 {
                     return true;
                 } 
             } 
             if (((focusedView) != null) && ((focusedView) is KeyListener)) 
             {
-                if (((KeyListener)(focusedView)).KeyPressed(keyCode, keyAction))
+                if (((KeyListener)(focusedView)).KeyPressed(evt))
                     return true;
                 
             } 
-            return HandleKeyFocusEvent(keyAction, true);
+            return HandleKeyFocusEvent(evt.action, true);
         }
-        
-        public virtual bool KeyReleased(int keyCode, int keyAction)
+
+        public virtual bool KeyReleased(KeyEvent evt)
         {
             if ((root) is KeyListener) 
             {
-                if (((KeyListener)(root)).KeyReleased(keyCode, keyAction)) 
+                if (((KeyListener)(root)).KeyReleased(evt)) 
                 {
                     return true;
                 } 
             } 
             if (((!(isKeyPressedHandledByFocus)) && ((focusedView) != null)) && ((focusedView) is KeyListener)) 
             {
-                if (((KeyListener)(focusedView)).KeyReleased(keyCode, keyAction))
+                if (((KeyListener)(focusedView)).KeyReleased(evt))
                     return true;
                 
             } 
-            return HandleKeyFocusEvent(keyAction, false);
-        }
+            return HandleKeyFocusEvent(evt.action, false);
+        }        
         
-        public virtual bool KeyRepeated(int keyCode, int keyAction)
-        {
-            if ((root) is KeyListener) 
-            {
-                if (((KeyListener)(root)).KeyRepeated(keyCode, keyAction)) 
-                {
-                    return true;
-                } 
-            } 
-            if (((focusedView) != null) && ((focusedView) is KeyListener)) 
-            {
-                if (((KeyListener)(focusedView)).KeyRepeated(keyCode, keyAction))
-                    return true;
-                
-            } 
-            return HandleKeyFocusEvent(keyAction, true);
-        }
-        
-        private bool HandleKeyFocusEvent(int keyAction, bool pressed)
+        private bool HandleKeyFocusEvent(KeyAction keyAction, bool pressed)
         {
             switch (keyAction)
             {

@@ -2,25 +2,18 @@ using System;
 
 using System.Collections.Generic;
 
-
-
 namespace asap.core
 {
-    public class KeyAction
-     {
-        public const int NONE = 0;
-        
-        public const int FIRE = 1;
-        
-        public const int LEFT = 2;
-        
-        public const int RIGHT = 3;
-        
-        public const int UP = 4;
-        
-        public const int DOWN = 5;
-        
-    }
-    
-    
+    public enum KeyAction
+    {
+        NONE,        
+        OK,
+        BACK,
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN,
+        PG_UP,
+        PG_DOWN
+    }    
 }

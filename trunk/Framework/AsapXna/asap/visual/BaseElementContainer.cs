@@ -34,7 +34,7 @@ namespace asap.visual
 
             foreach (BaseElement c in childs)
             {
-                if (c != null && c.updateable)
+                if (c != null && c.IsUpdatable())
                 {
                     c.Update(delta);
                 }
@@ -50,7 +50,7 @@ namespace asap.visual
 
             foreach (BaseElement c in childs)
             {
-                if (c != null && c.visible)
+                if (c != null && c.IsVisible())
                 {
                     c.Draw(g);
                 }

@@ -5,7 +5,12 @@ using asap.visual;
 namespace asap.ui
 {
     public class UiComponent : BaseElementContainer
-    {        
+    {
+        private bool enabled;
+        private bool focusable;
+        private bool traversalKeysEnabled;
+        protected FocusTraversalPolicy focusTraversalPolicy;
+
         public UiComponent() : this(0, 0)
         {
         }
@@ -229,9 +234,77 @@ namespace asap.ui
             }
         } 
 
+        public int IndexOf(BaseElement element)
+        {
+            int childsCount = ChildsCount();
+            for (int childIndex = 0; childIndex < childsCount; ++childIndex)
+            {
+                BaseElement child = childs[childIndex];
+                if (child == element)
+                {
+                    return childIndex;
+                }
+            }
+            return -1;
+        }
+
         public virtual bool Contains(int x, int y)
         {
             return x >= 0 && x < Width && y >= 0 && y < Height;
+        }
+
+        public virtual bool IsAcceptingFocus()
+        {
+            return IsFocuable() && IsEnabled() && IsVisible();
+        }
+
+        public bool IsEnabled()
+        {
+            return enabled;
+        }
+
+        public void SetEnabled(bool enabled)
+        {
+            this.enabled = enabled;
+        }
+
+        public bool IsFocuable()
+        {
+            return focusable;
+        }
+
+        public void SetFocusable(bool focusable)
+        {
+            this.focusable = focusable;
+        }
+
+        public bool IsTraversalKeysEnabled()
+        {
+            return traversalKeysEnabled;
+        }
+
+        public void SetTraversalKeysEnabled(bool traversalKeysEnabled)
+        {
+            this.traversalKeysEnabled = traversalKeysEnabled;
+        }
+
+        public void SetFocusTraversalPolicy(FocusTraversalPolicy policy)
+        {
+            focusTraversalPolicy = policy;
+        }
+
+        public virtual FocusTraversalPolicy GetFocusTraversalPolicy()
+        {
+            if (focusTraversalPolicy != null)
+                return focusTraversalPolicy;
+
+            BaseElement parent = GetParent();
+            if (parent != null && parent is UiComponent)
+            {
+                return ((UiComponent)parent).GetFocusTraversalPolicy();
+            }
+
+            return null;
         }
     }
 }

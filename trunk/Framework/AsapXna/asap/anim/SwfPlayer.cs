@@ -140,7 +140,7 @@ namespace asap.anim
                 for (int depth = 1; depth <= maxDepth; ++depth)
                 {
                     CharacterInstance inst = displayList[depth];
-                    if (inst != null && inst.updateable)
+                    if (inst != null && inst.IsUpdatable())
                     {
                         inst.Update(delta);
                     }

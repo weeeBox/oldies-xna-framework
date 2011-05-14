@@ -65,5 +65,13 @@ namespace asap.core
         {
             activeController.Tick(delta);
         }
+
+        public virtual void GamePadConnected(int playerIndex)
+        {         
+        }
+
+        public virtual void GamePadDisconnected(int playerIndex)
+        {         
+        }
     }
 }
