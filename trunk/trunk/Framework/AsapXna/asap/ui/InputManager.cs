@@ -1,11 +1,17 @@
 using asap.core;
 using asap.app;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace asap.ui
 {
-    public class InputManager : FocusListener, KeyListener
+    public class InputManager : KeyListener
     {
         private static FocusTraversalPolicy defaultFocusTraversalPolicy = new DefaultFocusTraversalPolicy();
+
+        private static HashSet<KeyCode> defaultNextFocusKeyCodes = new HashSet<KeyCode>();
+
+        private static HashSet<KeyCode> defaultPrevFocusKeyCodes = new HashSet<KeyCode>();
 
         private BaseApp app;
         
@@ -18,24 +24,27 @@ namespace asap.ui
             this.app = app;
             root = null;
             viewController = null;
+
+            defaultNextFocusKeyCodes.Add(KeyCode.VK_Down);
+            defaultNextFocusKeyCodes.Add(KeyCode.DPadDown);
+            defaultNextFocusKeyCodes.Add(KeyCode.LeftThumbstickDown);
+
+            defaultPrevFocusKeyCodes.Add(KeyCode.VK_Up);
+            defaultPrevFocusKeyCodes.Add(KeyCode.DPadUp);
+            defaultPrevFocusKeyCodes.Add(KeyCode.LeftThumbstickUp);
         }
         
         public virtual void SetRoot(UiComponent root)
         {
             if ((viewController) != null) 
             {
-                viewController.BlurFocusedView();
+                viewController.RemoveFocus();
             } 
             this.root = root;
             if (root != null) 
             {
-                viewController = new ViewController(root);
-                viewController.AddFocusListener(this);
-                FocusTraversalPolicy focusTraversal = root.GetFocusTraversalPolicy();
-                if (focusTraversal != null)
-                {
-                    viewController.FocusView(focusTraversal.GetDefaultComponent(root));
-                }
+                viewController = new ViewController(root);                
+                viewController.FocusDefaultComponent();
             } 
             else
                 viewController = null;
@@ -46,25 +55,7 @@ namespace asap.ui
             app.SetMainView(root);
             app.SetKeyListener(this);
         }
-        
-        public virtual void FocusChanged(FocusType focusType, UiComponent prev, UiComponent current)
-        {
-            if ((viewController) != null) 
-            {
-                if (current == null) 
-                {
-                    if (focusType == (FocusType.FORWARD)) 
-                    {
-                        viewController.FocusFirstView();
-                    } 
-                    else if (focusType == (FocusType.BACKWARD)) 
-                    {
-                        viewController.FocusLastView();
-                    } 
-                } 
-            } 
-        }
-
+     
         public bool KeyPressed(KeyEvent evt)
         {            
             return viewController.KeyPressed(evt);
@@ -78,6 +69,16 @@ namespace asap.ui
         public static FocusTraversalPolicy GetDefaultFocusTraversalPolicy()
         {
             return defaultFocusTraversalPolicy;
+        }
+
+        public static HashSet<KeyCode> GetDefaultNextFocusKeyCodes()
+        {
+            return defaultNextFocusKeyCodes;
+        }
+
+        public static HashSet<KeyCode> GetDefaultPrevFocusKeyCodes()
+        {
+            return defaultPrevFocusKeyCodes;
         }
     }    
 }

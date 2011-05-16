@@ -8,10 +8,9 @@ namespace asap.ui
 {
     public interface Focusable
     {
-        bool CanAcceptFocus(FocusType focusType);
-        void Focus(FocusType focusType);
-        void Blur();
-    }
-    
-    
+        bool CanAcceptFocus();
+        bool IsFocused();
+        void FocusGained();
+        void FocusLost();        
+    }    
 }
