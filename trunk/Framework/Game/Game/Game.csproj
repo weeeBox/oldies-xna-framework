@@ -120,8 +120,7 @@
     <Compile Include="app\CheatManager.cs" />
     <Compile Include="app\menu\Button.cs" />
     <Compile Include="app\menu\ButtonId.cs" />
-    <Compile Include="app\menu\ButtonType.cs" />
-    <Compile Include="app\menu\MenuListener.cs" />
+    <Compile Include="app\menu\ButtonListener.cs" />
     <Compile Include="app\menu\Screen.cs" />
     <Compile Include="app\menu\ScreenFactory.cs" />
     <Compile Include="app\menu\ScreenId.cs" />

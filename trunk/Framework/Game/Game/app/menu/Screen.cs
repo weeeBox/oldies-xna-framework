@@ -17,7 +17,7 @@ namespace app.menu
         
         private Button backButton;
         
-        private MenuListener backListener;
+        private ButtonListener backListener;
         
         private int backCode;
         
@@ -56,7 +56,7 @@ namespace app.menu
             this.backButton = backButton;
         }
         
-        public virtual void SetBackListener(MenuListener listener, int code)
+        public virtual void SetBackListener(ButtonListener listener, int code)
         {
             backListener = listener;
             backCode = code;
@@ -91,6 +91,22 @@ namespace app.menu
                 return focusTraversalPolicy;
 
             return InputManager.GetDefaultFocusTraversalPolicy();
+        }
+
+        public override HashSet<KeyCode> GetNextFocusKeyCodes()
+        {
+            if (nextFocusKeyCodes != null)
+                return nextFocusKeyCodes;
+
+            return InputManager.GetDefaultNextFocusKeyCodes();
+        }
+
+        public override HashSet<KeyCode> GetPrevFocusKeyCodes()
+        {
+            if (prevFocusKeyCodes != null)
+                return prevFocusKeyCodes;
+
+            return InputManager.GetDefaultPrevFocusKeyCodes();
         }
     }    
 }
