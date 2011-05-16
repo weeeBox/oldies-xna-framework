@@ -55,7 +55,7 @@ namespace asap.graphics
             AppGraphics.DrawLine(x1, y1, x2, y2, color);
         }
 
-        public void DrawRect(int x, int y, int width, int height, Color color)
+        public void DrawRect(int x, int y, float width, float height, Color color)
         {            
             AppGraphics.DrawRect(x, y, width, height, color);
         }                

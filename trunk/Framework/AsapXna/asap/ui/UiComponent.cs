@@ -1,15 +1,18 @@
 using System;
 using System.Diagnostics;
 using asap.visual;
+using asap.core;
+using System.Collections.Generic;
 
 namespace asap.ui
 {
     public class UiComponent : BaseElementContainer
     {
-        private bool enabled;
-        private bool focusable;
+        private bool enabled;        
         private bool traversalKeysEnabled;
         protected FocusTraversalPolicy focusTraversalPolicy;
+        protected HashSet<KeyCode> nextFocusKeyCodes;
+        protected HashSet<KeyCode> prevFocusKeyCodes;
 
         public UiComponent() : this(0, 0)
         {
@@ -17,6 +20,8 @@ namespace asap.ui
 
         public UiComponent(float width, float height) : base(width, height)
         {
+            enabled = true;
+            traversalKeysEnabled = true;
         }
 
         public void ResizeToFitChilds()
@@ -251,12 +256,7 @@ namespace asap.ui
         public virtual bool Contains(int x, int y)
         {
             return x >= 0 && x < Width && y >= 0 && y < Height;
-        }
-
-        public virtual bool IsAcceptingFocus()
-        {
-            return IsFocuable() && IsEnabled() && IsVisible();
-        }
+        }        
 
         public bool IsEnabled()
         {
@@ -266,17 +266,7 @@ namespace asap.ui
         public void SetEnabled(bool enabled)
         {
             this.enabled = enabled;
-        }
-
-        public bool IsFocuable()
-        {
-            return focusable;
-        }
-
-        public void SetFocusable(bool focusable)
-        {
-            this.focusable = focusable;
-        }
+        }        
 
         public bool IsTraversalKeysEnabled()
         {
@@ -302,6 +292,34 @@ namespace asap.ui
             if (parent != null && parent is UiComponent)
             {
                 return ((UiComponent)parent).GetFocusTraversalPolicy();
+            }
+
+            return null;
+        }
+
+        public virtual HashSet<KeyCode> GetNextFocusKeyCodes()
+        {
+            if (nextFocusKeyCodes != null)
+                return nextFocusKeyCodes;
+
+            BaseElement parent = GetParent();
+            if (parent != null && parent is UiComponent)
+            {
+                return ((UiComponent)parent).GetNextFocusKeyCodes();
+            }
+
+            return null;
+        }
+
+        public virtual HashSet<KeyCode> GetPrevFocusKeyCodes()
+        {
+            if (prevFocusKeyCodes != null)
+                return prevFocusKeyCodes;
+
+            BaseElement parent = GetParent();
+            if (parent != null && parent is UiComponent)
+            {
+                return ((UiComponent)parent).GetPrevFocusKeyCodes();
             }
 
             return null;
