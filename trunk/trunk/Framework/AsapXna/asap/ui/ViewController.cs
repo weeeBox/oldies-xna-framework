@@ -20,9 +20,7 @@ namespace asap.ui
         
         private int activeViewY;
         
-        private bool isPointerEntered;
-        
-        private List<FocusListener>  focusListeners = new List<FocusListener> ();
+        private bool isPointerEntered;        
         
         public ViewController(UiComponent root) 
         {
@@ -32,28 +30,18 @@ namespace asap.ui
             focusedComponent = null;
             isKeyPressedHandledByFocus = false;            
             isPointerEntered = false;
-        }
+        }        
         
-        public virtual void AddFocusListener(FocusListener focusListener)
-        {
-            focusListeners.Add(focusListener);
-        }
-        
-        public virtual void RemoveFocusListener(FocusListener focusListener)
-        {
-            focusListeners.Remove(focusListener);
-        }
-        
-        public virtual UiComponent GetFocus()
+        public virtual UiComponent GetFocusedComponent()
         {
             return focusedComponent;
         }
 
         public virtual bool KeyPressed(KeyEvent evt)
         {
-            if ((root) is KeyListener) 
+            if (root is KeyListener) 
             {
-                if (((KeyListener)(root)).KeyPressed(evt)) 
+                if (((KeyListener)root).KeyPressed(evt)) 
                 {
                     return true;
                 } 
@@ -236,14 +224,14 @@ namespace asap.ui
             
             if (component == null) 
             {
-                SetComponentFocused(component, FocusType.DIRECT);
+                SetComponentFocused(component);
                 return ;
             } 
             Debug.Assert(component is Focusable);            
-            SetComponentFocused(component, FocusType.DIRECT);            
+            SetComponentFocused(component);            
         }
         
-        private void SetComponentFocused(UiComponent component, FocusType focusType)
+        private void SetComponentFocused(UiComponent component)
         {
             if (component != focusedComponent) 
             {
@@ -254,15 +242,7 @@ namespace asap.ui
                 focusedComponent = component;
                 if ((focusedComponent) != null)
                     ((Focusable)(focusedComponent)).FocusGained();
-                
-                FireFocusChanged(focusType, prev, component);
             } 
-        }        
-        
-        private void FireFocusChanged(FocusType focusType, UiComponent prev, UiComponent current)
-        {
-            for (int i = 0; i < focusListeners.Count; i++)
-                focusListeners[i].FocusChanged(focusType, prev, current);
         }        
 
         private bool ContainsKeyCode(HashSet<KeyCode> set, KeyCode code)
