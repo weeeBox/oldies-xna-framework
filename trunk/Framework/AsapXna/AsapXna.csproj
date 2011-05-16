@@ -164,8 +164,6 @@
     <Compile Include="asap\rms\RecordStorage.cs" />
     <Compile Include="asap\sound\SoundMgr.cs" />
     <Compile Include="asap\ui\Focusable.cs" />
-    <Compile Include="asap\ui\FocusListener.cs" />
-    <Compile Include="asap\ui\FocusType.cs" />
     <Compile Include="asap\ui\InputManager.cs" />
     <Compile Include="asap\ui\UiComponent.cs" />
     <Compile Include="asap\ui\ViewComposite.cs" />
