@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace app
 {
-    public class CheatManager : MenuListener
+    public class CheatManager : ButtonListener
      {
         private const int TAP_REGION = 40;
         

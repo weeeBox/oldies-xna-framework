@@ -2,30 +2,30 @@ using System;
 using asap.core;
 using asap.graphics;
 using asap.ui;
+using asap.resources;
+using asap.app;
+using Microsoft.Xna.Framework;
 
 namespace app.menu
 {
-    public abstract class Button : UiComponent, KeyListener, PointerListener, Focusable
+    public class Button : UiComponent, KeyListener, PointerListener, Focusable
     {
         private bool focused = false;
         
-        private bool isPressed;
-        
-        public ButtonType type;
+        private bool isPressed;               
         
         public int code;
         
-        public MenuListener listener;
+        public ButtonListener listener;
         
         public String text;
         
         public GameTexture image;        
         
-        public Button(ButtonType type ,int code ,MenuListener listener) 
+        public Button(int code, ButtonListener listener) : base(100, 20)
         {
             this.code = code;
-            this.listener = listener;
-            this.type = type;
+            this.listener = listener;            
         }        
         
         public virtual void SetText(String text)
@@ -42,8 +42,7 @@ namespace app.menu
         {
             if (IsEnabled()) 
             {
-                isPressed = true;
-                // Application.sharedSoundMgr.PlaySound(Sounds.CLICK);
+                isPressed = true;                
             } 
         }
         
@@ -80,32 +79,15 @@ namespace app.menu
         public virtual bool IsPressedState()
         {
             return (focused) || (isPressed);
-        }
-        
-        public virtual ButtonType _getType()
-        {
-            return type;
         }        
                 
         public virtual void Click()
         {
-            listener.ButtonPressed(code);
-        }
-        
-        public virtual bool CanAcceptFocus(FocusType focusType)
-        {
-            return (type) != (ButtonType.PAUSE);
-        }
-        
-        public virtual void Focus(FocusType focusType)
-        {
-            this.focused = true;
-        }
-        
-        public virtual void Blur()
-        {
-            this.focused = false;
-        }
+            if (listener != null)
+            {
+                listener.ButtonPressed(code);
+            }
+        }        
 
         public virtual bool KeyPressed(KeyEvent evt)
         {
@@ -120,6 +102,35 @@ namespace app.menu
         public virtual bool KeyReleased(KeyEvent evt)
         {
             return false;
+        }
+
+        public override void Draw(Graphics g)
+        {
+            PreDraw(g);
+
+            g.DrawRect(0, 0, width, height, (focused ? Color.White : Color.Black));
+
+            PostDraw(g);
+        }
+
+        public bool CanAcceptFocus()
+        {
+            return IsEnabled() & IsVisible();
+        }
+
+        public bool IsFocused()
+        {
+            return focused;
+        }
+
+        public void FocusGained()
+        {
+            focused = true;
+        }
+
+        public void FocusLost()
+        {
+            focused = false;
         }        
     }    
 }

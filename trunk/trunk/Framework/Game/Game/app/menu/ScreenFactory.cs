@@ -17,7 +17,7 @@ namespace app.menu
      */
     public class ScreenFactory
     {
-        public static Screen CreateMainMenu(MenuListener listener)
+        public static Screen CreateMainMenu(ButtonListener listener)
         {
             Screen screen = new MainScreen();
             return screen;
