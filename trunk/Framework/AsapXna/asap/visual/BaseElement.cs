@@ -215,7 +215,20 @@ namespace asap.visual
         public void SetParent(BaseElement parent)
         {
             this.parent = parent;
-        }        
+        }
+
+        public bool IsAncestorOf(BaseElement element)
+        {
+            BaseElement parent = this;
+
+            while ((parent = parent.GetParent()) != null)
+            {
+                if (parent == element)
+                    return true;
+            }
+
+            return false;
+        }
 
         public void SetTint(Color color)
         {

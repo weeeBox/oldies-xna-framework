@@ -6,135 +6,166 @@ namespace asap.ui
 {
     public class DefaultFocusTraversalPolicy : FocusTraversalPolicy
     {
-        private enum SearchType
-        {
-            After,
-            Before,
-            First,
-            Last,
-            Default
-        };
-
         public UiComponent GetComponentAfter(UiComponent container, UiComponent component)
         {
-            int componentIndex = container.IndexOf(component);
-            Debug.Assert(componentIndex != -1);
+            int startIndex = component == null ? 0 : container.IndexOf(component) + 1;           
                         
-            return GetComponentHelper(container, componentIndex + 1, SearchType.After);
-        }
-                
-        public UiComponent GetComponentBefore(UiComponent container, UiComponent component)
-        {
-            int componentIndex = container.IndexOf(component);
-            Debug.Assert(componentIndex != -1);            
-
-            return GetComponentHelper(container, componentIndex - 1, SearchType.Before);
-        }
-                
-        public UiComponent GetFirstComponent(UiComponent container)
-        {
-            return GetComponentHelper(container, 0, SearchType.First);
-        }
-
-        public UiComponent GetLastComponent(UiComponent container)
-        {
-            return GetComponentHelper(container, container.ChildsCount() - 1, SearchType.Last);
-        }
-
-        public UiComponent GetDefaultComponent(UiComponent container)
-        {
-            return GetComponentHelper(container, 0, SearchType.Default);
-        }                               
-
-        private UiComponent GetComponentHelper(UiComponent container, int fromIndex, SearchType searchType)
-        {
             DynamicArray<BaseElement> childs = container.GetChilds();
-            int childsCount = container.ChildsCount();            
-
-            bool searchForward = searchType == SearchType.After || searchType == SearchType.Default || searchType == SearchType.First;
-            for (int childIndex = fromIndex; ; )
+            int childsCount = container.ChildsCount();
+                        
+            for (int childIndex = startIndex; childIndex < childsCount; ++childIndex)
             {
-                if (searchForward)
-                {
-                    if (childIndex >= childsCount)
-                        break;
-                }
-                else
-                {
-                    if (childIndex < 0)
-                        break;
-                }
-
                 BaseElement child = container.GetChild(childIndex);
                 if (child != null && child is UiComponent)
                 {
                     UiComponent childComponent = (UiComponent)child;
-                    UiComponent focusedChild = null;
-                    if (searchType == SearchType.After || searchType == SearchType.First)
-                        focusedChild = GetComponentHelper(childComponent, null, SearchType.First);
-                    else if (searchType == SearchType.Before || searchType == SearchType.Last)
-                        focusedChild = GetComponentHelper(childComponent, null, SearchType.Last);                                        
-                    else
-                        focusedChild = GetComponentHelper(childComponent, null, SearchType.Default);
-
+                    UiComponent focusedChild = childComponent.GetFocusTraversalPolicy().GetComponentAfter(childComponent, null);
 
                     if (focusedChild != null)
                     {
                         return focusedChild;
-                    }                    
-                }
+                    }
 
-                if (searchForward)
-                    childIndex++;
-                else
-                    childIndex--;
+                    if (childComponent is Focusable && ((Focusable)childComponent).CanAcceptFocus())
+                    {                        
+                        return childComponent;                     
+                    }
+                }                
             }
 
-            if (container is Focusable)
+            if (childsCount > 0)
             {
-                Focusable focusable = (Focusable)container;
-                if (focusable.CanAcceptFocus())
+                UiComponent containerParent = (UiComponent)container.GetParent();
+                if (containerParent != null)
                 {
-                    return container;
+                    return containerParent.GetFocusTraversalPolicy().GetComponentAfter(containerParent, container);
                 }
             }
 
-            BaseElement parentElement = container.GetParent();
-            if (parentElement != null && parentElement is UiComponent)
+            return null;
+        }
+                
+        public UiComponent GetComponentBefore(UiComponent container, UiComponent component)
+        {
+            DynamicArray<BaseElement> childs = container.GetChilds();
+            int childsCount = container.ChildsCount();
+
+            int startIndex = component == null ? childsCount - 1 : container.IndexOf(component) - 1;            
+
+            for (int childIndex = startIndex; childIndex >= 0; --childIndex)
             {
-                UiComponent parentContainer = (UiComponent)parentElement;
-                return GetComponentHelper(parentContainer, container, searchType);
+                BaseElement child = container.GetChild(childIndex);
+                if (child != null && child is UiComponent)
+                {
+                    UiComponent childComponent = (UiComponent)child;
+                    UiComponent focusedChild = childComponent.GetFocusTraversalPolicy().GetComponentBefore(childComponent, null);
+
+                    if (focusedChild != null)
+                    {
+                        return focusedChild;
+                    }
+
+                    if (childComponent is Focusable && ((Focusable)childComponent).CanAcceptFocus())
+                    {
+                        return childComponent;
+                    }
+                }
+            }
+
+            if (childsCount > 0)
+            {
+                UiComponent containerParent = (UiComponent)container.GetParent();
+                if (containerParent != null)
+                {
+                    return containerParent.GetFocusTraversalPolicy().GetComponentBefore(containerParent, container);
+                }
+            }
+
+            return null;
+        }
+                
+        public UiComponent GetFirstComponent(UiComponent container)
+        {
+            DynamicArray<BaseElement> childs = container.GetChilds();
+            int childsCount = container.ChildsCount();
+
+            for (int childIndex = 0; childIndex < childsCount; ++childIndex)
+            {
+                BaseElement child = container.GetChild(childIndex);
+                if (child != null && child is UiComponent)
+                {
+                    UiComponent childComponent = (UiComponent)child;
+                    UiComponent focusedChild = childComponent.GetFocusTraversalPolicy().GetFirstComponent(childComponent);
+
+                    if (focusedChild != null)
+                    {
+                        return focusedChild;
+                    }
+
+                    if (childComponent is Focusable && ((Focusable)childComponent).CanAcceptFocus())
+                    {
+                        return childComponent;
+                    }
+                }
             }
 
             return null;
         }
 
-        private UiComponent GetComponentHelper(UiComponent container, UiComponent component, SearchType searchType)
+        public UiComponent GetLastComponent(UiComponent container)
         {
-            if (container.IsTraversalKeysEnabled())
-            {
-                FocusTraversalPolicy traversal = container.GetFocusTraversalPolicy();
-                Debug.Assert(traversal != null);
+            DynamicArray<BaseElement> childs = container.GetChilds();
+            int childsCount = container.ChildsCount();
 
-                switch (searchType)
+            for (int childIndex = childsCount - 1; childIndex >= 0; --childIndex)
+            {
+                BaseElement child = container.GetChild(childIndex);
+                if (child != null && child is UiComponent)
                 {
-                    case SearchType.After:
-                        return traversal.GetComponentAfter(container, component);
-                    case SearchType.Before:
-                        return traversal.GetComponentBefore(container, component);
-                    case SearchType.First:
-                        return traversal.GetFirstComponent(container);
-                    case SearchType.Last:
-                        return traversal.GetLastComponent(container);
-                    case SearchType.Default:
-                        return traversal.GetDefaultComponent(container);
-                    default:
-                        Debug.Assert(false, "Bad search type: " + searchType);
-                        break;
+                    UiComponent childComponent = (UiComponent)child;
+                    UiComponent focusedChild = childComponent.GetFocusTraversalPolicy().GetLastComponent(childComponent);
+
+                    if (focusedChild != null)
+                    {
+                        return focusedChild;
+                    }
+
+                    if (childComponent is Focusable && ((Focusable)childComponent).CanAcceptFocus())
+                    {
+                        return childComponent;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public UiComponent GetDefaultComponent(UiComponent container)
+        {
+            DynamicArray<BaseElement> childs = container.GetChilds();
+            int childsCount = container.ChildsCount();
+                        
+            for (int childIndex = 0; childIndex < childsCount; ++childIndex)
+            {
+                BaseElement child = container.GetChild(childIndex);
+                if (child != null && child is UiComponent)
+                {
+                    UiComponent childComponent = (UiComponent)child;
+                    UiComponent focusedChild = childComponent.GetFocusTraversalPolicy().GetDefaultComponent(childComponent);
+
+                    if (focusedChild != null)
+                    {
+                        return focusedChild;
+                    }
+
+                    if (childComponent is Focusable && ((Focusable)childComponent).CanAcceptFocus())
+                    {
+                        return childComponent;
+                    }
                 }                
             }            
 
             return null;
-        }
+        }                                      
     }
 }
