@@ -12,8 +12,8 @@ namespace asap.ui
     {
         private UiComponent root;
         
-        private UiComponent focusedComponent;        
-        
+        private UiComponent focusedComponent;
+                
         private bool isKeyPressedHandledByFocus;               
         
         private int activeViewX;
@@ -26,7 +26,7 @@ namespace asap.ui
         {
             Debug.Assert(root != null);
             this.root = root;
-            
+                    
             focusedComponent = null;
             isKeyPressedHandledByFocus = false;            
             isPointerEntered = false;
@@ -58,15 +58,9 @@ namespace asap.ui
                     {
                         FocusTraversalPolicy traversal = focusedComponent.GetFocusTraversalPolicy();
                         Debug.Assert(traversal != null);
-
-                        UiComponent container = root;
-                        BaseElement parentElement = focusedComponent.GetParent();
-                        if (parentElement != null && parentElement is UiComponent)
-                        {
-                            container = (UiComponent)parentElement;
-                        }
-
+                                                
                         UiComponent nextFocusedComponent = null;
+                        UiComponent container = (UiComponent)focusedComponent.GetParent();
                         if (focusNext)
                         {
                             nextFocusedComponent = traversal.GetComponentAfter(container, focusedComponent);
