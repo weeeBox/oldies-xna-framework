@@ -34,6 +34,11 @@ namespace asap.util
             return new Vector4(R, G, B, A);
         }
 
+        public Color ToColor()
+        {
+            return new Color(R, G, B, A);
+        }
+
         public override string ToString()
         {
             return String.Format("r:{0} g:{1} b:{2} a:{3}", R, G, B, A);

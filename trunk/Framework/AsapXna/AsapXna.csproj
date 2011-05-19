@@ -413,6 +413,7 @@
     <Compile Include="asap\jswiff\util\HexUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="asap\visual\Circle.cs" />
     <Compile Include="asap\visual\Image.cs" />
     <Compile Include="asap\visual\AnimationMovie.cs" />
     <Compile Include="asap\visual\Text.cs" />

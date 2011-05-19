@@ -13,15 +13,23 @@ namespace asap.util
         public Color4 addTerm;
         public Color4 mulTerm;        
 
-        public static ColorTransform Tint(Color color)
+        public static ColorTransform CreateTint(Color color)
         {
             ColorTransform ct;
-            ct.addTerm = new Color4(color.R, color.G, color.A, 0);
+            ct.addTerm = new Color4(color.R, color.G, color.B, 0.0f);
             ct.mulTerm = new Color4(1.0f, 1.0f, 1.0f, 1.0f);
             return ct;
         }
 
-        public static ColorTransform Advance(Color4 mulTerm, Color4 addTerm)
+        public static ColorTransform CreateColorize(Color color)
+        {
+            ColorTransform ct;
+            ct.addTerm = new Color4(0.0f, 0.0f, 0.0f, 0.0f);
+            ct.mulTerm = new Color4(color.R, color.G, color.B, color.A);
+            return ct;
+        }
+
+        public static ColorTransform Create(Color4 mulTerm, Color4 addTerm)
         {
             ColorTransform ct;
             ct.addTerm = addTerm;
@@ -75,6 +83,6 @@ namespace asap.util
         {
             get { return mulTerm.A; }
             set { mulTerm.A = value; }
-        }
+        }        
     }
 }

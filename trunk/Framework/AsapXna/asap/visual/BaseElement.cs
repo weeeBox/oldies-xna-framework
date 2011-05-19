@@ -230,10 +230,17 @@ namespace asap.visual
             return false;
         }
 
-        public void SetTint(Color color)
+        public virtual Color Tint
         {
-            ctForm = ColorTransform.Tint(color);
-        }        
+            get { return new Color(ctForm.AddR, ctForm.AddG, ctForm.AddB, ctForm.AddA); }
+            set { ctForm = ColorTransform.CreateTint(value); }
+        }
+
+        public virtual Color Color
+        {
+            get { return new Color(ctForm.MulR, ctForm.MulG, ctForm.MulB, ctForm.MulA); }
+            set { ctForm = ColorTransform.CreateColorize(value); }
+        }
 
         public void SetVisible(bool visible)
         {

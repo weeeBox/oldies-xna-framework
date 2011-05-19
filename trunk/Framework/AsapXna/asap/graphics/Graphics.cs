@@ -58,7 +58,12 @@ namespace asap.graphics
         public void DrawRect(int x, int y, float width, float height, Color color)
         {            
             AppGraphics.DrawRect(x, y, width, height, color);
-        }                
+        }            
+    
+        public void DrawCircle(float x, float y, float radius, Color color)
+        {
+            AppGraphics.DrawCircle(x, y, radius, color);
+        }
 
         public void Translate(float x, float y)
         {                    
