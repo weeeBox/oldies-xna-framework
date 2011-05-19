@@ -42,22 +42,22 @@ namespace ContentExtension.Font.Bitmap
                                     int index = sourceFilename.LastIndexOf('.');
                                     string sourceName = index == -1 ? sourceFilename : sourceFilename.Substring(0, index);
                                     fontInfo = new BitmapFontInfo(sourceName);
-                                    fontInfo.InternalLeading = sbyte.Parse(attributes["internalLeading"]);
-                                    fontInfo.Ascender = sbyte.Parse(attributes["ascender"]);
-                                    fontInfo.Descender = sbyte.Parse(attributes["descender"]);
-                                    fontInfo.ExternalLeading = sbyte.Parse(attributes["externalLeading"]);
+                                    fontInfo.InternalLeading = byte.Parse(attributes["internalLeading"]);
+                                    fontInfo.Ascender = byte.Parse(attributes["ascender"]);
+                                    fontInfo.Descender = byte.Parse(attributes["descender"]);
+                                    fontInfo.ExternalLeading = byte.Parse(attributes["externalLeading"]);
                                     fontInfo.CharOffset = float.Parse(attributes["charOffset"], nf);                                    
-                                    fontInfo.SpaceWidth = sbyte.Parse(attributes["spaceWidth"]);                                    
+                                    fontInfo.SpaceWidth = byte.Parse(attributes["spaceWidth"]);                                    
                                 }
                                 else if (nodeName == "char")
                                 {
                                     char charValue = attributes["value"][0];
                                     short charX = short.Parse(attributes["x"]);
                                     short charY = short.Parse(attributes["y"]);
-                                    sbyte charWidth = sbyte.Parse(attributes["w"]);
-                                    sbyte charHeight = sbyte.Parse(attributes["h"]);
-                                    sbyte charOx = sbyte.Parse(attributes["ox"]);
-                                    sbyte charOy = sbyte.Parse(attributes["oy"]);
+                                    byte charWidth = byte.Parse(attributes["w"]);
+                                    byte charHeight = byte.Parse(attributes["h"]);
+                                    byte charOx = byte.Parse(attributes["ox"]);
+                                    byte charOy = byte.Parse(attributes["oy"]);
 
                                     CharInfo charInfo = new CharInfo(charValue, charX, charY, charWidth, charHeight, charOx, charOy);
                                     fontInfo.AddCharInfo(charInfo);
