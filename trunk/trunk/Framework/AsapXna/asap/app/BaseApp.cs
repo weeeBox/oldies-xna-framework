@@ -149,6 +149,16 @@ namespace asap.app
         {
             get { return GetInstance().height; }
         }
+
+        public static float TitleSafeBorderWidth
+        {
+            get { return 0.1f * Width; }
+        }
+
+        public static float TitleSafeBorderHeight
+        {
+            get { return 0.1f * Height; }
+        }
         
         public virtual void SizeChanged(int width, int height)
         {

@@ -5,7 +5,7 @@ using System.Text;
 using asap.visual;
 using asap.graphics;
 
-namespace AsapXna.asap.visual
+namespace asap.visual
 {
     public class Image : BaseElementContainer
     {

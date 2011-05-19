@@ -31,7 +31,7 @@ namespace asap.visual
             SetText(text, UNDEFINED_WIDTH, true);
         }
 
-        public Text(BaseFont font, string text, int width, int height)
+        public Text(BaseFont font, string text, float width, float height)
         {
             System.Diagnostics.Debug.Assert(text != null);
             this.width = width;
@@ -40,7 +40,7 @@ namespace asap.visual
             SetText(text, width, false);
         }
 
-        public Text(BaseFont font, string text, int width)
+        public Text(BaseFont font, string text, float width)
         {
             System.Diagnostics.Debug.Assert(text != null);
             SetFont(font);

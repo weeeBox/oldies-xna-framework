@@ -52,7 +52,7 @@ namespace asap.ui
             height = bottom - top;            
         }
         
-        public void ResizeToFitChilds(bool horizontally, bool vertically)
+        private void ResizeToFitChilds(bool horizontally, bool vertically)
         {
             Debug.Assert(horizontally || vertically);
             if (ChildsCount() == 0)
@@ -179,6 +179,20 @@ namespace asap.ui
             component.x = align * (Width - component.Width);
         }
         
+        public void AttachCenter(BaseElement component)
+        {
+            AttachHCenter(component);
+            AttachVCenter(component);
+        }
+
+        public void AttachCenterAll()
+        {
+            foreach (BaseElement child in childs)
+            {
+                AttachCenter(child);
+            }            
+        }
+
         public void AttachHCenterAll()
         {
             foreach (BaseElement child in childs)

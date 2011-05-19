@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using asap.resources;
 
 namespace asap.graphics
 {
@@ -20,12 +21,14 @@ namespace asap.graphics
         {
             None,
             Sprite,
-            Geometry,
+            BasicEffect,
+            CustomEffect,
         }
 
         private static GraphicsDevice graphicsDevice;
         private static SpriteBatch spriteBatch;
         private static BasicEffect basicEffect;
+        private static Effect customEffect;
         private static RasterizerState rasterizerState;
 
         private static BatchMode batchMode = BatchMode.None;
@@ -51,10 +54,17 @@ namespace asap.graphics
                 BlendState blendState = toBlendState(blendMode);                
                 sb.Begin(SpriteSortMode.Immediate, blendState, null, null, rasterizerState, drawEffect == null ? null : drawEffect.Effect, m);
             }
-            else if (mode == BatchMode.Geometry)
+            else if (mode == BatchMode.BasicEffect)
             {                
                 basicEffect.World = Matrix.Multiply(worldMatrix, m);
                 basicEffect.CurrentTechnique.Passes[0].Apply();
+            }
+            else if (mode == BatchMode.CustomEffect)
+            {
+                customEffect.Parameters["World"].SetValue(Matrix.Multiply(worldMatrix, m));
+                customEffect.Parameters["View"].SetValue(viewMatrix);
+                customEffect.Parameters["Projection"].SetValue(projection);
+                customEffect.CurrentTechnique.Passes[0].Apply();
             }
             batchMode = mode;
         }
@@ -88,14 +98,19 @@ namespace asap.graphics
 
         private static void EndBatch()
         {
-            if (batchMode == BatchMode.Geometry)
-            {
-                basicEffect.World = Matrix.Identity;
-                basicEffect.CurrentTechnique.Passes[0].Apply();
-            }
-            else if (batchMode == BatchMode.Sprite)
+            //if (batchMode == BatchMode.BasicEffect)
+            //{
+            //    basicEffect.World = Matrix.Identity;
+            //    basicEffect.CurrentTechnique.Passes[0].Apply();
+            //}
+            //else 
+            if (batchMode == BatchMode.Sprite)
             {
                 spriteBatch.End();
+            }
+            else if (batchMode == BatchMode.CustomEffect)
+            {
+                customEffect = null;
             }
 
             batchMode = BatchMode.None;
@@ -265,7 +280,7 @@ namespace asap.graphics
 
         public static void DrawRect(float x, float y, float width, float height, Color color)
         {
-            GetSpriteBatch(BatchMode.Geometry);
+            GetSpriteBatch(BatchMode.BasicEffect);
 
             VertexPositionColor[] vertexData = new VertexPositionColor[4];
             vertexData[0] = new VertexPositionColor(new Vector3(x, y, 0), color);
@@ -277,9 +292,31 @@ namespace asap.graphics
             graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineStrip, vertexData, 0, 4, indexData, 0, 4);
         }
 
+        public static void DrawCircle(float x, float y, float radius, Color color)
+        {
+            float width, height;
+            width = height = 2 * radius;
+
+            customEffect = EmbededRes.circleEffect;
+            customEffect.Parameters["TextureSize"].SetValue(width);
+            customEffect.Parameters["Radius"].SetValue(radius);            
+
+            VertexPositionColorTexture[] vertexData = new VertexPositionColorTexture[4];
+            vertexData[0] = new VertexPositionColorTexture(new Vector3(x, y + height, 0), color, new Vector2(0, 1));
+            vertexData[1] = new VertexPositionColorTexture(new Vector3(x, y, 0), color, new Vector2(0, 0));
+            vertexData[2] = new VertexPositionColorTexture(new Vector3(x + width, y + height, 0), color, new Vector2(1, 1));
+            vertexData[3] = new VertexPositionColorTexture(new Vector3(x + width, y, 0), color, new Vector2(1, 0));
+
+            BlendState oldState = GraphicsDevice.BlendState;
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            GetSpriteBatch(BatchMode.CustomEffect);
+            GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertexData, 0, vertexData.Length - 2);
+            GraphicsDevice.BlendState = oldState;
+        }
+
         public static void DrawLine(float x1, float y1, float x2, float y2, Color color)
         {
-            GetSpriteBatch(BatchMode.Geometry);
+            GetSpriteBatch(BatchMode.BasicEffect);
 
             VertexPositionColor[] vertexData = new VertexPositionColor[2];
             vertexData[0] = new VertexPositionColor(new Vector3(x1, y1, 0), color);
@@ -290,7 +327,7 @@ namespace asap.graphics
 
         public static void FillRect(float x, float y, float width, float height, Color color)
         {
-            GetSpriteBatch(BatchMode.Geometry);
+            GetSpriteBatch(BatchMode.BasicEffect);
 
             VertexPositionColor[] vertexData = new VertexPositionColor[4];
             vertexData[0] = new VertexPositionColor(new Vector3(x, y, 0), color);

@@ -12,12 +12,15 @@ namespace asap.ui
                         
             DynamicArray<BaseElement> childs = container.GetChilds();
             int childsCount = container.ChildsCount();
-                        
+
+            int componentsCount = 0;
             for (int childIndex = startIndex; childIndex < childsCount; ++childIndex)
             {
                 BaseElement child = container.GetChild(childIndex);
                 if (child != null && child is UiComponent)
                 {
+                    componentsCount++;
+
                     UiComponent childComponent = (UiComponent)child;
                     UiComponent focusedChild = childComponent.GetFocusTraversalPolicy().GetComponentAfter(childComponent, null);
 
@@ -33,14 +36,14 @@ namespace asap.ui
                 }                
             }
 
-            if (childsCount > 0)
+            if (componentsCount > 0)
             {
                 UiComponent containerParent = (UiComponent)container.GetParent();
                 if (containerParent != null)
                 {
                     return containerParent.GetFocusTraversalPolicy().GetComponentAfter(containerParent, container);
                 }
-            }
+            }            
 
             return null;
         }
@@ -50,13 +53,15 @@ namespace asap.ui
             DynamicArray<BaseElement> childs = container.GetChilds();
             int childsCount = container.ChildsCount();
 
-            int startIndex = component == null ? childsCount - 1 : container.IndexOf(component) - 1;            
+            int startIndex = component == null ? childsCount - 1 : container.IndexOf(component) - 1;
 
+            int componentsCount = 0;
             for (int childIndex = startIndex; childIndex >= 0; --childIndex)
             {
                 BaseElement child = container.GetChild(childIndex);
                 if (child != null && child is UiComponent)
                 {
+                    componentsCount++;
                     UiComponent childComponent = (UiComponent)child;
                     UiComponent focusedChild = childComponent.GetFocusTraversalPolicy().GetComponentBefore(childComponent, null);
 
@@ -72,7 +77,7 @@ namespace asap.ui
                 }
             }
 
-            if (childsCount > 0)
+            if (componentsCount > 0)
             {
                 UiComponent containerParent = (UiComponent)container.GetParent();
                 if (containerParent != null)

@@ -29,7 +29,7 @@ namespace asap.anim.objects
 
         public void SetSwfColorTransform(CXformWithAlpha ct)
         {
-            ctForm = ColorTransform.Advance(ct.GetMulTerm(), ct.GetAddTerm());
+            ctForm = ColorTransform.Create(ct.GetMulTerm(), ct.GetAddTerm());
         }        
 
         public void SetSwfMatrix(SwfMatrix swfMatrix)
