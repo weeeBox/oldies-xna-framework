@@ -10,12 +10,12 @@ namespace ContentExtension.Font.Bitmap
         public char chr;
         public short x;
         public short y;
-        public sbyte w;
-        public sbyte h;
-        public sbyte ox;
-        public sbyte oy;
+        public byte w;
+        public byte h;
+        public byte ox;
+        public byte oy;
 
-        public CharInfo(char chr, short x, short y, sbyte w, sbyte h, sbyte ox, sbyte oy)
+        public CharInfo(char chr, short x, short y, byte w, byte h, byte ox, byte oy)
         {
             this.chr = chr;
             this.x = x;
@@ -49,17 +49,17 @@ namespace ContentExtension.Font.Bitmap
 
         public string SourceName { get; internal set; }
 
-        public sbyte InternalLeading { get; internal set; }
+        public byte InternalLeading { get; internal set; }
 
-        public sbyte Ascender { get; internal set; }
+        public byte Ascender { get; internal set; }
 
-        public sbyte Descender { get; internal set; }
+        public byte Descender { get; internal set; }
 
-        public sbyte ExternalLeading { get; internal set; }
+        public byte ExternalLeading { get; internal set; }
 
         public float CharOffset { get; internal set; }
 
-        public sbyte SpaceWidth { get; internal set; }        
+        public byte SpaceWidth { get; internal set; }        
 
         public short CharsCount
         {
