@@ -161,7 +161,7 @@ public class AtlasRes extends ResourceBase
 				try 
 				{
 					FontInfoReader reader = new FontInfoReader();
-					FontInfo info = reader.read(file);
+					FontInfo info = reader.read(file, res.getName());
 					fonts.add(info);
 					
 					List<CharImage> images = info.getCharsImages();
