@@ -11,9 +11,8 @@ import utils.psd.struct.res.blocks.PsdGuide;
 
 public class FontInfoReader 
 {
-	public FontInfo read(File file) throws IOException
+	public FontInfo read(File file, String fontName) throws IOException
 	{		
-		String fontName = FileUtils.getFilenameNoExt(file);
 		FontProps props = new FontProps(file);
 		String charString = props.getString("chars");		
 		int spaceWidth = props.getInt("space");
@@ -26,7 +25,7 @@ public class FontInfoReader
 		if (inputExt.equalsIgnoreCase("psd"))
 		{
 			File psdFile = FileUtils.changeExt(file, ".psd");
-			PsdFile psd = new PsdFile(psdFile);
+			PsdFile psd = new PsdFile(psdFile);			
 			fontImage = psd.getLayer(0).getImage();
 			List<PsdGuide> guides = psd.getGuides();
 			if (guides.size() != 2)
@@ -47,7 +46,7 @@ public class FontInfoReader
 			
 			internalLeading = v0;
 			ascender = v1;
-			descender = fontImage.getHeight() - ascender;
+			descender = psd.getHeight() - ascender;			
 		}
 		else
 		{
