@@ -11,8 +11,8 @@ namespace asap.ui
         private bool enabled;        
         private bool traversalKeysEnabled;
         protected FocusTraversalPolicy focusTraversalPolicy;
-        protected HashSet<KeyCode> nextFocusKeyCodes;
-        protected HashSet<KeyCode> prevFocusKeyCodes;
+        protected List<KeyCode> nextFocusKeyCodes;
+        protected List<KeyCode> prevFocusKeyCodes;
 
         public UiComponent() : this(0, 0)
         {
@@ -311,7 +311,7 @@ namespace asap.ui
             return null;
         }
 
-        public virtual HashSet<KeyCode> GetNextFocusKeyCodes()
+        public virtual List<KeyCode> GetNextFocusKeyCodes()
         {
             if (nextFocusKeyCodes != null)
                 return nextFocusKeyCodes;
@@ -325,7 +325,7 @@ namespace asap.ui
             return null;
         }
 
-        public virtual HashSet<KeyCode> GetPrevFocusKeyCodes()
+        public virtual List<KeyCode> GetPrevFocusKeyCodes()
         {
             if (prevFocusKeyCodes != null)
                 return prevFocusKeyCodes;

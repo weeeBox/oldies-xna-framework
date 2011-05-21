@@ -174,7 +174,8 @@ namespace swiff.com.jswiff.swfrecords.tags
             InputBitStream inStream = new InputBitStream(data);
             fontId = inStream.ReadUI16();
             short fontNameLen = inStream.ReadUI8();
-            fontName = System.Text.Encoding.UTF8.GetString(inStream.ReadBytes(fontNameLen)); //new String(inStream.ReadBytes(fontNameLen) , "UTF-8");
+            byte[] fontNameBuffer = inStream.ReadBytes(fontNameLen);
+            fontName = System.Text.Encoding.UTF8.GetString(fontNameBuffer, 0, fontNameBuffer.Length); //new String(inStream.ReadBytes(fontNameLen) , "UTF-8");
             inStream.ReadUnsignedBits(2);
             smallText = inStream.ReadBooleanBit();
             shiftJIS = inStream.ReadBooleanBit();
