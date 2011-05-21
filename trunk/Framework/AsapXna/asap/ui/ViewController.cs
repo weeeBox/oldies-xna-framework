@@ -239,7 +239,7 @@ namespace asap.ui
             } 
         }        
 
-        private bool ContainsKeyCode(HashSet<KeyCode> set, KeyCode code)
+        private bool ContainsKeyCode(List<KeyCode> set, KeyCode code)
         {
             if (set == null)
                 return false;

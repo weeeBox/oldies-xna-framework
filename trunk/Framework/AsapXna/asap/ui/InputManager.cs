@@ -9,9 +9,9 @@ namespace asap.ui
     {
         private static FocusTraversalPolicy defaultFocusTraversalPolicy = new DefaultFocusTraversalPolicy();
 
-        private static HashSet<KeyCode> defaultNextFocusKeyCodes = new HashSet<KeyCode>();
+        private static List<KeyCode> defaultNextFocusKeyCodes = new List<KeyCode>();
 
-        private static HashSet<KeyCode> defaultPrevFocusKeyCodes = new HashSet<KeyCode>();
+        private static List<KeyCode> defaultPrevFocusKeyCodes = new List<KeyCode>();
 
         private BaseApp app;
         
@@ -71,12 +71,12 @@ namespace asap.ui
             return defaultFocusTraversalPolicy;
         }
 
-        public static HashSet<KeyCode> GetDefaultNextFocusKeyCodes()
+        public static List<KeyCode> GetDefaultNextFocusKeyCodes()
         {
             return defaultNextFocusKeyCodes;
         }
 
-        public static HashSet<KeyCode> GetDefaultPrevFocusKeyCodes()
+        public static List<KeyCode> GetDefaultPrevFocusKeyCodes()
         {
             return defaultPrevFocusKeyCodes;
         }

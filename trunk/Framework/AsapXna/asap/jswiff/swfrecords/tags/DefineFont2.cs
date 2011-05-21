@@ -270,7 +270,7 @@ namespace swiff.com.jswiff.swfrecords.tags
             {
                 fontNameLen--;
             }             
-            fontName = System.Text.Encoding.UTF8.GetString(fontNameBuffer);
+            fontName = System.Text.Encoding.UTF8.GetString(fontNameBuffer, 0, fontNameBuffer.Length);
             numGlyphs = inStream.ReadUI16();
             if (wideOffsets) 
             {

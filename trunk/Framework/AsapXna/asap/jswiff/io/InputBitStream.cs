@@ -132,9 +132,8 @@ namespace swiff.com.jswiff.io
         
         public virtual double ReadDouble() /* throws IOException */
         {
-            byte[] buffer = ReadBytes(8);
-            long longBits = (((((((((long)(buffer[3])) << 56) + (((long)(((buffer[2]) & 255))) << 48)) + (((long)(((buffer[1]) & 255))) << 40)) + (((long)(((buffer[0]) & 255))) << 32)) + (((long)(((buffer[7]) & 255))) << 24)) + (((buffer[6]) & 255) << 16)) + (((buffer[5]) & 255) << 8)) + (((buffer[4]) & 255) << 0);
-            return System.BitConverter.Int64BitsToDouble(longBits);
+            byte[] buffer = ReadBytes(8);            
+            return System.BitConverter.ToDouble(buffer, 0);
         }
         
         public virtual double ReadFP16() /* throws IOException */
@@ -236,7 +235,7 @@ namespace swiff.com.jswiff.io
             {
                 encoding = "UTF-8";
             }
-            return System.Text.Encoding.UTF8.GetString(buffer);
+            return System.Text.Encoding.UTF8.GetString(buffer, 0, buffer.Length);
         }
         
         public virtual int ReadUI16() /* throws IOException */
