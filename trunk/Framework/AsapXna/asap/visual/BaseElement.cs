@@ -242,6 +242,12 @@ namespace asap.visual
             set { ctForm = ColorTransform.CreateColorize(value); }
         }
 
+        public virtual ColorTransform CtFrom
+        {
+            get { return ctForm; }
+            set { ctForm = value; }
+        }
+
         public void SetVisible(bool visible)
         {
             this.visible = visible;

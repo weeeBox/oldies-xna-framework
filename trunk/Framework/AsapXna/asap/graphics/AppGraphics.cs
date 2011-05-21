@@ -30,6 +30,7 @@ namespace asap.graphics
         private static BasicEffect basicEffect;
         private static Effect customEffect;
         private static RasterizerState rasterizerState;
+        private static SamplerState samplerState;
 
         private static BatchMode batchMode = BatchMode.None;
         private static Matrix matrix;
@@ -52,7 +53,7 @@ namespace asap.graphics
             if (mode == BatchMode.Sprite)
             {
                 BlendState blendState = toBlendState(blendMode);                
-                sb.Begin(SpriteSortMode.Immediate, blendState, null, null, rasterizerState, drawEffect == null ? null : drawEffect.Effect, m);
+                sb.Begin(SpriteSortMode.Immediate, blendState, samplerState, null, rasterizerState, drawEffect == null ? null : drawEffect.Effect, m);
             }
             else if (mode == BatchMode.BasicEffect)
             {                
@@ -157,6 +158,15 @@ namespace asap.graphics
             }
         }
 
+        public static void SetSamplerState(SamplerState state)
+        {
+            if (state != samplerState)
+            {                
+                samplerState = state;
+                EndBatch();
+            }
+        }
+
         public static AppBlendMode GetBlendMode()
         {
             return blendMode;
@@ -176,7 +186,8 @@ namespace asap.graphics
             matrix = Matrix.Identity;
 
             drawColor = Color.White;
-            blendMode = AppBlendMode.AlphaBlend;            
+            blendMode = AppBlendMode.AlphaBlend;
+            samplerState = SamplerState.LinearClamp;
 
             if (graphicsDevice != gd)
             {
@@ -290,29 +301,7 @@ namespace asap.graphics
             short[] indexData = new short[] { 0, 1, 2, 3, 0 };
 
             graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineStrip, vertexData, 0, 4, indexData, 0, 4);
-        }
-
-        public static void DrawCircle(float x, float y, float radius, Color color)
-        {
-            float width, height;
-            width = height = 2 * radius;
-
-            customEffect = EmbededRes.circleEffect;
-            customEffect.Parameters["TextureSize"].SetValue(width);
-            customEffect.Parameters["Radius"].SetValue(radius);            
-
-            VertexPositionColorTexture[] vertexData = new VertexPositionColorTexture[4];
-            vertexData[0] = new VertexPositionColorTexture(new Vector3(x, y + height, 0), color, new Vector2(0, 1));
-            vertexData[1] = new VertexPositionColorTexture(new Vector3(x, y, 0), color, new Vector2(0, 0));
-            vertexData[2] = new VertexPositionColorTexture(new Vector3(x + width, y + height, 0), color, new Vector2(1, 1));
-            vertexData[3] = new VertexPositionColorTexture(new Vector3(x + width, y, 0), color, new Vector2(1, 0));
-
-            BlendState oldState = GraphicsDevice.BlendState;
-            GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            GetSpriteBatch(BatchMode.CustomEffect);
-            GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertexData, 0, vertexData.Length - 2);
-            GraphicsDevice.BlendState = oldState;
-        }
+        }        
 
         public static void DrawLine(float x1, float y1, float x2, float y2, Color color)
         {
@@ -336,6 +325,27 @@ namespace asap.graphics
             vertexData[3] = new VertexPositionColor(new Vector3(x + width, y + height, 0), color);
 
             graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertexData, 0, 2);
+        }
+
+        public static void DrawGeometry<T>(PrimitiveType type, T[] vertexData, int primitivesCount) where T : struct, IVertexType
+        {
+            BlendState oldState = GraphicsDevice.BlendState;
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            GetSpriteBatch(BatchMode.BasicEffect);
+            GraphicsDevice.DrawUserPrimitives(type, vertexData, 0, primitivesCount);
+            GraphicsDevice.BlendState = oldState;
+        }
+
+        public static void DrawGeometry<T>(PrimitiveType type, T[] vertexData, int primitivesCount, Effect effect) where T : struct, IVertexType
+        {
+            customEffect = effect;
+
+            BlendState oldState = GraphicsDevice.BlendState;
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            GetSpriteBatch(BatchMode.CustomEffect);
+            GraphicsDevice.DrawUserPrimitives(type, vertexData, 0, primitivesCount);
+            GraphicsDevice.BlendState = oldState;
+            customEffect = null;
         }
 
         public static void Clear(Color color)
