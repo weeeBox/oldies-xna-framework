@@ -7,13 +7,20 @@ using asap.graphics;
 
 namespace asap.visual
 {
-    public class Image : BaseElementContainer
+    public class Image : BaseElement
     {
-        private GameTexture texture;
+        protected GameTexture texture;
 
-        public Image(GameTexture texture) : base(texture.GetWidth(), texture.GetHeight())
+        public Image(GameTexture texture)
+        {
+            SetTexture(texture);
+        }
+
+        public virtual void SetTexture(GameTexture texture)
         {
             this.texture = texture;
+            this.width = texture.GetWidth();
+            this.height = texture.GetHeight();
         }
 
         public override void Draw(Graphics g)
