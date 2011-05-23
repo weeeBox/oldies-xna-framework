@@ -44,7 +44,7 @@ namespace asap.core
             Debug.WriteLine(child.GetType().Name + " started as a child");
 
             Controller parentController = activeController;
-            activeController = parentController;
+            activeController = child;
             activeController.parent = parentController;
             activeController.Start(param);
         }
