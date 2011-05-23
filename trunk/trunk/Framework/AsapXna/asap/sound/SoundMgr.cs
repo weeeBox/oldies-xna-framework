@@ -27,22 +27,22 @@ namespace asap.sound
             return musicChannel;
         }
 
-        public SoundChannel Play(int soundId)
+        public SoundChannel PlaySound(int soundId)
         {
-            return Play(soundId, SoundTransform.NONE);
+            return PlaySound(soundId, SoundTransform.NONE);
         }
 
-        public SoundChannel Play(int soundId, bool looped)
+        public SoundChannel PlaySound(int soundId, bool looped)
         {
-            return Play(soundId, SoundTransform.NONE, looped);
+            return PlaySound(soundId, SoundTransform.NONE, looped);
         }
 
-        public SoundChannel Play(int soundId, SoundTransform transform)
+        public SoundChannel PlaySound(int soundId, SoundTransform transform)
         {
-            return Play(soundId, transform, false);
+            return PlaySound(soundId, transform, false);
         }
 
-        public SoundChannel Play(int soundId, SoundTransform transform, bool looped)
+        public SoundChannel PlaySound(int soundId, SoundTransform transform, bool looped)
         {
             GameSound sound = BaseApp.sharedResourceMgr.GetSound(soundId);
             SoundChannel channel = FindDead();
