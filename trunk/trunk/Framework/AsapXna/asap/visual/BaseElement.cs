@@ -182,7 +182,7 @@ namespace asap.visual
 #if DEBUG
             if (drawBorder)
             {
-                AppGraphics.DrawRect(0, 0, width, height, borderColor);
+                AppGraphics.DrawRect(0, 0, width-1, height-1, borderColor);
             }
 #endif
             g.Translate(-drawX, -drawY);

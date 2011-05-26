@@ -21,6 +21,14 @@ namespace asap.util
             return ct;
         }
 
+        public static ColorTransform CreateColorize(float r, float g, float b, float a)
+        {
+            ColorTransform ct;
+            ct.addTerm = new Color4(0.0f, 0.0f, 0.0f, 0.0f);
+            ct.mulTerm = new Color4(r, g, b, a);
+            return ct;
+        }
+
         public static ColorTransform CreateColorize(Color color)
         {
             ColorTransform ct;
