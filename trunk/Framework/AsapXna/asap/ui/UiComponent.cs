@@ -22,12 +22,7 @@ namespace asap.ui
         {
             enabled = true;
             traversalKeysEnabled = true;
-        }
-
-        public void ResizeToFitChilds()
-        {
-            ResizeToFitChilds(true, true);
-        }
+        }        
         
         public void AddMargin(int margin)
         {
@@ -50,49 +45,7 @@ namespace asap.ui
             }
             width = right - left;
             height = bottom - top;            
-        }
-        
-        private void ResizeToFitChilds(bool horizontally, bool vertically)
-        {
-            Debug.Assert(horizontally || vertically);
-            if (ChildsCount() == 0)
-            {
-                width = height = 0;
-            }
-            else
-            {
-                BaseElement firtChild = GetChild(0);
-                float left = firtChild.x;
-                float top = firtChild.y;
-                float right = left + firtChild.width;
-                float bottom = top + firtChild.height;
-                for (int i = 1; i < ChildsCount(); i++)
-                {
-                    BaseElement child = GetChild(i);
-                    left = Math.Min(left, child.x);
-                    top = Math.Min(top, child.y);
-                    right = Math.Max(right, child.x + child.width);
-                    bottom = Math.Max(bottom, child.y + child.height);
-                }
-                foreach (BaseElement child in childs)
-                {
-                    child.x = horizontally ? child.x - left : child.x;
-                    child.y = vertically ? child.y - top : child.y;                    
-                }
-                width = horizontally ? right - left : Width;
-                height = vertically ? bottom - top : Height;
-            }            
-        }
-        
-        public void ResizeHorizontallyToFitChilds()
-        {
-            ResizeToFitChilds(true, false);            
-        }
-        
-        public void ResizeVerticallyToFitChilds()
-        {
-            ResizeToFitChilds(false, true);            
-        }
+        }        
         
         public void ArrangeVert(float distance)
         {

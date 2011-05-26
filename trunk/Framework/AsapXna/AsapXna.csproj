@@ -131,7 +131,9 @@
     <Compile Include="asap\ui\FocusTraversalPolicy.cs" />
     <Compile Include="asap\util\Color4.cs" />
     <Compile Include="asap\util\ColorTransform.cs" />
+    <Compile Include="asap\util\LineSegment.cs" />
     <Compile Include="asap\util\RandomHelper.cs" />
+    <Compile Include="asap\util\Rect.cs" />
     <Compile Include="asap\visual\BaseAnimation.cs" />
     <Compile Include="asap\visual\BaseElement.cs" />
     <Compile Include="asap\visual\BaseElementContainer.cs" />
