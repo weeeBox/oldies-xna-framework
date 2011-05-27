@@ -11,6 +11,10 @@ namespace asap.visual
     {
         protected GameTexture texture;
 
+        public Image()
+        {
+        }
+
         public Image(GameTexture texture)
         {
             SetTexture(texture);
@@ -19,8 +23,15 @@ namespace asap.visual
         public virtual void SetTexture(GameTexture texture)
         {
             this.texture = texture;
-            this.width = texture.GetWidth();
-            this.height = texture.GetHeight();
+            if (texture == null)
+            {
+                width = height = 0;
+            }
+            else
+            {
+                this.width = texture.GetWidth();
+                this.height = texture.GetHeight();
+            }
         }
 
         public override void Draw(Graphics g)
