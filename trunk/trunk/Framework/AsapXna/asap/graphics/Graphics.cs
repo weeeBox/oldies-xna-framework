@@ -5,6 +5,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace asap.graphics
 {
+    public enum Anchor
+    {
+        HCENTER = 1,        
+        VCENTER = 2,        
+        LEFT = 4,        
+        RIGHT = 8,        
+        TOP = 16,        
+        BOTTOM = 32,
+        CENTER = HCENTER | VCENTER
+    }
+
     public class Graphics
     {
         private int width;
@@ -39,6 +50,41 @@ namespace asap.graphics
 
         public void DrawImage(GameTexture img, float x, float y)
         {
+            DrawImage(img, 0, 0, img.GetWidth(), img.GetHeight(), x, y);
+        }
+
+        public void DrawImage(GameTexture img, float x, float y, float alpha)
+        {
+            Color oldColor = AppGraphics.GetColor();
+            Color drawColor = Color.White * alpha;
+            AppGraphics.SetColor(drawColor);
+            DrawImage(img, 0, 0, img.GetWidth(), img.GetHeight(), x, y);
+            AppGraphics.SetColor(oldColor);
+        }
+
+        public void DrawImage(GameTexture img, float x, float y, Anchor anchor)
+        {
+            int width = img.GetWidth();
+            int height = img.GetHeight();
+
+            if ((anchor & Anchor.RIGHT) != 0)
+            {
+                x -= width;
+            }
+            else if ((anchor & Anchor.HCENTER) != 0)
+            {
+                x -= 0.5f * width;
+            }
+
+            if ((anchor & Anchor.BOTTOM) != 0)
+            {
+                y -= height;
+            }
+            else if ((anchor & Anchor.VCENTER) != 0)
+            {
+                y -= 0.5f * height;
+            }
+
             DrawImage(img, 0, 0, img.GetWidth(), img.GetHeight(), x, y);
         }
 
@@ -85,7 +131,7 @@ namespace asap.graphics
             AppGraphics.DrawLine(x1, y1, x2, y2, color);
         }
 
-        public void DrawRect(int x, int y, float width, float height, Color color)
+        public void DrawRect(float x, float y, float width, float height, Color color)
         {            
             AppGraphics.DrawRect(x, y, width, height, color);
         }        
