@@ -18,7 +18,7 @@ namespace asap.anim.objects
             player = new SwfPlayer();
             player.SetMovie(movie);
             player.FramesCount = sprite.GetFrameCount();
-            player.Tags = sprite.GetControlTags();            
+            player.Frames = sprite.GetFrames();
             player.Start();
             player.AnimationType = AnimationType.LOOP;            
         }                                

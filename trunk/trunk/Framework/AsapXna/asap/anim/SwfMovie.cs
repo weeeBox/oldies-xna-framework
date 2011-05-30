@@ -6,6 +6,7 @@ using asap.resources;
 using swiff.com.jswiff;
 using swiff.com.jswiff.swfrecords;
 using swiff.com.jswiff.swfrecords.tags;
+using System.Diagnostics;
 
 namespace asap.anim
 {
@@ -16,7 +17,7 @@ namespace asap.anim
         private int framesCount;
         private int frameRate;
 
-        private List<Tag> tags;        
+        private SWFFrame[] frames;        
 
         private SwfLibrary library;        
 
@@ -26,7 +27,7 @@ namespace asap.anim
             this.height = document.GetHeight();
             this.framesCount = document.GetFrameCount();
             this.frameRate = document.GetFrameRate();
-            tags = new List<Tag>();
+            frames = new SWFFrame[framesCount];
             library = new SwfLibrary();
         }                
 
@@ -45,9 +46,10 @@ namespace asap.anim
             library.Add(tag);
         }
 
-        public void AddControlTag(Tag tag)
+        public void SetFrameTags(List<Tag> tags, int frameIndex)
         {
-            tags.Add(tag);
+            Debug.Assert(frameIndex >= 0 && frameIndex < frames.Length);
+            frames[frameIndex] = SWFFrame.Create(tags);
         }
 
         public DefinitionTag GetCharacter(int characterId)
@@ -55,9 +57,9 @@ namespace asap.anim
             return library[characterId];
         }
 
-        public List<Tag> Tags
+        public SWFFrame[] Frames
         {
-            get { return tags; }
+            get { return frames; }
         }
 
         public int FramesCount
