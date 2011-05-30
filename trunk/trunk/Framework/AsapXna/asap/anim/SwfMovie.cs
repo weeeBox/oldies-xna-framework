@@ -95,7 +95,30 @@ namespace asap.anim
 
                 case TagConstants.DEFINE_SHAPE:
                 {
-                    DefineShape shape = (DefineShape) tag;
+                    DefineShape shape = (DefineShape)tag;
+                    ShapeWithStyle shapes = shape.GetShapes();
+                    FillStyleArray styles = shapes.GetFillStyles();
+                    int stylesCount = styles.GetSize();
+                    for (int styleIndex = 1; styleIndex <= stylesCount; ++styleIndex)
+                    {
+                        FillStyle style = styles.GetStyle(styleIndex);
+                        switch (style.Type)
+                        {
+                            case FillStyle.TYPE_CLIPPED_BITMAP:
+                            case FillStyle.TYPE_TILED_BITMAP:
+                            case FillStyle.TYPE_NONSMOOTHED_CLIPPED_BITMAP:
+                            case FillStyle.TYPE_NONSMOOTHED_TILED_BITMAP:
+                                {
+                                    int bitmapId = style.GetBitmapId();                                    
+                                    return CreateInstance(bitmapId);
+                                }
+                        }
+                    }
+                    throw new NotImplementedException();
+                }
+                case TagConstants.DEFINE_SHAPE_2:
+                {
+                    DefineShape2 shape = (DefineShape2) tag;
                     ShapeWithStyle shapes = shape.GetShapes();
                     FillStyleArray styles = shapes.GetFillStyles();
                     int stylesCount = styles.GetSize();
@@ -109,7 +132,7 @@ namespace asap.anim
                             case FillStyle.TYPE_NONSMOOTHED_CLIPPED_BITMAP:
                             case FillStyle.TYPE_NONSMOOTHED_TILED_BITMAP:
                             {
-                                 int bitmapId = style.GetBitmapId();
+                                 int bitmapId = style.GetBitmapId();                                 
                                  return CreateInstance(bitmapId);
                             }                            
                         }
