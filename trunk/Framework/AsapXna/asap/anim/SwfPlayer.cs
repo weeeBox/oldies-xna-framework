@@ -7,6 +7,7 @@ using asap.graphics;
 using Microsoft.Xna.Framework;
 using swiff.com.jswiff.swfrecords;
 using swiff.com.jswiff.swfrecords.tags;
+using swiff.com.jswiff;
 
 namespace asap.anim
 {
@@ -40,7 +41,7 @@ namespace asap.anim
 
         private int framesCount;
         private int frameRate;
-        private List<Tag> tags;
+        private SWFFrame[] frames;
 
         private SwfPlayerCache instanceCache;
 
@@ -57,7 +58,7 @@ namespace asap.anim
 
             framesCount = movie.FramesCount;
             frameRate = movie.FrameRate;
-            tags = movie.Tags;
+            frames = movie.Frames;
         }
         
         private void Reset()
@@ -133,7 +134,7 @@ namespace asap.anim
                 int frame = (int)(FrameRate * elaspedTime);
                 if (frame != currentFrame)
                 {                    
-                    ProcessFrame(frame);
+                    ProcessFrame(currentFrame + 1);
                 }                
             }    
         
@@ -153,21 +154,13 @@ namespace asap.anim
 
         private void ProcessFrame(int currentFrame)
         {
-            this.currentFrame = currentFrame;
-
-            List<Tag> tags = Tags;
-            int tagsCount = tags.Count;
-
-            bool breakFlag = false;
-            for (;tagPointer < tagsCount && !breakFlag; ++tagPointer)
+            this.currentFrame = currentFrame;            
+            Tag[] tags = Frames[currentFrame].Tags;
+                        
+            foreach (Tag tag in tags)
             {
-                Tag tag = tags[tagPointer];
                 switch (tag.GetCode())
                 {
-                    case TagConstants.SHOW_FRAME:                        
-                        breakFlag = true;
-                        break;
-
                     case TagConstants.PLACE_OBJECT:
                     case TagConstants.PLACE_OBJECT_3:
                     {
@@ -192,7 +185,7 @@ namespace asap.anim
         
         private bool IsAnimationFinished()
         {
-            return tagPointer == Tags.Count;
+            return currentFrame == Frames.Length - 1;
         }
 
         protected virtual void OnAnimationFinished()
@@ -327,10 +320,10 @@ namespace asap.anim
             set { animationType = value; }
         }
 
-        public List<Tag> Tags
+        public SWFFrame[] Frames
         {
-            get { return tags; }
-            set { tags = value; }
+            get { return frames; }
+            set { frames = value; }
         }
     }
 }
