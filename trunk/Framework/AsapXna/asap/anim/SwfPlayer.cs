@@ -134,8 +134,11 @@ namespace asap.anim
                 if (frame != currentFrame)
                 {                    
                     ProcessFrame(frame);
-                }
-
+                }                
+            }    
+        
+            if (state != PlayerState.PAUSED)
+            {
                 int maxDepth = displayList.Size;
                 for (int depth = 1; depth <= maxDepth; ++depth)
                 {
