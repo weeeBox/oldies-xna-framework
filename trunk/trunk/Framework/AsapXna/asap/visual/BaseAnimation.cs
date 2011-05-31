@@ -9,7 +9,7 @@ using asap.util;
 
 namespace AsapXna.asap.visual
 {
-    public class BaseAnimation : BaseElement
+    public class BaseAnimation : DisplayObject
     {
         public enum Timeline
         {
@@ -20,7 +20,7 @@ namespace AsapXna.asap.visual
 
         public interface TimelineDelegate
         {
-            void ElementTimelineFinished(BaseElement e);
+            void ElementTimelineFinished(DisplayObject e);
         }
 
         public struct KeyFrame
@@ -57,15 +57,15 @@ namespace AsapXna.asap.visual
         protected Timeline timelineLoopType;
         protected bool timelineDirReverse;
 
-        private BaseElement target;
+        private DisplayObject target;
 
-        public BaseAnimation(BaseElement target)
+        public BaseAnimation(DisplayObject target)
         {
             Reset();
             SetTarget(target);
         }
 
-        public void SetTarget(BaseElement target)
+        public void SetTarget(DisplayObject target)
         {            
             this.target = target;            
             width = target.width;

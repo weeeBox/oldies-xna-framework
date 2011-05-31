@@ -10,7 +10,7 @@ namespace asap.visual
         LEFT, CENTER, RIGHT
     }
 
-    public class Text : BaseElement
+    public class Text : DisplayObject
     {
         private const float UNDEFINED_WIDTH = float.PositiveInfinity;
 

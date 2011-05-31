@@ -10,13 +10,13 @@ namespace asap.ui
         {
             int startIndex = component == null ? 0 : container.IndexOf(component) + 1;           
                         
-            DynamicArray<BaseElement> childs = container.GetChilds();
+            DynamicArray<DisplayObject> childs = container.GetChilds();
             int childsCount = container.ChildsCount();
 
             int componentsCount = 0;
             for (int childIndex = startIndex; childIndex < childsCount; ++childIndex)
             {
-                BaseElement child = container.GetChild(childIndex);
+                DisplayObject child = container.GetChild(childIndex);
                 if (child != null && child is UiComponent)
                 {
                     componentsCount++;
@@ -50,7 +50,7 @@ namespace asap.ui
                 
         public UiComponent GetComponentBefore(UiComponent container, UiComponent component)
         {
-            DynamicArray<BaseElement> childs = container.GetChilds();
+            DynamicArray<DisplayObject> childs = container.GetChilds();
             int childsCount = container.ChildsCount();
 
             int startIndex = component == null ? childsCount - 1 : container.IndexOf(component) - 1;
@@ -58,7 +58,7 @@ namespace asap.ui
             int componentsCount = 0;
             for (int childIndex = startIndex; childIndex >= 0; --childIndex)
             {
-                BaseElement child = container.GetChild(childIndex);
+                DisplayObject child = container.GetChild(childIndex);
                 if (child != null && child is UiComponent)
                 {
                     componentsCount++;
@@ -91,12 +91,12 @@ namespace asap.ui
                 
         public UiComponent GetFirstComponent(UiComponent container)
         {
-            DynamicArray<BaseElement> childs = container.GetChilds();
+            DynamicArray<DisplayObject> childs = container.GetChilds();
             int childsCount = container.ChildsCount();
 
             for (int childIndex = 0; childIndex < childsCount; ++childIndex)
             {
-                BaseElement child = container.GetChild(childIndex);
+                DisplayObject child = container.GetChild(childIndex);
                 if (child != null && child is UiComponent)
                 {
                     UiComponent childComponent = (UiComponent)child;
@@ -119,12 +119,12 @@ namespace asap.ui
 
         public UiComponent GetLastComponent(UiComponent container)
         {
-            DynamicArray<BaseElement> childs = container.GetChilds();
+            DynamicArray<DisplayObject> childs = container.GetChilds();
             int childsCount = container.ChildsCount();
 
             for (int childIndex = childsCount - 1; childIndex >= 0; --childIndex)
             {
-                BaseElement child = container.GetChild(childIndex);
+                DisplayObject child = container.GetChild(childIndex);
                 if (child != null && child is UiComponent)
                 {
                     UiComponent childComponent = (UiComponent)child;
@@ -147,12 +147,12 @@ namespace asap.ui
 
         public UiComponent GetDefaultComponent(UiComponent container)
         {
-            DynamicArray<BaseElement> childs = container.GetChilds();
+            DynamicArray<DisplayObject> childs = container.GetChilds();
             int childsCount = container.ChildsCount();
                         
             for (int childIndex = 0; childIndex < childsCount; ++childIndex)
             {
-                BaseElement child = container.GetChild(childIndex);
+                DisplayObject child = container.GetChild(childIndex);
                 if (child != null && child is UiComponent)
                 {
                     UiComponent childComponent = (UiComponent)child;

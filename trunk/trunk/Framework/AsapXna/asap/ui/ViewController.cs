@@ -184,7 +184,7 @@ namespace asap.ui
         private void FindPointerListenerAtPoint(int x, int y)
         {
             //Debug.Assert((focusedComponent) == null);            
-            //foreach (BaseElement component in root.GetChilds())
+            //foreach (DisplayObject component in root.GetChilds())
             //{
             //    if (component is PointerListener) 
             //    {

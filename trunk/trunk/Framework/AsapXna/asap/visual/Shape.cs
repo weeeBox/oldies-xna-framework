@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace asap.visual
 {
-    public abstract class Shape<T> : BaseElement where T : struct, IVertexType
+    public abstract class Shape<T> : DisplayObject where T : struct, IVertexType
     {
         protected T[] vertexData;
         protected PrimitiveType type;
