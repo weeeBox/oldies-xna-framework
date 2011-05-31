@@ -5,12 +5,12 @@ using System.Diagnostics;
 
 namespace asap.visual
 {
-    public class BaseElementContainer : BaseElement
+    public class BaseElementContainer : DisplayObject
     {
         public bool passTransformationsToChilds;
         public bool passButtonEventsToAllChilds;
 
-        protected DynamicArray<BaseElement> childs;
+        protected DynamicArray<DisplayObject> childs;
 
         public BaseElementContainer()
             : this(0, 0, 0, 0)
@@ -25,7 +25,7 @@ namespace asap.visual
         public BaseElementContainer(float x, float y, float width, float height)
             : base(x, y, width, height)
         {
-            childs = new DynamicArray<BaseElement>();
+            childs = new DynamicArray<DisplayObject>();
             passTransformationsToChilds = true;
             passButtonEventsToAllChilds = true;
         }
@@ -34,7 +34,7 @@ namespace asap.visual
         {
             base.Update(delta);
 
-            foreach (BaseElement c in childs)
+            foreach (DisplayObject c in childs)
             {
                 if (c != null && c.IsUpdatable())
                 {
@@ -50,7 +50,7 @@ namespace asap.visual
                 RestoreDrawState(g);
             }
 
-            foreach (BaseElement c in childs)
+            foreach (DisplayObject c in childs)
             {
                 if (c != null && c.IsVisible())
                 {
@@ -64,13 +64,13 @@ namespace asap.visual
             }
         }
 
-        public virtual void AddChild(BaseElement c, int index)
+        public virtual void AddChild(DisplayObject c, int index)
         {
             c.SetParent(this);
             childs[index] = c;
         }
 
-        public virtual int AddChild(BaseElement c)
+        public virtual int AddChild(DisplayObject c)
         {
             int index = childs.getFirstEmptyIndex();
             AddChild(c, index);
@@ -79,12 +79,12 @@ namespace asap.visual
 
         public void RemoveChildWithId(int i)
         {
-            BaseElement c = childs[i];
+            DisplayObject c = childs[i];
             c.SetParent(null);
             childs[i] = null;
         }
 
-        public void RemoveChild(BaseElement c)
+        public void RemoveChild(DisplayObject c)
         {
             int index = childs.getObjectIndex(c);
             RemoveChildWithId(index);
@@ -92,15 +92,15 @@ namespace asap.visual
 
         public void RemoveAllChilds()
         {
-            childs = new DynamicArray<BaseElement>();
+            childs = new DynamicArray<DisplayObject>();
         }
 
-        public BaseElement GetChild(int i)
+        public DisplayObject GetChild(int i)
         {
             return childs[i];
         }
 
-        public DynamicArray<BaseElement> GetChilds()
+        public DynamicArray<DisplayObject> GetChilds()
         {
             return childs;
         }
@@ -119,20 +119,20 @@ namespace asap.visual
             }
             else
             {
-                BaseElement firtChild = GetChild(0);
+                DisplayObject firtChild = GetChild(0);
                 float left = firtChild.x;
                 float top = firtChild.y;
                 float right = left + firtChild.width;
                 float bottom = top + firtChild.height;
                 for (int i = 1; i < ChildsCount(); i++)
                 {
-                    BaseElement child = GetChild(i);
+                    DisplayObject child = GetChild(i);
                     left = Math.Min(left, child.x);
                     top = Math.Min(top, child.y);
                     right = Math.Max(right, child.x + child.width);
                     bottom = Math.Max(bottom, child.y + child.height);
                 }
-                foreach (BaseElement child in childs)
+                foreach (DisplayObject child in childs)
                 {
                     child.x = horizontally ? child.x - left : child.x;
                     child.y = vertically ? child.y - top : child.y;

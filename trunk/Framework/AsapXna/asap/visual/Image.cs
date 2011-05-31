@@ -7,7 +7,7 @@ using asap.graphics;
 
 namespace asap.visual
 {
-    public class Image : BaseElement
+    public class Image : DisplayObject
     {
         protected GameTexture texture;
 

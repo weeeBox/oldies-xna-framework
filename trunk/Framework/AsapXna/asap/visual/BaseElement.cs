@@ -6,7 +6,7 @@ using asap.graphics.effects;
 
 namespace asap.visual
 {
-    public abstract class BaseElement
+    public abstract class DisplayObject
     {
         public const float ALIGN_MIN = 0.0f;
         public const float ALIGN_CENTER = 0.5f;
@@ -49,19 +49,19 @@ namespace asap.visual
         public float parentAlignX;
         public float parentAlignY;
 
-        private BaseElement parent;        
+        private DisplayObject parent;        
 
-        public BaseElement()
+        public DisplayObject()
             : this(0, 0)
         {
         }
 
-        public BaseElement(float width, float height)
+        public DisplayObject(float width, float height)
             : this(0, 0, width, height)
         {
         }
 
-        public BaseElement(float x, float y, float width, float height)
+        public DisplayObject(float x, float y, float width, float height)
         {
             visible = true;
             updateable = true;            
@@ -207,19 +207,19 @@ namespace asap.visual
             }
         }
 
-        public BaseElement GetParent()
+        public DisplayObject GetParent()
         {
             return parent;
         }
 
-        public void SetParent(BaseElement parent)
+        public void SetParent(DisplayObject parent)
         {
             this.parent = parent;
         }
 
-        public bool IsAncestorOf(BaseElement element)
+        public bool IsAncestorOf(DisplayObject element)
         {
-            BaseElement parent = this;
+            DisplayObject parent = this;
 
             while ((parent = parent.GetParent()) != null)
             {

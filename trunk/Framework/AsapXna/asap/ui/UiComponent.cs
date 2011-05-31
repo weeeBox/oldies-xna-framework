@@ -35,7 +35,7 @@ namespace asap.ui
             float top = -topMargin;
             float right = Width + rightMargin;
             float bottom = Height + bottomMargin;
-            foreach (BaseElement child in childs)
+            foreach (DisplayObject child in childs)
             {
                 if (child != null)
                 {
@@ -50,7 +50,7 @@ namespace asap.ui
         public void ArrangeVert(float distance)
         {
             float pos = 0;
-            foreach (BaseElement child in childs) 
+            foreach (DisplayObject child in childs) 
             {
                 child.y = pos;                
                 pos += child.Height + distance;
@@ -60,7 +60,7 @@ namespace asap.ui
         public void ArrangeHor(float distance)
         {
             float pos = 0;
-            foreach (BaseElement child in childs) 
+            foreach (DisplayObject child in childs) 
             {
                 child.x = pos;                
                 pos += child.width + distance;
@@ -77,62 +77,62 @@ namespace asap.ui
             ArrangeHelper(true);            
         }
         
-        public void AttachLeft(BaseElement component)
+        public void AttachLeft(DisplayObject component)
         {
             AttachLeft(component, 0.0f);
         }
 
-        public void AttachLeft(BaseElement component, float indent)
+        public void AttachLeft(DisplayObject component, float indent)
         {
             component.x = indent;
         }
         
-        public void AttachHCenter(BaseElement component)
+        public void AttachHCenter(DisplayObject component)
         {
             component.x = 0.5f * (Width - component.Width);            
         }
         
-        public void AttachRight(BaseElement component)
+        public void AttachRight(DisplayObject component)
         {
             AttachRight(component, 0.0f);
         }
 
-        public void AttachRight(BaseElement component, float indent)
+        public void AttachRight(DisplayObject component, float indent)
         {
             component.x = Width - component.Width - indent;
         }
         
-        public void AttachTop(BaseElement component)
+        public void AttachTop(DisplayObject component)
         {
             AttachTop(component, 0);
         }
 
-        public void AttachTop(BaseElement component, float indent)
+        public void AttachTop(DisplayObject component, float indent)
         {
             component.y = indent;
         }
         
-        public void AttachVCenter(BaseElement component)
+        public void AttachVCenter(DisplayObject component)
         {
             component.y = 0.5f * (Height - component.Height);
         }
         
-        public void AttachBottom(BaseElement component, float indent)
+        public void AttachBottom(DisplayObject component, float indent)
         {
             component.y = Height - component.height - indent;
         }
         
-        public void AttachVert(BaseElement component, float align)
+        public void AttachVert(DisplayObject component, float align)
         {
             component.y = align * (Height - component.Height);
         }
         
-        public void AttachHor(BaseElement component, float align)
+        public void AttachHor(DisplayObject component, float align)
         {
             component.x = align * (Width - component.Width);
         }
         
-        public void AttachCenter(BaseElement component)
+        public void AttachCenter(DisplayObject component)
         {
             AttachHCenter(component);
             AttachVCenter(component);
@@ -140,7 +140,7 @@ namespace asap.ui
 
         public void AttachCenterAll()
         {
-            foreach (BaseElement child in childs)
+            foreach (DisplayObject child in childs)
             {
                 AttachCenter(child);
             }            
@@ -148,7 +148,7 @@ namespace asap.ui
 
         public void AttachHCenterAll()
         {
-            foreach (BaseElement child in childs)
+            foreach (DisplayObject child in childs)
             {
                 AttachHCenter(child);
             }            
@@ -156,7 +156,7 @@ namespace asap.ui
         
         public void AttachVCenterAll()
         {
-            foreach (BaseElement child in childs)
+            foreach (DisplayObject child in childs)
             {
                 AttachVCenter(child);
             }            
@@ -168,7 +168,7 @@ namespace asap.ui
                 return ;
             
             float totalSize = 0;
-            foreach (BaseElement child in childs)
+            foreach (DisplayObject child in childs)
             {
                 totalSize += hor ? child.width : child.height;
             }
@@ -192,7 +192,7 @@ namespace asap.ui
             }
             for (int i = 0; i < ChildsCount(); i++) 
             {
-                BaseElement child = GetChild(i);
+                DisplayObject child = GetChild(i);
                 if (hor) 
                 {                    
                     child.x = pos;
@@ -206,12 +206,12 @@ namespace asap.ui
             }
         } 
 
-        public int IndexOf(BaseElement element)
+        public int IndexOf(DisplayObject element)
         {
             int childsCount = ChildsCount();
             for (int childIndex = 0; childIndex < childsCount; ++childIndex)
             {
-                BaseElement child = childs[childIndex];
+                DisplayObject child = childs[childIndex];
                 if (child == element)
                 {
                     return childIndex;
@@ -255,7 +255,7 @@ namespace asap.ui
             if (focusTraversalPolicy != null)
                 return focusTraversalPolicy;
 
-            BaseElement parent = GetParent();
+            DisplayObject parent = GetParent();
             if (parent != null && parent is UiComponent)
             {
                 return ((UiComponent)parent).GetFocusTraversalPolicy();
@@ -269,7 +269,7 @@ namespace asap.ui
             if (nextFocusKeyCodes != null)
                 return nextFocusKeyCodes;
 
-            BaseElement parent = GetParent();
+            DisplayObject parent = GetParent();
             if (parent != null && parent is UiComponent)
             {
                 return ((UiComponent)parent).GetNextFocusKeyCodes();
@@ -283,7 +283,7 @@ namespace asap.ui
             if (prevFocusKeyCodes != null)
                 return prevFocusKeyCodes;
 
-            BaseElement parent = GetParent();
+            DisplayObject parent = GetParent();
             if (parent != null && parent is UiComponent)
             {
                 return ((UiComponent)parent).GetPrevFocusKeyCodes();
