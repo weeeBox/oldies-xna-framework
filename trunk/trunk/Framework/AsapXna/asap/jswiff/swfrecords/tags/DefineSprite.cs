@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 
 using swiff.com.jswiff.io;
-using System.Diagnostics;
 
 namespace swiff.com.jswiff.swfrecords.tags
 {
@@ -26,7 +25,7 @@ namespace swiff.com.jswiff.swfrecords.tags
      */
     public class DefineSprite : DefinitionTag
     {
-        private SWFFrame[] frames;
+        private List<Tag>  controlTags = new List<Tag> ();
         
         /** 
          * Creates a new DefineSprite tag. Supply the character ID of the sprite.
@@ -45,49 +44,46 @@ namespace swiff.com.jswiff.swfrecords.tags
         {
         }
         
-        public virtual SWFFrame[] GetFrames()
+        public virtual List<Tag>  GetControlTags()
         {
-            return frames;
+            return controlTags;
         }
         
         public virtual int GetFrameCount()
         {
-            return frames.Length;
-        }        
+            int count = 0;            
+            foreach (Tag tag in controlTags)
+            {
+                if (tag.GetCode() == TagConstants.SHOW_FRAME) 
+                {
+                    count++;
+                } 
+            }
+            return count;
+        }
+        
+        public virtual void AddControlTag(Tag controlTag)
+        {
+            controlTags.Add(controlTag);
+        }
         
         public override void SetData(byte[] data) /* throws IOException */
         {
             InputBitStream inStream = new InputBitStream(data);
             characterId = inStream.ReadUI16();
-            int framesCount = inStream.ReadUI16();
-            int frameIndex = 0;
-
-            frames = new SWFFrame[framesCount];
-
-            List<Tag> controlTags = new List<Tag>();
+            inStream.ReadUI16();
             do 
             {
-                Tag tag = TagReader.ReadTag(inStream);
-                int tagCode = tag.GetCode();
-
-                if (tagCode == TagConstants.SHOW_FRAME)
-                {
-                    frames[frameIndex] = SWFFrame.Create(controlTags);
-                    controlTags.Clear();
-                    frameIndex++;
-                }
-                else if (tagCode == TagConstants.END)
-                {
-                    Debug.Assert(frameIndex == framesCount);
-                    Debug.Assert(controlTags.Count == 0);
-                    break;
-                }
-                else 
+                Tag tag = TagReader.ReadTag(inStream, GetSWFVersion(), IsJapanese());
+                if ((tag.GetCode()) != (TagConstants.END)) 
                 {
                     controlTags.Add(tag);
+                } 
+                else 
+                {
+                    break;
                 }
-            } 
-            while (true);            
+            } while (true );
         }
     }
 }

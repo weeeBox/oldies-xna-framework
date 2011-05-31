@@ -121,7 +121,6 @@
     <Compile Include="asap\graphics\Atlas.cs" />
     <Compile Include="asap\graphics\effects\BaseElementEffect.cs" />
     <Compile Include="asap\graphics\GameEffect.cs" />
-    <Compile Include="asap\jswiff\SWFFrame.cs" />
     <Compile Include="asap\resources\EmbededRes.cs" />
     <Compile Include="asap\resources\types\AtlasRes.cs" />
     <Compile Include="asap\sound\ISoundChannel.cs" />
