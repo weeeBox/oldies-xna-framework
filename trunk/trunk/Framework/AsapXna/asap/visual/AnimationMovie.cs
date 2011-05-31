@@ -9,7 +9,7 @@ using asap.anim.objects;
 
 namespace asap.visual
 {
-    public class AnimationMovie : BaseElementContainer
+    public class AnimationMovie : DisplayObjectContainer
     {        
         private SwfPlayer player;
 
