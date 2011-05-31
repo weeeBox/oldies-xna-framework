@@ -7,7 +7,7 @@ using swiff.com.jswiff.swfrecords;
 
 namespace asap.anim.objects
 {
-    public abstract class CharacterInstance : BaseElementContainer, IDisposable
+    public abstract class CharacterInstance : DisplayObjectContainer, IDisposable
     {
         private Matrix matrix;
         private bool hasTransform;

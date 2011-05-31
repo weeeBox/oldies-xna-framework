@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace asap.ui
 {
-    public class UiComponent : BaseElementContainer
+    public class UiComponent : DisplayObjectContainer
     {
         private bool enabled;        
         private bool traversalKeysEnabled;

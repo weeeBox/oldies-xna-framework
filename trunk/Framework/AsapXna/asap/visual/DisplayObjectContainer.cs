@@ -5,24 +5,24 @@ using System.Diagnostics;
 
 namespace asap.visual
 {
-    public class BaseElementContainer : DisplayObject
+    public class DisplayObjectContainer : DisplayObject
     {
         public bool passTransformationsToChilds;
         public bool passButtonEventsToAllChilds;
 
         protected DynamicArray<DisplayObject> childs;
 
-        public BaseElementContainer()
+        public DisplayObjectContainer()
             : this(0, 0, 0, 0)
         {
         }
 
-        public BaseElementContainer(float width, float height)
+        public DisplayObjectContainer(float width, float height)
             : this(0, 0, width, height)
         {
         }
 
-        public BaseElementContainer(float x, float y, float width, float height)
+        public DisplayObjectContainer(float x, float y, float width, float height)
             : base(x, y, width, height)
         {
             childs = new DynamicArray<DisplayObject>();
