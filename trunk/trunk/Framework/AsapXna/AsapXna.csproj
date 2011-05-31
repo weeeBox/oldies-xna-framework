@@ -135,7 +135,7 @@
     <Compile Include="asap\util\RandomHelper.cs" />
     <Compile Include="asap\util\Rect.cs" />
     <Compile Include="asap\visual\BaseAnimation.cs" />
-    <Compile Include="asap\visual\BaseElement.cs" />
+    <Compile Include="asap\visual\DisplayObject.cs" />
     <Compile Include="asap\visual\BaseElementContainer.cs" />
     <Compile Include="asap\graphics\BaseFont.cs" />
     <Compile Include="asap\graphics\BitmapFont.cs" />
