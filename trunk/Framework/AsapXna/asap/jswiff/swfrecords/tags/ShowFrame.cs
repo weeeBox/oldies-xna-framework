@@ -17,12 +17,10 @@ namespace swiff.com.jswiff.swfrecords.tags
      */
     public class ShowFrame : Tag
     {
-        public static ShowFrame Instance = new ShowFrame();
-
         /** 
          * Creates a new ShowFrame tag.
          */
-        private ShowFrame() 
+        public ShowFrame() 
         {
             code = TagConstants.SHOW_FRAME;
         }
