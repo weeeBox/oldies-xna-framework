@@ -11,63 +11,28 @@ namespace asap.visual
 {
     public class MovieClip : DisplayObjectContainer
     {        
-        private SwfPlayer player;
-
-        private bool needUpdatePlayer;
+        private SwfPlayer player;        
 
         public MovieClip(SwfMovie movie) : base(movie.GetWidth(), movie.GetHeight())
         {
-            player = new SwfPlayer();
-            player.SetMovie(movie);
-            needUpdatePlayer = true;            
-        }
-
-        public MovieClip(SwfPlayer player)
-        {
-            this.player = player;
-            needUpdatePlayer = false;
-        }
+            player = new SwfPlayer(this);
+            player.SetMovie(movie);            
+        }        
        
         public void Start()
         {
             player.Start();
         }
 
-        public override void Draw(Graphics g)
-        {
-            PreDraw(g);            
-            player.Draw(g);            
-            PostDraw(g);
-        }
-
         public override void Update(float delta)
         {
-            base.Update(delta);
-
-            if (needUpdatePlayer)
-            {
-                player.Tick(delta);
-            }
+            player.Tick(delta);
+            base.Update(delta);            
         } 
       
         public SwfPlayer GetPlayer()
         {
             return player;
-        }
-
-        public SpriteInstance FindInstance(string name)
-        {
-            return GetPlayer().FindInstance(name);
-        }
-
-        public List<CharacterInstance> FindInstances(int characterId)
-        {
-            return GetPlayer().FindInstances(characterId);
-        }
-
-        public List<CharacterInstance> FindInstancesOf(Type type)
-        {
-            return GetPlayer().FindInstancesOf(type);
         }
 
         public AnimationType AnimationType

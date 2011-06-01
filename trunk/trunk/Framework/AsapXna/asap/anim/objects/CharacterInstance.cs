@@ -7,12 +7,20 @@ using swiff.com.jswiff.swfrecords;
 
 namespace asap.anim.objects
 {
-    public abstract class CharacterInstance : DisplayObjectContainer, IDisposable
+    public class CharacterInstance : DisplayObjectContainer, IDisposable
     {
+        public static CharacterInstance NULL = new CharacterInstance();
+
         private Matrix matrix;
         private bool hasTransform;
         private int characterId;
         private int code;
+
+        private CharacterInstance()
+        {
+            SetUpdatable(false);
+            SetVisible(false);
+        }
 
         public CharacterInstance(int code, int characterId)
         {

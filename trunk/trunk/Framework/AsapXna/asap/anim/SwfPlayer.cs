@@ -7,6 +7,7 @@ using asap.graphics;
 using Microsoft.Xna.Framework;
 using swiff.com.jswiff.swfrecords;
 using swiff.com.jswiff.swfrecords.tags;
+using asap.visual;
 
 namespace asap.anim
 {
@@ -26,8 +27,7 @@ namespace asap.anim
             PAUSED
         };        
 
-        private SwfMovie movie;
-        private SwfDisplayList displayList;        
+        private SwfMovie movie;        
 
         private float delay;
         private float elaspedTime;
@@ -43,10 +43,11 @@ namespace asap.anim
         private List<Tag> tags;
 
         private SwfPlayerCache instanceCache;
+        private DisplayObjectContainer displayList;
 
-        public SwfPlayer()
-        {            
-            displayList = new SwfDisplayList();
+        public SwfPlayer(DisplayObjectContainer displayList)
+        {
+            this.displayList = displayList;
             animationType = AnimationType.NORMAL;
             instanceCache = new SwfPlayerCache();
         }
@@ -67,7 +68,7 @@ namespace asap.anim
             currentFrame = -1;
             elaspedTime = 0;
             tagPointer = 0;
-            displayList.Clear();
+            displayList.RemoveAllChilds();
         }
    
         public void Start()
@@ -91,38 +92,7 @@ namespace asap.anim
         public void Resume()
         {
             state = PlayerState.PLAYING;
-        }
-
-        public void Draw(Graphics g)
-        {
-            int maxDepth = displayList.Size;
-            for (int depth = 1; depth <= maxDepth; ++depth)
-            {
-                CharacterInstance inst = displayList[depth];
-                if (inst != null)
-                {                    
-                    inst.Draw(g);                    
-                }
-            }            
-        }
-
-        private void AddTransform(Graphics g, SwfMatrix swfMatrix)
-        {
-            Matrix m = Matrix.Identity;            
-            if (swfMatrix.HasScale())
-            {
-                m.M11 = (float)swfMatrix.GetScaleX();
-                m.M22 = (float)swfMatrix.GetScaleY();
-            }
-            if (swfMatrix.HasRotateSkew())
-            {
-                m.M12 = (float)swfMatrix.GetRotateSkew0();
-                m.M21 = (float)swfMatrix.GetRotateSkew1();
-            }            
-            m.M41 = swfMatrix.GetTranslateX() / 20.0f;
-            m.M42 = swfMatrix.GetTranslateY() / 20.0f;
-            g.AddTransform(ref m);
-        }        
+        }    
 
         public void Tick(float delta)
         {
@@ -136,19 +106,6 @@ namespace asap.anim
                     ProcessFrame(frame);
                 }                
             }    
-        
-            if (state != PlayerState.PAUSED)
-            {
-                int maxDepth = displayList.Size;
-                for (int depth = 1; depth <= maxDepth; ++depth)
-                {
-                    CharacterInstance inst = displayList[depth];
-                    if (inst != null && inst.IsUpdatable())
-                    {
-                        inst.Update(delta);
-                    }
-                }                
-            }
         }
 
         private void ProcessFrame(int currentFrame)
@@ -222,6 +179,7 @@ namespace asap.anim
             PlaceObject2 placeObject = (PlaceObject2)tag;
             bool isMove = placeObject.IsMove();
             int depth = placeObject.GetDepth();
+            int index = depth - 1;
             if (isMove)
             {
                 bool hasCharacter = placeObject.HasCharacter();
@@ -231,7 +189,7 @@ namespace asap.anim
                 }
                 else
                 {
-                    CharacterInstance instance = displayList[depth];
+                    CharacterInstance instance = (CharacterInstance)displayList.GetChildAt(index);
                     if (placeObject.HasMatrix())
                     {
                         instance.SetSwfMatrix(placeObject.GetMatrix());
@@ -254,11 +212,21 @@ namespace asap.anim
                     instance.SetSwfColorTransform(placeObject.GetColorTransform());
                 }
                 if (placeObject.HasName())
+                {                    
+                    instance.name = placeObject.GetName();
+                }                
+                if (index < displayList.ChildsCount())
                 {
-                    Debug.Assert(instance is SpriteInstance);
-                    ((SpriteInstance)instance).Name = placeObject.GetName();
+                    displayList.ReplaceChildAt(instance, index);                    
                 }
-                displayList[depth] = instance;
+                else
+                {
+                    while (index > displayList.ChildsCount())
+                    {
+                        displayList.AddChild(CharacterInstance.NULL);
+                    }
+                    displayList.AddChild(instance);
+                }                
             }
         }
         
@@ -275,28 +243,13 @@ namespace asap.anim
                     break;
                 default:
                     throw new NotImplementedException(tag.GetCode().ToString());
-            }            
-            displayList[depth] = null;
+            }
+            displayList.ReplaceChildAt(CharacterInstance.NULL, depth - 1);
         }
 
         /////////////////////////////////////////////////////////////////////////////
         // Helpers
         /////////////////////////////////////////////////////////////////////////////
-        
-        public SpriteInstance FindInstance(string name)
-        {
-            return displayList.FindInstance(name);
-        }
-
-        public List<CharacterInstance> FindInstances(int characterId)
-        {
-            return displayList.FindInstances(characterId);
-        }
-
-        public List<CharacterInstance> FindInstancesOf(Type type)
-        {
-            return displayList.FindInstancesOf(type);
-        }
 
         private CharacterInstance CreateInstance(int characterId, int depth)
         {
