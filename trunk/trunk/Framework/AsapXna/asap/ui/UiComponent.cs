@@ -192,7 +192,7 @@ namespace asap.ui
             }
             for (int i = 0; i < ChildsCount(); i++) 
             {
-                DisplayObject child = GetChild(i);
+                DisplayObject child = GetChildAt(i);
                 if (hor) 
                 {                    
                     child.x = pos;

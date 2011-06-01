@@ -2,6 +2,7 @@
 using asap.graphics;
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace asap.visual
 {
@@ -10,7 +11,7 @@ namespace asap.visual
         public bool passTransformationsToChilds;
         public bool passButtonEventsToAllChilds;
 
-        protected DynamicArray<DisplayObject> childs;
+        protected List<DisplayObject> childs;
 
         public DisplayObjectContainer()
             : this(0, 0, 0, 0)
@@ -25,7 +26,7 @@ namespace asap.visual
         public DisplayObjectContainer(float x, float y, float width, float height)
             : base(x, y, width, height)
         {
-            childs = new DynamicArray<DisplayObject>();
+            childs = new List<DisplayObject>();
             passTransformationsToChilds = true;
             passButtonEventsToAllChilds = true;
         }
@@ -64,51 +65,135 @@ namespace asap.visual
             }
         }
 
-        public virtual void AddChild(DisplayObject c, int index)
+        public virtual void AddChildAt(DisplayObject c, int index)
         {
+            Debug.Assert(index >= 0 && index < ChildsCount());
+            DisplayObjectContainer oldParent = c.GetParent();
+            if (oldParent != null)            
+                oldParent.RemoveChild(c);            
             c.SetParent(this);
-            childs[index] = c;
+            childs.Insert(index, c);
         }
 
-        public virtual int AddChild(DisplayObject c)
+        public virtual void AddChild(DisplayObject c)
         {
-            int index = childs.getFirstEmptyIndex();
-            AddChild(c, index);
-            return index;
+            DisplayObjectContainer oldParent = c.GetParent();
+            if (oldParent != null)            
+                oldParent.RemoveChild(c);            
+            c.SetParent(this);
+            childs.Add(c);                        
         }
 
-        public void RemoveChildWithId(int i)
+        public virtual bool Contains(DisplayObject obj)
         {
-            DisplayObject c = childs[i];
-            c.SetParent(null);
-            childs[i] = null;
+            foreach (DisplayObject child in childs)
+            {
+                if (child == obj)
+                    return true;
+
+                if (child is DisplayObjectContainer)
+                    return ((DisplayObjectContainer)child).Contains(obj);
+            }
+
+            return false;
         }
+
+        public DisplayObject GetChildAt(int index)
+        {
+            Debug.Assert(index >= 0 && index < ChildsCount());
+            return childs[index];
+        }
+
+        public DisplayObject GetChildByName(string name)
+        {
+            foreach (DisplayObject child in childs)
+            {
+                if (child.name == name)
+                    return child;
+
+                if (child is DisplayObjectContainer)
+                    return ((DisplayObjectContainer)child).GetChildByName(name);
+            }           
+
+            return null;
+        }
+
+        public int GetChildIndex(DisplayObject obj)
+        {
+            return childs.IndexOf(obj);
+        }                        
 
         public void RemoveChild(DisplayObject c)
         {
-            int index = childs.getObjectIndex(c);
-            RemoveChildWithId(index);
+            bool childRemoved = childs.Remove(c);
+            if (childRemoved)
+            {
+                c.SetParent(null);
+            }
+        }
+
+        public void RemoveChildAt(int index)
+        {
+            RemoveChild(GetChildAt(index));
         }
 
         public void RemoveAllChilds()
         {
-            childs = new DynamicArray<DisplayObject>();
-        }
+            foreach (DisplayObject child in childs)
+            {
+                child.SetParent(null);
+            }
+            childs.Clear();
+        }        
 
-        public DisplayObject GetChild(int i)
+        public void SetChildIndex(DisplayObject child, int index)
         {
-            return childs[i];
+            Debug.Assert(index >= 0 && index < ChildsCount());
+            int oldIndex = GetChildIndex(child);
+            Debug.Assert(oldIndex != -1);
+            if (index > oldIndex)
+            {
+                for (int i = oldIndex; i < index; ++i)
+                {
+                    childs[i] = childs[i + 1];
+                }
+            }
+            else if (index < oldIndex)
+            {
+                for (int i = oldIndex; i > index; --i)
+                {
+                    childs[i] = childs[i - 1];
+                }
+            }
+            childs[index] = child;
         }
 
-        public DynamicArray<DisplayObject> GetChilds()
+        public void SwapChildren(DisplayObject child1, DisplayObject child2)
+        {
+            int index1 = GetChildIndex(child1);
+            int index2 = GetChildIndex(child2);
+
+            SwapChildrenAt(index1, index2);
+        }
+
+        public void SwapChildrenAt(int index1, int index2)
+        {
+            Debug.Assert(index1 >= 0 && index1 < ChildsCount());
+            Debug.Assert(index2 >= 0 && index2 < ChildsCount());
+            DisplayObject temp = childs[index1];
+            childs[index1] = childs[index2];
+            childs[index2] = temp;
+        }
+
+        public List<DisplayObject> GetChilds()
         {
             return childs;
         }
 
         public int ChildsCount()
         {
-            return childs.count();
-        }
+            return childs.Count;
+        }        
 
         private void ResizeToFitChilds(bool horizontally, bool vertically)
         {
@@ -119,14 +204,14 @@ namespace asap.visual
             }
             else
             {
-                DisplayObject firtChild = GetChild(0);
+                DisplayObject firtChild = GetChildAt(0);
                 float left = firtChild.x;
                 float top = firtChild.y;
                 float right = left + firtChild.width;
                 float bottom = top + firtChild.height;
                 for (int i = 1; i < ChildsCount(); i++)
                 {
-                    DisplayObject child = GetChild(i);
+                    DisplayObject child = GetChildAt(i);
                     left = Math.Min(left, child.x);
                     top = Math.Min(top, child.y);
                     right = Math.Max(right, child.x + child.width);

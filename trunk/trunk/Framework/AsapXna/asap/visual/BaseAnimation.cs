@@ -9,7 +9,7 @@ using asap.util;
 
 namespace AsapXna.asap.visual
 {
-    public class BaseAnimation : DisplayObject
+    public class BaseAnimation : DisplayObjectContainer
     {
         public enum Timeline
         {
