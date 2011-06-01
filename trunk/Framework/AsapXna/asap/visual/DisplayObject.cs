@@ -49,7 +49,9 @@ namespace asap.visual
         public float parentAlignX;
         public float parentAlignY;
 
-        private DisplayObject parent;        
+        public string name;
+
+        private DisplayObjectContainer parent;        
 
         public DisplayObject()
             : this(0, 0)
@@ -207,28 +209,15 @@ namespace asap.visual
             }
         }
 
-        public DisplayObject GetParent()
+        public DisplayObjectContainer GetParent()
         {
             return parent;
         }
 
-        public void SetParent(DisplayObject parent)
+        public void SetParent(DisplayObjectContainer parent)
         {
             this.parent = parent;
-        }
-
-        public bool IsAncestorOf(DisplayObject element)
-        {
-            DisplayObject parent = this;
-
-            while ((parent = parent.GetParent()) != null)
-            {
-                if (parent == element)
-                    return true;
-            }
-
-            return false;
-        }
+        }        
 
         public virtual Color Tint
         {
