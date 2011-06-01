@@ -92,12 +92,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="asap\anim\IMovieClip.cs" />
     <Compile Include="asap\anim\objects\BitmapInstance.cs" />
     <Compile Include="asap\anim\objects\CharacterConstansts.cs" />
     <Compile Include="asap\anim\objects\CharacterInstance.cs" />
     <Compile Include="asap\anim\objects\SpriteInstance.cs" />
     <Compile Include="asap\anim\SwfPartset.cs" />
-    <Compile Include="asap\anim\SwfDisplayList.cs" />
     <Compile Include="asap\anim\SwfLibrary.cs" />
     <Compile Include="asap\anim\SwfMovie.cs" />
     <Compile Include="asap\anim\SwfPlayer.cs" />

@@ -37,7 +37,7 @@ namespace asap.visual
 
             foreach (DisplayObject c in childs)
             {
-                if (c != null && c.IsUpdatable())
+                if (c.IsUpdatable())
                 {
                     c.Update(delta);
                 }
@@ -53,7 +53,7 @@ namespace asap.visual
 
             foreach (DisplayObject c in childs)
             {
-                if (c != null && c.IsVisible())
+                if (c.IsVisible())
                 {
                     c.Draw(g);
                 }
@@ -67,19 +67,14 @@ namespace asap.visual
 
         public virtual void AddChildAt(DisplayObject c, int index)
         {
-            Debug.Assert(index >= 0 && index < ChildsCount());
-            DisplayObjectContainer oldParent = c.GetParent();
-            if (oldParent != null)            
-                oldParent.RemoveChild(c);            
+            Debug.Assert(index >= 0 && index < ChildsCount());            
             c.SetParent(this);
             childs.Insert(index, c);
         }
 
         public virtual void AddChild(DisplayObject c)
         {
-            DisplayObjectContainer oldParent = c.GetParent();
-            if (oldParent != null)            
-                oldParent.RemoveChild(c);            
+            DisplayObjectContainer oldParent = c.GetParent();            
             c.SetParent(this);
             childs.Add(c);                        
         }
@@ -144,7 +139,17 @@ namespace asap.visual
                 child.SetParent(null);
             }
             childs.Clear();
-        }        
+        }
+
+        public virtual DisplayObject ReplaceChildAt(DisplayObject c, int index)
+        {
+            Debug.Assert(index >= 0 && index < ChildsCount());
+            DisplayObject oldChild = childs[index];
+            oldChild.SetParent(null);
+            c.SetParent(this);
+            childs[index] = c;
+            return oldChild;
+        }
 
         public void SetChildIndex(DisplayObject child, int index)
         {
@@ -240,6 +245,6 @@ namespace asap.visual
         public void ResizeToFitChilds()
         {
             ResizeToFitChilds(true, true);
-        }
+        }        
     }
 }

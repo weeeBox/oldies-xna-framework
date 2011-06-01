@@ -10,12 +10,11 @@ namespace asap.anim.objects
 {
     public class SpriteInstance : CharacterInstance
     {
-        private SwfPlayer player;
-        private string name;
+        private SwfPlayer player;        
 
         public SpriteInstance(DefineSprite sprite, SwfMovie movie) : base(CharacterConstansts.SPRITE, sprite.GetCharacterId())
         {            
-            player = new SwfPlayer();
+            player = new SwfPlayer(this);
             player.SetMovie(movie);
             player.FramesCount = sprite.GetFrameCount();
             player.Tags = sprite.GetControlTags();            
@@ -26,35 +25,12 @@ namespace asap.anim.objects
         public bool HasName
         {
             get { return name != null; }
-        }
-
-        public string Name
-        {
-            get { return name; }            
-            set { name = value; }
-        }
-
-        public SpriteInstance FindInstance(string name)
-        {
-            return player.FindInstance(name);
-        }
-
-        public List<CharacterInstance> CurrentFrameChilds
-        {
-            get { return player.FindInstancesOf(typeof(CharacterInstance)); }
-        }
-
-        public override void Draw(Graphics g)
-        {
-            base.PreDraw(g);
-            player.Draw(g);
-            base.PostDraw(g);
-        }        
+        }             
 
         public override void Update(float delta)
         {
-            base.Update(delta);
             player.Tick(delta);
+            base.Update(delta);            
         }
     }
 }
