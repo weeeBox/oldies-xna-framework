@@ -417,7 +417,7 @@
   <ItemGroup>
     <Compile Include="asap\visual\CircleShape.cs" />
     <Compile Include="asap\visual\Image.cs" />
-    <Compile Include="asap\visual\AnimationMovie.cs" />
+    <Compile Include="asap\visual\MovieClip.cs" />
     <Compile Include="asap\visual\RectShape.cs" />
     <Compile Include="asap\visual\Shape.cs" />
     <Compile Include="asap\visual\Text.cs" />

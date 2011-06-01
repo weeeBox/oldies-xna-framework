@@ -22,7 +22,7 @@ namespace Game.app.menu
 
         public MainScreen() : base(ScreenId.MAIN_MENU)
         {
-            AnimationMovie movie = new AnimationMovie(Application.sharedResourceMgr.GetMovie(Res.ANI_ANIM));
+            MovieClip movie = new MovieClip(Application.sharedResourceMgr.GetMovie(Res.ANI_ANIM));
             movie.AnimationType = AnimationType.LOOP;
             movie.alignX = movie.parentAlignX = 0.5f;
             movie.Start();

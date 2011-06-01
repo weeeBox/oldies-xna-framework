@@ -9,20 +9,20 @@ using asap.anim.objects;
 
 namespace asap.visual
 {
-    public class AnimationMovie : DisplayObjectContainer
+    public class MovieClip : DisplayObjectContainer
     {        
         private SwfPlayer player;
 
         private bool needUpdatePlayer;
 
-        public AnimationMovie(SwfMovie movie) : base(movie.GetWidth(), movie.GetHeight())
+        public MovieClip(SwfMovie movie) : base(movie.GetWidth(), movie.GetHeight())
         {
             player = new SwfPlayer();
             player.SetMovie(movie);
             needUpdatePlayer = true;            
         }
 
-        public AnimationMovie(SwfPlayer player)
+        public MovieClip(SwfPlayer player)
         {
             this.player = player;
             needUpdatePlayer = false;
