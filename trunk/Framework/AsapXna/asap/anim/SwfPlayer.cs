@@ -28,9 +28,9 @@ namespace asap.anim
         };        
 
         private SwfMovie movie;
-
-        private float delay;
-        private float elaspedTime;        
+        
+        private float frameElaspedTime;
+        private float frameDelay;
 
         private int currentFrame;
         private int tagPointer;
@@ -57,7 +57,7 @@ namespace asap.anim
             this.movie = movie;
 
             framesCount = movie.FramesCount;
-            frameRate = movie.FrameRate;
+            FrameRate = movie.FrameRate;
             tags = movie.Tags;
         }
         
@@ -66,7 +66,7 @@ namespace asap.anim
             state = PlayerState.STOPPED;
 
             currentFrame = -1;
-            elaspedTime = 0;
+            frameElaspedTime = 0;
             tagPointer = 0;
             displayList.RemoveAllChilds();
         }                
@@ -75,54 +75,14 @@ namespace asap.anim
         {
             if (state == PlayerState.PLAYING)
             {
-                elaspedTime += delta;                
-                                
-                int frame = (int)(FrameRate * elaspedTime);
-                if (frame != currentFrame)
-                {                    
-                    ProcessFrame(frame);
+                frameElaspedTime += delta;                                                               
+                if (frameElaspedTime > frameDelay)
+                {
+                    NextFrame();
+                    frameElaspedTime = 0;
                 }                
             }    
         }
-
-        private void ProcessFrame(int currentFrame)
-        {
-            this.currentFrame = currentFrame;
-
-            List<Tag> tags = Tags;
-            int tagsCount = tags.Count;
-
-            bool breakFlag = false;
-            for (;tagPointer < tagsCount && !breakFlag; ++tagPointer)
-            {
-                Tag tag = tags[tagPointer];
-                switch (tag.GetCode())
-                {
-                    case TagConstants.SHOW_FRAME:                        
-                        breakFlag = true;
-                        break;
-
-                    case TagConstants.PLACE_OBJECT:
-                    case TagConstants.PLACE_OBJECT_3:
-                    {
-                        PlaceObject3 placeObject = (PlaceObject3)tag;
-                        throw new NotImplementedException();                        
-                    }
-                    case TagConstants.PLACE_OBJECT_2:                   
-                        doPlaceObject2(tag);                        
-                        break;
-                    case TagConstants.REMOVE_OBJECT:
-                    case TagConstants.REMOVE_OBJECT_2:
-                        DoRemoveObject(tag);
-                        break;                    
-                }
-            }            
-
-            if (IsAnimationFinished())
-            {
-                OnAnimationFinished();
-            }
-        }        
         
         private bool IsAnimationFinished()
         {
@@ -249,7 +209,11 @@ namespace asap.anim
         public int FrameRate
         {
             get { return frameRate; }
-            set { frameRate = value; }
+            set 
+            { 
+                frameRate = value;
+                frameDelay = 1.0f / frameRate;
+            }
         }
         
         public AnimationType AnimationType
@@ -276,7 +240,41 @@ namespace asap.anim
 
         public void NextFrame()
         {
-            throw new NotImplementedException();
+            currentFrame++;
+
+            List<Tag> tags = Tags;
+            int tagsCount = tags.Count;
+
+            bool breakFlag = false;
+            for (; tagPointer < tagsCount && !breakFlag; ++tagPointer)
+            {
+                Tag tag = tags[tagPointer];
+                switch (tag.GetCode())
+                {
+                    case TagConstants.SHOW_FRAME:
+                        breakFlag = true;
+                        break;
+
+                    case TagConstants.PLACE_OBJECT:
+                    case TagConstants.PLACE_OBJECT_3:
+                        {
+                            PlaceObject3 placeObject = (PlaceObject3)tag;
+                            throw new NotImplementedException();
+                        }
+                    case TagConstants.PLACE_OBJECT_2:
+                        doPlaceObject2(tag);
+                        break;
+                    case TagConstants.REMOVE_OBJECT:
+                    case TagConstants.REMOVE_OBJECT_2:
+                        DoRemoveObject(tag);
+                        break;
+                }
+            }
+
+            if (IsAnimationFinished())
+            {
+                OnAnimationFinished();
+            }
         }
 
         public void PrevFrame()
@@ -287,9 +285,8 @@ namespace asap.anim
         public void Play()
         {
             Reset();
-            delay = 1.0f / FrameRate;
             state = PlayerState.PLAYING;
-            Tick(delay); // force the first frame to be shown
+            NextFrame();
         }
 
         public void Stop()
