@@ -106,7 +106,7 @@ namespace asap.anim
 
             // Debug.WriteLine("Next: " + currentFrame);
 
-            Tag[] tags = GetCurrentFrame().Tags;
+            Tag[] tags = Frames[currentFrame].Tags;
             for (int i = 0; i < tags.Length; ++i)
             {
                 ProcessTag(tags[i], FRAME_PROCESS_FORWARD);
@@ -121,9 +121,9 @@ namespace asap.anim
         private void EnterPrevFrame()
         {            
             Tag[] tags;
-            if (currentFrame < FramesCount && GetCurrentFrame().IsDispListChange())
+            if (currentFrame < FramesCount && Frames[currentFrame].IsDispListChange())
             {
-                tags = GetCurrentFrame().Tags;
+                tags = Frames[currentFrame].Tags;
                 for (int i = tags.Length - 1; i >= 0; --i)
                 {
                     ProcessTag(tags[i], FRAME_PROCESS_CLEAR);
@@ -134,7 +134,7 @@ namespace asap.anim
 
             // Debug.WriteLine("Prev: " + currentFrame);
 
-            tags = GetCurrentFrame().Tags;
+            tags = Frames[currentFrame].Tags;
             for (int i = tags.Length - 1; i >= 0; --i)
             {
                 ProcessTag(tags[i], FRAME_PROCESS_BACKWARD);
@@ -336,11 +336,6 @@ namespace asap.anim
         {
             get { return frames; }
             set { frames = value; }
-        }
-
-        private SWFFrame GetCurrentFrame()
-        {
-            return Frames[currentFrame];
         }
 
         public void GotoAndPlay(int frameIndex)
