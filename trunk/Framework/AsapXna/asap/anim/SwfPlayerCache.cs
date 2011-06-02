@@ -49,10 +49,10 @@ namespace asap.anim
 
         public CharacterInstance FindAddedAtDepthBeforeFrame(int depth, int frameIndex)
         {
-            for (int i = frameIndex - 1; i >= 0; --i)
+            for (int i = cache.Count - 1; i >= 0; --i)
             {
                 CacheInfo info = cache[i];
-                if (info.depth == depth)
+                if (info.depth == depth && info.frameIndex < frameIndex)
                 {
                     return info.instance;
                 }
