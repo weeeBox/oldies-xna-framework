@@ -6,7 +6,7 @@ using asap.visual;
 
 namespace asap.anim
 {
-    public interface IMovieClip
+    public interface IMovieControl
     {        
         void GotoAndPlay(int frameIndex);
         void GotoAndStop(int frameIndex);

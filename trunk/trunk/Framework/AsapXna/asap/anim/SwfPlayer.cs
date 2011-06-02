@@ -18,7 +18,7 @@ namespace asap.anim
         PING_PONG
     }
 
-    public class SwfPlayer : TickListener
+    public class SwfPlayer : TickListener, IMovieControl
     {
         private enum PlayerState
         {
@@ -30,7 +30,7 @@ namespace asap.anim
         private SwfMovie movie;        
 
         private float delay;
-        private float elaspedTime;
+        private float elaspedTime;        
 
         private int currentFrame;
         private int tagPointer;
@@ -69,30 +69,7 @@ namespace asap.anim
             elaspedTime = 0;
             tagPointer = 0;
             displayList.RemoveAllChilds();
-        }
-   
-        public void Start()
-        {
-            Reset();            
-            delay = 1.0f / FrameRate;
-            state = PlayerState.PLAYING;
-            Tick(delay); // force the first frame to be shown
-        }
-
-        public void Stop()
-        {
-            state = PlayerState.STOPPED;
-        }
-
-        public void Pause()
-        {
-            state = PlayerState.PAUSED;
-        }
-
-        public void Resume()
-        {
-            state = PlayerState.PLAYING;
-        }    
+        }                
 
         public void Tick(float delta)
         {
@@ -161,7 +138,7 @@ namespace asap.anim
                 case AnimationType.NORMAL:
                     break;
                 case AnimationType.LOOP:
-                    Start();
+                    Play();
                     break;
                 case AnimationType.PING_PONG:
                     throw new NotImplementedException();
@@ -284,6 +261,39 @@ namespace asap.anim
         {
             get { return tags; }
             set { tags = value; }
+        }
+
+        public void GotoAndPlay(int frameIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GotoAndStop(int frameIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NextFrame()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PrevFrame()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Play()
+        {
+            Reset();
+            delay = 1.0f / FrameRate;
+            state = PlayerState.PLAYING;
+            Tick(delay); // force the first frame to be shown
+        }
+
+        public void Stop()
+        {
+            state = PlayerState.STOPPED;
         }
     }
 }
