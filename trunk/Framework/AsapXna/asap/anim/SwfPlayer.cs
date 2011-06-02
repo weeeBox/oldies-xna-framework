@@ -66,7 +66,7 @@ namespace asap.anim
         private void Reset()
         {
             state = PlayerState.STOPPED;
-
+            
             currentFrame = -1;
             frameElaspedTime = 0;            
             displayList.RemoveAllChilds();
@@ -107,13 +107,10 @@ namespace asap.anim
         // Tags logic
         /////////////////////////////////////////////////////////////////////////////
 
-        private bool ProcessTag(Tag tag, bool forward)
+        private void ProcessTag(Tag tag, bool forward)
         {
             switch (tag.GetCode())
             {
-                case TagConstants.SHOW_FRAME:
-                    return false;
-
                 case TagConstants.PLACE_OBJECT:
                 case TagConstants.PLACE_OBJECT_3:
                     {
@@ -121,18 +118,20 @@ namespace asap.anim
                         throw new NotImplementedException();
                     }
                 case TagConstants.PLACE_OBJECT_2:
-                    doPlaceObject2(tag);
-                    break;
+                    {
+                        doPlaceObject2(tag, forward);
+                        break;
+                    }
                 case TagConstants.REMOVE_OBJECT:
                 case TagConstants.REMOVE_OBJECT_2:
-                    DoRemoveObject(tag);
-                    break;
+                    {                    
+                        DoRemoveObject(tag, forward);                 
+                        break;
+                    }
             }
+        }        
 
-            return true;
-        }
-
-        private void doPlaceObject2(Tag tag)
+        private void doPlaceObject2(Tag tag, bool forward)
         {
             PlaceObject2 placeObject = (PlaceObject2)tag;
             bool isMove = placeObject.IsMove();
@@ -160,35 +159,42 @@ namespace asap.anim
             }
             else
             {
-                Debug.Assert(placeObject.HasCharacter());
-                Debug.Assert(placeObject.GetMatrix() != null);
-                int characterId = placeObject.GetCharacterId();
-                CharacterInstance instance = CreateInstance(characterId, depth);
-                instance.SetSwfMatrix(placeObject.GetMatrix());
-                if (placeObject.HasColorTransform())
+                if (forward)
                 {
-                    instance.SetSwfColorTransform(placeObject.GetColorTransform());
-                }
-                if (placeObject.HasName())
-                {                    
-                    instance.name = placeObject.GetName();
-                }                
-                if (index < displayList.ChildsCount())
-                {
-                    displayList.ReplaceChildAt(instance, index);                    
-                }
-                else
-                {
-                    while (index > displayList.ChildsCount())
+                    Debug.Assert(placeObject.HasCharacter());
+                    Debug.Assert(placeObject.GetMatrix() != null);
+                    int characterId = placeObject.GetCharacterId();
+                    CharacterInstance instance = CreateInstance(characterId, depth);
+                    instance.SetSwfMatrix(placeObject.GetMatrix());
+                    if (placeObject.HasColorTransform())
                     {
-                        displayList.AddChild(CharacterInstance.NULL);
+                        instance.SetSwfColorTransform(placeObject.GetColorTransform());
                     }
-                    displayList.AddChild(instance);
-                }                
+                    if (placeObject.HasName())
+                    {
+                        instance.name = placeObject.GetName();
+                    }
+                    if (index < displayList.ChildsCount())
+                    {
+                        displayList.ReplaceChildAt(instance, index);
+                    }
+                    else
+                    {
+                        while (index > displayList.ChildsCount())
+                        {
+                            displayList.AddChild(CharacterInstance.NULL);
+                        }
+                        displayList.AddChild(instance);
+                    }
+                }
+                else // forward
+                {
+                    displayList.ReplaceChildAt(CharacterInstance.NULL, index);
+                }
             }
         }
         
-        private void DoRemoveObject(Tag tag)
+        private void DoRemoveObject(Tag tag, bool forward)
         {
             int depth;
             switch (tag.GetCode())
@@ -202,7 +208,17 @@ namespace asap.anim
                 default:
                     throw new NotImplementedException(tag.GetCode().ToString());
             }
-            displayList.ReplaceChildAt(CharacterInstance.NULL, depth - 1);
+            int index = depth - 1;
+            if (forward)
+            {
+                displayList.ReplaceChildAt(CharacterInstance.NULL, index);
+            }
+            else
+            {
+                CharacterInstance cachedInstance = instanceCache.FindAddedAtDepthBeforeFrame(depth, currentFrame);
+                Debug.Assert(cachedInstance != null);
+                displayList.ReplaceChildAt(cachedInstance, index);
+            }
         }
 
         /////////////////////////////////////////////////////////////////////////////
@@ -266,10 +282,7 @@ namespace asap.anim
             Tag[] tags = Frames[currentFrame].Tags;
             for (int i = 0; i < tags.Length; ++i)
             {
-                if (!ProcessTag(tags[i], true))
-                {
-                    break;
-                }
+                ProcessTag(tags[i], true);                
             }            
 
             if (currentFrame == framesCount - 1)
@@ -285,10 +298,7 @@ namespace asap.anim
             Tag[] tags = Frames[currentFrame].Tags;
             for (int i = tags.Length - 1; i >= 0; --i)
             {
-                if (!ProcessTag(tags[i], false))
-                {
-                    break;
-                }
+                ProcessTag(tags[i], false);                
             }
 
             if (currentFrame == 0)

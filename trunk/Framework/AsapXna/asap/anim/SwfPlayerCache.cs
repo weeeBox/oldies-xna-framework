@@ -46,5 +46,19 @@ namespace asap.anim
 
             return null;
         }
+
+        public CharacterInstance FindAddedAtDepthBeforeFrame(int depth, int frameIndex)
+        {
+            for (int i = frameIndex - 1; i >= 0; --i)
+            {
+                CacheInfo info = cache[i];
+                if (info.depth == depth)
+                {
+                    return info.instance;
+                }
+            }
+
+            return null;
+        }
     }
 }
