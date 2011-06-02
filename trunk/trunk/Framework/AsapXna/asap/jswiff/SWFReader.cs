@@ -91,7 +91,7 @@ namespace swiff.com.jswiff
                 try 
                 {
                     tagData = TagReader.ReadTagData(bitStream, tagHeader);
-                    tag = TagReader.ReadTag(tagHeader, tagData, header.GetVersion(), japanese);
+                    tag = TagReader.ReadTag(tagHeader, tagData);
                     if ((tag.GetCode()) == (TagConstants.END)) 
                     {
                         break;

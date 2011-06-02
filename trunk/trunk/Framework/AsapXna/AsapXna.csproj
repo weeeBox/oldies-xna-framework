@@ -97,6 +97,7 @@
     <Compile Include="asap\anim\objects\CharacterConstansts.cs" />
     <Compile Include="asap\anim\objects\CharacterInstance.cs" />
     <Compile Include="asap\anim\objects\SpriteInstance.cs" />
+    <Compile Include="asap\anim\SwfFrame.cs" />
     <Compile Include="asap\anim\SwfPartset.cs" />
     <Compile Include="asap\anim\SwfLibrary.cs" />
     <Compile Include="asap\anim\SwfMovie.cs" />
