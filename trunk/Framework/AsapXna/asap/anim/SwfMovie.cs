@@ -109,8 +109,10 @@ namespace asap.anim
                             case FillStyle.TYPE_NONSMOOTHED_CLIPPED_BITMAP:
                             case FillStyle.TYPE_NONSMOOTHED_TILED_BITMAP:
                                 {
-                                    int bitmapId = style.GetBitmapId();                                    
-                                    return CreateInstance(bitmapId);
+                                    int bitmapId = style.GetBitmapId();
+                                    CharacterInstance bitmap = CreateInstance(bitmapId);
+                                    bitmap.SetCharacterId(characterId); // replace shape with bitmap
+                                    return bitmap;
                                 }
                         }
                     }
@@ -132,8 +134,10 @@ namespace asap.anim
                             case FillStyle.TYPE_NONSMOOTHED_CLIPPED_BITMAP:
                             case FillStyle.TYPE_NONSMOOTHED_TILED_BITMAP:
                             {
-                                 int bitmapId = style.GetBitmapId();                                 
-                                 return CreateInstance(bitmapId);
+                                int bitmapId = style.GetBitmapId();
+                                CharacterInstance bitmap = CreateInstance(bitmapId);
+                                bitmap.SetCharacterId(characterId); // replace shape with bitmap
+                                return bitmap;
                             }                            
                         }
                     }

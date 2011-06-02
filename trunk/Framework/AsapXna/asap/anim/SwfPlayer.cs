@@ -27,7 +27,7 @@ namespace asap.anim
             PAUSED
         };        
 
-        private SwfMovie movie;        
+        private SwfMovie movie;
 
         private float delay;
         private float elaspedTime;        
@@ -230,7 +230,8 @@ namespace asap.anim
 
         private CharacterInstance CreateInstance(int characterId, int depth)
         {
-            CharacterInstance instance = instanceCache.FindCached(characterId, depth, currentFrame);
+            CharacterInstance instance = instanceCache.FindCached(depth, currentFrame);            
+            Debug.Assert(instance == null || instance.GetCharacterId() == characterId);
             if (instance == null)
             {
                 instance = movie.CreateInstance(characterId);
