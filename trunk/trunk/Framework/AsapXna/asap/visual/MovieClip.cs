@@ -21,8 +21,7 @@ namespace asap.visual
 
         public override void Update(float delta)
         {
-            player.Tick(delta);
-            base.Update(delta);            
+            player.Tick(delta);            
         }        
 
         public AnimationType AnimationType

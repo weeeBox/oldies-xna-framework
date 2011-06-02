@@ -85,7 +85,16 @@ namespace asap.anim
                     EnterFrame();
                     frameElaspedTime = 0;
                 }                
-            }    
+            }
+
+            List<DisplayObject> childs = displayList.GetChilds();
+            foreach (DisplayObject c in childs)
+            {
+                if (c.IsUpdatable())
+                {
+                    c.Update(delta);
+                }
+            }
         }
 
         private void EnterFrame()
