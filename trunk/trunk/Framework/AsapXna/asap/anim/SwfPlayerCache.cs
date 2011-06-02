@@ -19,12 +19,7 @@ namespace asap.anim
                 this.instance = instance;
                 this.depth = depth;
                 this.frameIndex = frameIndex;                
-            }       
-     
-            public int CharacterId
-            {
-                get { return instance.GetCharacterId(); }
-            }
+            }            
         }
 
         private List<CacheInfo> cache;
@@ -39,20 +34,14 @@ namespace asap.anim
             cache.Add(new CacheInfo(instance, depth, frame));
         }
 
-        public CharacterInstance FindCached(int characterId, int depth, int frameIndex)
+        public CharacterInstance FindCached(int depth, int frameIndex)
         {
             foreach (CacheInfo info in cache)
             {
-                if (info.CharacterId != characterId)
-                    continue;
-
-                if (info.depth != depth)
-                    continue;
-
-                if (info.frameIndex != frameIndex)
-                    continue;
-
-                return info.instance;
+                if (info.depth == depth && info.frameIndex == frameIndex)
+                {
+                    return info.instance;
+                }
             }
 
             return null;

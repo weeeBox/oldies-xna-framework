@@ -74,6 +74,11 @@ namespace asap.anim.objects
             return characterId;
         }
 
+        public void SetCharacterId(int characterId)
+        {
+            this.characterId = characterId;
+        }
+
         public int GetCode()
         {
             return code;
