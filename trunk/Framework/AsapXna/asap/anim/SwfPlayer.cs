@@ -111,6 +111,31 @@ namespace asap.anim
         // Tags logic
         /////////////////////////////////////////////////////////////////////////////
 
+        private bool ProcessTag(Tag tag)
+        {
+            switch (tag.GetCode())
+            {
+                case TagConstants.SHOW_FRAME:
+                    return false;
+
+                case TagConstants.PLACE_OBJECT:
+                case TagConstants.PLACE_OBJECT_3:
+                    {
+                        PlaceObject3 placeObject = (PlaceObject3)tag;
+                        throw new NotImplementedException();
+                    }
+                case TagConstants.PLACE_OBJECT_2:
+                    doPlaceObject2(tag);
+                    break;
+                case TagConstants.REMOVE_OBJECT:
+                case TagConstants.REMOVE_OBJECT_2:
+                    DoRemoveObject(tag);
+                    break;
+            }
+
+            return true;
+        }
+
         private void doPlaceObject2(Tag tag)
         {
             PlaceObject2 placeObject = (PlaceObject2)tag;
@@ -244,30 +269,12 @@ namespace asap.anim
 
             List<Tag> tags = Tags;
             int tagsCount = tags.Count;
-
-            bool breakFlag = false;
-            for (; tagPointer < tagsCount && !breakFlag; ++tagPointer)
-            {
-                Tag tag = tags[tagPointer];
-                switch (tag.GetCode())
-                {
-                    case TagConstants.SHOW_FRAME:
-                        breakFlag = true;
-                        break;
-
-                    case TagConstants.PLACE_OBJECT:
-                    case TagConstants.PLACE_OBJECT_3:
-                        {
-                            PlaceObject3 placeObject = (PlaceObject3)tag;
-                            throw new NotImplementedException();
-                        }
-                    case TagConstants.PLACE_OBJECT_2:
-                        doPlaceObject2(tag);
-                        break;
-                    case TagConstants.REMOVE_OBJECT:
-                    case TagConstants.REMOVE_OBJECT_2:
-                        DoRemoveObject(tag);
-                        break;
+                        
+            while(tagPointer < tagsCount)
+            {                
+                if (!ProcessTag(tags[tagPointer++]))
+                {                    
+                    break;
                 }
             }
 
