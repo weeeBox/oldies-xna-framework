@@ -59,15 +59,17 @@ namespace asap.anim
             framesCount = movie.FramesCount;
             FrameRate = movie.FrameRate;
             tags = movie.Tags;
+
+            Reset();
         }
         
         private void Reset()
         {
             state = PlayerState.STOPPED;
 
+            tagPointer = -1;
             currentFrame = -1;
-            frameElaspedTime = 0;
-            tagPointer = 0;
+            frameElaspedTime = 0;            
             displayList.RemoveAllChilds();
         }                
 
@@ -82,12 +84,7 @@ namespace asap.anim
                     frameElaspedTime = 0;
                 }                
             }    
-        }
-        
-        private bool IsAnimationFinished()
-        {
-            return tagPointer == Tags.Count;
-        }
+        }        
 
         protected virtual void OnAnimationFinished()
         {
@@ -111,7 +108,7 @@ namespace asap.anim
         // Tags logic
         /////////////////////////////////////////////////////////////////////////////
 
-        private bool ProcessTag(Tag tag)
+        private bool ProcessTag(Tag tag, bool forward)
         {
             switch (tag.GetCode())
             {
@@ -270,15 +267,15 @@ namespace asap.anim
             List<Tag> tags = Tags;
             int tagsCount = tags.Count;
                         
-            while(tagPointer < tagsCount)
+            while(++tagPointer < tagsCount)
             {                
-                if (!ProcessTag(tags[tagPointer++]))
+                if (!ProcessTag(tags[tagPointer], true))
                 {                    
                     break;
                 }
             }
 
-            if (IsAnimationFinished())
+            if (tagPointer == tagsCount)
             {
                 OnAnimationFinished();
             }
@@ -286,7 +283,23 @@ namespace asap.anim
 
         public void PrevFrame()
         {
-            throw new NotImplementedException();
+            currentFrame--;
+
+            List<Tag> tags = Tags;
+            int tagsCount = tags.Count;
+
+            while (--tagPointer >= 0)
+            {
+                if (!ProcessTag(tags[tagPointer], false))
+                {
+                    break;
+                }
+            }
+
+            if (tagPointer == -1)
+            {
+                OnAnimationFinished();
+            }
         }
 
         public void Play()
