@@ -16,7 +16,7 @@ namespace swiff.com.jswiff.swfrecords.tags
         {
         }
         
-        public static Tag ReadTag(TagHeader header, byte[] tagData, short swfVersion, bool japanese) /* throws IOException */
+        public static Tag ReadTag(TagHeader header, byte[] tagData) /* throws IOException */
         {
             Tag tag;
             switch (header.GetCode())
@@ -166,7 +166,7 @@ namespace swiff.com.jswiff.swfrecords.tags
                     tag = new SetTabIndexTag();
                     break;
                 case TagConstants.SHOW_FRAME:
-                    tag = new ShowFrame();
+                    tag = ShowFrame.Instance;
                     break;
                 case TagConstants.SCALE_9_GRID:
                     tag = new Scale9Grid();
@@ -206,8 +206,6 @@ namespace swiff.com.jswiff.swfrecords.tags
                     break;
             }
             tag.SetCode(header.GetCode());
-            tag.SetSWFVersion(swfVersion);
-            tag.SetJapanese(japanese);
             tag.SetData(tagData);
             return tag;
         }
@@ -222,11 +220,11 @@ namespace swiff.com.jswiff.swfrecords.tags
             return new TagHeader(stream);
         }
         
-        public static Tag ReadTag(InputBitStream stream, short swfVersion, bool shiftJIS) /* throws IOException */
+        public static Tag ReadTag(InputBitStream stream) /* throws IOException */
         {
             TagHeader header = new TagHeader(stream);
             byte[] tagData = stream.ReadBytes(header.GetLength());
-            return TagReader.ReadTag(header, tagData, swfVersion, shiftJIS);
+            return TagReader.ReadTag(header, tagData);
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using swiff.com.jswiff.swfrecords;
 using swiff.com.jswiff.swfrecords.tags;
 using asap.visual;
+using swiff.com.jswiff;
 
 namespace asap.anim
 {
@@ -32,15 +33,14 @@ namespace asap.anim
         private float frameElaspedTime;
         private float frameDelay;
 
-        private int currentFrame;
-        private int tagPointer;
+        private int currentFrame;        
 
         private PlayerState state;
         private AnimationType animationType;
 
         private int framesCount;
         private int frameRate;
-        private List<Tag> tags;
+        private SWFFrame[] frames;
 
         private SwfPlayerCache instanceCache;
         private DisplayObjectContainer displayList;
@@ -58,7 +58,7 @@ namespace asap.anim
 
             framesCount = movie.FramesCount;
             FrameRate = movie.FrameRate;
-            tags = movie.Tags;
+            frames = movie.Frames;
 
             Reset();
         }
@@ -67,7 +67,6 @@ namespace asap.anim
         {
             state = PlayerState.STOPPED;
 
-            tagPointer = -1;
             currentFrame = -1;
             frameElaspedTime = 0;            
             displayList.RemoveAllChilds();
@@ -244,10 +243,10 @@ namespace asap.anim
             set { animationType = value; }
         }
 
-        public List<Tag> Tags
+        public SWFFrame[] Frames
         {
-            get { return tags; }
-            set { tags = value; }
+            get { return frames; }
+            set { frames = value; }
         }
 
         public void GotoAndPlay(int frameIndex)
@@ -264,18 +263,16 @@ namespace asap.anim
         {
             currentFrame++;
 
-            List<Tag> tags = Tags;
-            int tagsCount = tags.Count;
-                        
-            while(++tagPointer < tagsCount)
-            {                
-                if (!ProcessTag(tags[tagPointer], true))
-                {                    
+            Tag[] tags = Frames[currentFrame].Tags;
+            for (int i = 0; i < tags.Length; ++i)
+            {
+                if (!ProcessTag(tags[i], true))
+                {
                     break;
                 }
-            }
+            }            
 
-            if (tagPointer == tagsCount)
+            if (currentFrame == framesCount - 1)
             {
                 OnAnimationFinished();
             }
@@ -285,18 +282,16 @@ namespace asap.anim
         {
             currentFrame--;
 
-            List<Tag> tags = Tags;
-            int tagsCount = tags.Count;
-
-            while (--tagPointer >= 0)
+            Tag[] tags = Frames[currentFrame].Tags;
+            for (int i = tags.Length - 1; i >= 0; --i)
             {
-                if (!ProcessTag(tags[tagPointer], false))
+                if (!ProcessTag(tags[i], false))
                 {
                     break;
                 }
             }
 
-            if (tagPointer == -1)
+            if (currentFrame == 0)
             {
                 OnAnimationFinished();
             }
