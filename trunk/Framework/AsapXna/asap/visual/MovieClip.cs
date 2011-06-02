@@ -9,7 +9,7 @@ using asap.anim.objects;
 
 namespace asap.visual
 {
-    public class MovieClip : DisplayObjectContainer
+    public class MovieClip : DisplayObjectContainer, IMovieControl
     {        
         private SwfPlayer player;        
 
@@ -18,27 +18,47 @@ namespace asap.visual
             player = new SwfPlayer(this);
             player.SetMovie(movie);            
         }        
-       
-        public void Start()
-        {
-            player.Play();
-        }
 
         public override void Update(float delta)
         {
             player.Tick(delta);
             base.Update(delta);            
-        } 
-      
-        public SwfPlayer GetPlayer()
-        {
-            return player;
-        }
+        }        
 
         public AnimationType AnimationType
         {
             get { return player.AnimationType; }
             set { player.AnimationType = value; }
+        }
+
+        public void GotoAndPlay(int frameIndex)
+        {
+            player.GotoAndPlay(frameIndex);
+        }
+
+        public void GotoAndStop(int frameIndex)
+        {
+            player.GotoAndStop(frameIndex);
+        }
+
+        public void NextFrame()
+        {
+            player.NextFrame();
+        }
+
+        public void PrevFrame()
+        {
+            player.PrevFrame();
+        }
+
+        public void Play()
+        {
+            player.Play();
+        }
+
+        public void Stop()
+        {
+            player.Stop();
         }
     }
 }

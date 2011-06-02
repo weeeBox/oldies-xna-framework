@@ -13,44 +13,21 @@ using asap.resources;
 using asap.sound;
 using System;
 using asap.ui;
+using asap.core;
 
 namespace Game.app.menu
 {
     public class MainScreen : Screen
     {
-        private SpriteInstance sprite;
+        private MovieClip movie;
 
         public MainScreen() : base(ScreenId.MAIN_MENU)
         {
-            MovieClip movie = new MovieClip(Application.sharedResourceMgr.GetMovie(Res.ANI_ANIM));
+            movie = new MovieClip(Application.sharedResourceMgr.GetMovie(Res.ANI_ANIM));
             movie.AnimationType = AnimationType.LOOP;
             movie.alignX = movie.parentAlignX = 0.5f;
-            movie.Start();
-            movie.drawBorder = true;
-
-            SpriteInstance hand = movie.FindInstance("duckHand");
-            Image duck = new Image(Application.sharedResourceMgr.GetTexture(Res.IMG_DUCK_DEAD));
-            duck.rotation = -MathHelper.PiOver4;
-            duck.x = 0;
-            duck.y = 60;
-            hand.AddChild(duck);
-
-            float xmax = 100;
-            float xmin = -100;
-            float time = 1.0f;
-
-            BaseAnimation animation = new BaseAnimation(movie);
-            animation.alignX = animation.parentAlignX = 0.5f;
-            animation.TurnTimelineSupportWithMaxKeyFrames(5);
-            animation.SetTimelineLoopType(BaseAnimation.Timeline.REPLAY);
-            animation.AddKeyFrame(new BaseAnimation.KeyFrame(animation.x + xmax, animation.y, ColorTransform.NONE, 1.0f, 1.0f, 0.0f, time));
-            animation.AddKeyFrame(new BaseAnimation.KeyFrame(animation.x + xmax, animation.y, ColorTransform.NONE, -1.0f, 1.0f, 0.0f, 0.0f));
-            animation.AddKeyFrame(new BaseAnimation.KeyFrame(animation.x + xmin, animation.y, ColorTransform.NONE, -1.0f, 1.0f, 0.0f, 2 * time));
-            animation.AddKeyFrame(new BaseAnimation.KeyFrame(animation.x + xmin, animation.y, ColorTransform.NONE, 1.0f, 1.0f, 0.0f, 0.0f));
-            animation.AddKeyFrame(new BaseAnimation.KeyFrame(animation.x, animation.y, ColorTransform.NONE, 1.0f, 1.0f, 0.0f, time));
-            animation.PlayTimeline();
-
-            AddChild(animation);
+            movie.Play();
+            AddChild(movie);
             //sprite = movie.FindInstance("InstanceName");
             //List<CharacterInstance> childs = sprite.CurrentFrameChilds;            
             //Image image = new Image(Application.sharedResourceMgr.GetTexture(Res.IMG_UI_BUTTON_A));
@@ -100,6 +77,22 @@ namespace Game.app.menu
             //AddChild(button);
 
             //ArrangeVert(10);
-        }        
+        }
+
+        public override bool KeyPressed(asap.core.KeyEvent evt)
+        {
+            if (evt.code == KeyCode.VK_Right)
+            {
+                movie.NextFrame();
+                return true;
+            }
+            else if (evt.code == KeyCode.VK_Left)
+            {
+                movie.PrevFrame();
+                return true;
+            }
+
+            return base.KeyPressed(evt);
+        }
     }
 }
