@@ -104,52 +104,75 @@ namespace asap.anim
         {
             currentFrame++;
 
-            // Debug.WriteLine("Next: " + currentFrame);
-
-            Tag[] tags = Frames[currentFrame].Tags;
-            for (int i = 0; i < tags.Length; ++i)
-            {
-                ProcessTag(tags[i], FRAME_PROCESS_FORWARD);
-            }
-
-            if (currentFrame == framesCount - 1)
+            if (currentFrame == framesCount)
             {
                 OnAnimationFinished();
+            }
+            else
+            {
+                // Debug.WriteLine("Next: " + currentFrame);
+
+                Tag[] tags = Frames[currentFrame].Tags;
+                for (int i = 0; i < tags.Length; ++i)
+                {
+                    ProcessTag(tags[i], FRAME_PROCESS_FORWARD);
+                }
             }
         }
 
         private void EnterPrevFrame()
         {            
-            Tag[] tags;
-            if (currentFrame < FramesCount && Frames[currentFrame].IsDispListChange())
+            if (currentFrame > 0 && currentFrame < FramesCount && Frames[currentFrame].IsDispListChange())
             {
-                tags = Frames[currentFrame].Tags;
-                for (int i = tags.Length - 1; i >= 0; --i)
-                {
-                    ProcessTag(tags[i], FRAME_PROCESS_CLEAR);
-                }
+                ClearFrame(currentFrame);
             }
 
             currentFrame--;
 
-            // Debug.WriteLine("Prev: " + currentFrame);
-
-            tags = Frames[currentFrame].Tags;
-            for (int i = tags.Length - 1; i >= 0; --i)
-            {
-                ProcessTag(tags[i], FRAME_PROCESS_BACKWARD);
-            }
-
-            if (currentFrame == 0)
+            if (currentFrame == -1)
             {
                 OnAnimationFinished();
+            }
+            else
+            {
+                // Debug.WriteLine("Prev: " + currentFrame);
+
+                Tag[] tags = Frames[currentFrame].Tags;
+                for (int i = tags.Length - 1; i >= 0; --i)
+                {
+                    ProcessTag(tags[i], FRAME_PROCESS_BACKWARD);
+                }
+            }
+        }
+
+        private void ClearFrame(int frameIndex)
+        {
+            // Debug.WriteLine(" Clr: " + currentFrame);
+
+            Tag[] tags = Frames[frameIndex].Tags;
+            for (int i = tags.Length - 1; i >= 0; --i)
+            {
+                ProcessTag(tags[i], FRAME_PROCESS_CLEAR);
             }
         }
 
         protected virtual void OnAnimationFinished()
         {
             if (state == PlayerState.STEP)
+            {
+                if (currentFrame == -1) // step back performed
+                {
+                    Reset();
+                    GotoAndStop(FramesCount - 1);
+                }
+                else
+                {
+                    Reset();
+                    EnterNextFrame();
+                }
+                state = PlayerState.STEP;
                 return;
+            }
 
             Stop();
 
@@ -210,29 +233,10 @@ namespace asap.anim
             bool isMove = placeObject.IsMove();
             int depth = placeObject.GetDepth();
             int index = depth - 1;
-            if (isMove)
+            bool hasCharacter = placeObject.HasCharacter();
+            if (!isMove || hasCharacter)
             {
-                bool hasCharacter = placeObject.HasCharacter();
-                if (hasCharacter)
-                {
-                    throw new NotImplementedException(placeObject.ToString());
-                }
-                else
-                {
-                    CharacterInstance instance = (CharacterInstance)displayList.GetChildAt(index);
-                    if (placeObject.HasMatrix())
-                    {
-                        instance.SetSwfMatrix(placeObject.GetMatrix());
-                    }
-                    if (placeObject.HasColorTransform())
-                    {
-                        instance.SetSwfColorTransform(placeObject.GetColorTransform());
-                    }
-                }
-            }
-            else
-            {
-                if (mode == FRAME_PROCESS_FORWARD)
+                if (mode == FRAME_PROCESS_FORWARD || hasCharacter && mode == FRAME_PROCESS_BACKWARD)
                 {
                     Debug.Assert(placeObject.HasCharacter());
                     Debug.Assert(placeObject.GetMatrix() != null);
@@ -264,6 +268,18 @@ namespace asap.anim
                 {
                     displayList.ReplaceChildAt(CharacterInstance.NULL, index);
                 }
+            }
+            else
+            {
+                CharacterInstance instance = (CharacterInstance)displayList.GetChildAt(index);
+                if (placeObject.HasMatrix())
+                {
+                    instance.SetSwfMatrix(placeObject.GetMatrix());
+                }
+                if (placeObject.HasColorTransform())
+                {
+                    instance.SetSwfColorTransform(placeObject.GetColorTransform());
+                }                
             }
         }
         
