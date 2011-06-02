@@ -15,6 +15,8 @@ namespace swiff.com.jswiff
     {
         private Tag[] tags;
 
+        private bool dispListChange;
+
         private static SWFFrame EMPTY = new SWFFrame(0);
 
         private SWFFrame(int tagsCount)
@@ -34,6 +36,7 @@ namespace swiff.com.jswiff
             foreach (Tag t in tagsList)
             {
                 frame.tags[i] = t;                
+                frame.processTag(t);
                 i++;
             }
 
@@ -43,6 +46,46 @@ namespace swiff.com.jswiff
         public Tag[] Tags
         {
             get { return tags; }
+        }
+
+        public bool IsDispListChange()
+        {
+            return dispListChange;
+        }
+
+        private void processTag(Tag t)
+        {
+            switch (t.GetCode())
+            {
+                case TagConstants.REMOVE_OBJECT:
+                case TagConstants.REMOVE_OBJECT_2:
+                {
+                    dispListChange = true;
+                    break;
+                }
+                case TagConstants.PLACE_OBJECT:
+                {
+                    throw new NotImplementedException("The tag too old");
+                }
+                case TagConstants.PLACE_OBJECT_2:
+                {
+                    PlaceObject2 p = (PlaceObject2)t;
+                    if (!p.IsMove() || p.HasCharacter())
+                    {
+                        dispListChange = true;
+                    }
+                    break;
+                }
+                case TagConstants.PLACE_OBJECT_3:
+                {
+                    PlaceObject3 p = (PlaceObject3)t;
+                    if (!p.IsMove() || p.HasCharacter())
+                    {
+                        dispListChange = true;
+                    }
+                }
+                break;   
+            }
         }
     }
 }
