@@ -21,7 +21,7 @@ namespace asap.visual
        
         public void Start()
         {
-            player.Start();
+            player.Play();
         }
 
         public override void Update(float delta)
