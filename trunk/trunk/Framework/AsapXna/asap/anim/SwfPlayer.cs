@@ -202,7 +202,11 @@ namespace asap.anim
                     break;
                 }
                 case AnimationType.PING_PONG:
-                    throw new NotImplementedException();
+                {                    
+                    SwitchPlaybackDirection();
+                    GotoAndPlay(IsPlayingBackward() ? (startFrame - 1) : (startFrame + 1));
+                    break;
+                }
                 default:
                     throw new NotImplementedException();
             }

@@ -30,6 +30,12 @@ namespace asap.visual
             set { player.AnimationType = value; }
         }
 
+        public int FrameRate
+        {
+            get { return player.FrameRate; }
+            set { player.FrameRate = value; }
+        }
+
         public void GotoAndPlay(int frameIndex)
         {
             player.GotoAndPlay(frameIndex);
