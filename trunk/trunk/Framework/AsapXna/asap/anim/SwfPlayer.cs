@@ -108,26 +108,26 @@ namespace asap.anim
 
         private void EnterFrame()
         {
-            if (endFrame > startFrame)
+            if (IsPlayingBackward())
             {
-                EnterNextFrame();
+                EnterPrevFrame();
             }
             else
             {
-                EnterPrevFrame();
+                EnterNextFrame();                
             }
         }
 
         private void EnterNextFrame()
         {
-            currentFrame++;
-
-            if (currentFrame == endFrame && startFrame < endFrame)
+            if (currentFrame == endFrame && !IsPlayingBackward())
             {
                 OnAnimationFinished();
             }
             else
             {
+                currentFrame++;
+
                 // Debug.WriteLine("Next: " + currentFrame);
 
                 Tag[] tags = Frames[currentFrame].Tags;
@@ -143,19 +143,19 @@ namespace asap.anim
 
         private void EnterPrevFrame()
         {            
-            if (currentFrame > 0 && currentFrame < FramesCount && Frames[currentFrame].IsDispListChange())
+            if (currentFrame >= startFrame && currentFrame <= endFrame && Frames[currentFrame].IsDispListChange())
             {
                 ClearFrame(currentFrame);
-            }
+            }            
 
-            currentFrame--;
-
-            if (currentFrame == endFrame && startFrame > endFrame)
+            if (currentFrame == endFrame && IsPlayingBackward())
             {
                 OnAnimationFinished();
             }
             else
             {
+                currentFrame--;
+
                 // Debug.WriteLine("Prev: " + currentFrame);
 
                 Tag[] tags = Frames[currentFrame].Tags;
@@ -184,30 +184,21 @@ namespace asap.anim
         {
             if (state == PlayerState.STEP)
             {
-                if (currentFrame == -1) // step back performed
-                {
-                    Reset();
-                    GotoAndStop(FramesCount - 1);
-                }
-                else
-                {
-                    Reset();
-                    EnterNextFrame();
-                }
+                GotoAndStop(startFrame);
                 state = PlayerState.STEP;
                 return;
-            }
-
-            Stop();
+            }            
 
             switch (animationType)
             {
-                case AnimationType.NORMAL:                    
+                case AnimationType.NORMAL:                
+                {
+                    Stop();
                     break;
+                }
                 case AnimationType.LOOP:
                 {
-                    Reset();
-                    Play();
+                    GotoAndPlay(startFrame);
                     break;
                 }
                 case AnimationType.PING_PONG:
@@ -273,10 +264,19 @@ namespace asap.anim
                 if (mode == FRAME_PROCESS_FORWARD || hasCharacter && mode == FRAME_PROCESS_BACKWARD)
                 {
                     Debug.Assert(placeObject.HasCharacter());
-                    Debug.Assert(placeObject.GetMatrix() != null);
+                    
                     int characterId = placeObject.GetCharacterId();
                     CharacterInstance instance = CreateInstance(characterId, depth);
-                    instance.SetSwfMatrix(placeObject.GetMatrix());
+                    if (placeObject.HasMatrix())
+                    {
+                        instance.SetSwfMatrix(placeObject.GetMatrix());
+                    }
+                    else
+                    {
+                        Debug.Assert(index >= 0 && index < displayList.ChildsCount());
+                        CharacterInstance oldInstance = (CharacterInstance)displayList.GetChildAt(index);
+                        instance.SetMatrix(oldInstance.GetMatrix());                        
+                    }
                     if (placeObject.HasColorTransform())
                     {
                         instance.SetSwfColorTransform(placeObject.GetColorTransform());
@@ -295,12 +295,13 @@ namespace asap.anim
                         {
                             displayList.AddChild(CharacterInstance.NULL);
                         }
-                        displayList.AddChild(instance);
+                        displayList.AddChild(instance);                        
                     }
                 }
                 else if (mode == FRAME_PROCESS_CLEAR)
                 {
-                    displayList.ReplaceChildAt(CharacterInstance.NULL, index);
+                    CharacterInstance instance = (CharacterInstance)displayList.GetChildAt(index);
+                    instance.SetEnabled(false);
                 }
             }
             else
@@ -357,6 +358,10 @@ namespace asap.anim
                 instance = movie.CreateInstance(characterId);
                 instanceCache.AddCached(instance, depth, currentFrame);
             }
+            else
+            {
+                instance.SetEnabled(true);
+            }
             return instance;
         }
 
@@ -393,6 +398,11 @@ namespace asap.anim
             set { frames = value; }
         }
 
+        private bool IsPlayingBackward()
+        {
+            return startFrame > endFrame;
+        }
+
         public void GotoAndPlay(int frameIndex)
         {
             GotoHelper(frameIndex);
@@ -408,34 +418,49 @@ namespace asap.anim
         private void GotoHelper(int frameIndex)
         {
             Debug.Assert(frameIndex >= 0 && frameIndex < FramesCount);
-
+            
             if (frameIndex > currentFrame)
             {
                 while (currentFrame < frameIndex)
+                {
                     EnterNextFrame();
+                }
             }
             else if (frameIndex < currentFrame)
             {
-                while (currentFrame > frameIndex)
-                    EnterPrevFrame();
+                int numBackSteps = currentFrame - frameIndex;
+                int forwardSteps = frameIndex;
+
+                if (numBackSteps <= forwardSteps)
+                {
+                    while (currentFrame > frameIndex)
+                    {
+                        EnterPrevFrame();
+                    }
+                }
+                else
+                {
+                    Reset();
+                    GotoHelper(frameIndex);
+                }                
             }
         }
 
         public void NextFrame()
         {
-            state = PlayerState.STEP;
-            EnterNextFrame();
+            state = PlayerState.STEP;                        
+            EnterNextFrame();                        
         }
 
         public void PrevFrame()
         {
-            state = PlayerState.STEP;
+            state = PlayerState.STEP;            
             EnterPrevFrame();
         }
 
         public void Play()
-        {            
-            GotoAndPlay(startFrame);
+        {
+            Play(0, FramesCount - 1);
         }
 
         public void Play(int startFrame, int endFrame)
@@ -446,12 +471,19 @@ namespace asap.anim
             this.startFrame = startFrame;
             this.endFrame = endFrame;
 
-            Play();
+            GotoAndPlay(startFrame);
         }
 
         public void Stop()
         {
             state = PlayerState.STOPPED;
+        }
+
+        private void SwitchPlaybackDirection()
+        {
+            int temp = startFrame;
+            startFrame = endFrame;
+            endFrame = temp;
         }
     }
 }

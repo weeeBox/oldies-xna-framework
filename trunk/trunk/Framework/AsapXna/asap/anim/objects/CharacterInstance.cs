@@ -29,6 +29,12 @@ namespace asap.anim.objects
             Reset();
         }
 
+        public void SetEnabled(bool enabled)
+        {
+            SetVisible(enabled);
+            SetUpdatable(enabled);
+        }
+        
         private void Reset()
         {
             matrix = Matrix.Identity;
@@ -39,6 +45,17 @@ namespace asap.anim.objects
         {
             ctForm = ColorTransform.Create(ct.GetMulTerm(), ct.GetAddTerm());
         }        
+
+        public void SetMatrix(Matrix matrix)
+        {
+            this.matrix = matrix;
+            hasTransform = matrix != Matrix.Identity;
+        }
+
+        public Matrix GetMatrix()
+        {
+            return matrix;
+        }
 
         public void SetSwfMatrix(SwfMatrix swfMatrix)
         {
