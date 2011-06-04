@@ -13,6 +13,7 @@ namespace asap.anim
         void NextFrame();
         void PrevFrame();
         void Play();
+        void Play(int startFrame, int endFrame);
         void Stop();
     }
 }

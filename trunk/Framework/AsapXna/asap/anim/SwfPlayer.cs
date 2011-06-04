@@ -33,7 +33,12 @@ namespace asap.anim
         private float frameElaspedTime;
         private float frameDelay;
 
-        private int currentFrame;        
+        private int currentFrame;
+
+        private int startFrame;
+        private int endFrame;
+
+        private string currentLabel;
 
         private PlayerState state;
         private AnimationType animationType;
@@ -42,17 +47,16 @@ namespace asap.anim
         private int frameRate;
         private SWFFrame[] frames;
 
-        private bool forward;
-
         private SwfPlayerCache instanceCache;
         private DisplayObjectContainer displayList;
+
+        public IMovieListener listener;
 
         public SwfPlayer(DisplayObjectContainer displayList)
         {
             this.displayList = displayList;
             animationType = AnimationType.NORMAL;
-            instanceCache = new SwfPlayerCache();
-            forward = true;
+            instanceCache = new SwfPlayerCache();            
         }
 
         public void SetMovie(SwfMovie movie)
@@ -62,16 +66,21 @@ namespace asap.anim
             framesCount = movie.FramesCount;
             FrameRate = movie.FrameRate;
             frames = movie.Frames;
+            startFrame = 0;
+            endFrame = framesCount - 1;
 
             Reset();
         }
         
         private void Reset()
         {
+            Debug.Assert(startFrame >= 0 && endFrame < framesCount);
+
             state = PlayerState.STOPPED;
-            
-            currentFrame = forward ? -1 : framesCount;
-            frameElaspedTime = 0;            
+        
+            frameElaspedTime = 0;
+            currentLabel = null;
+            currentFrame = -1;
             displayList.RemoveAllChilds();
         }                
 
@@ -99,7 +108,7 @@ namespace asap.anim
 
         private void EnterFrame()
         {
-            if (forward)
+            if (endFrame > startFrame)
             {
                 EnterNextFrame();
             }
@@ -113,7 +122,7 @@ namespace asap.anim
         {
             currentFrame++;
 
-            if (currentFrame == framesCount)
+            if (currentFrame == endFrame && startFrame < endFrame)
             {
                 OnAnimationFinished();
             }
@@ -126,6 +135,9 @@ namespace asap.anim
                 {
                     ProcessTag(tags[i], FRAME_PROCESS_FORWARD);
                 }
+
+                if (listener != null)
+                    listener.EnterFrame(this);
             }
         }
 
@@ -138,7 +150,7 @@ namespace asap.anim
 
             currentFrame--;
 
-            if (currentFrame == -1)
+            if (currentFrame == endFrame && startFrame > endFrame)
             {
                 OnAnimationFinished();
             }
@@ -151,6 +163,9 @@ namespace asap.anim
                 {
                     ProcessTag(tags[i], FRAME_PROCESS_BACKWARD);
                 }
+
+                if (listener != null)
+                    listener.EnterFrame(this);
             }
         }
 
@@ -200,6 +215,9 @@ namespace asap.anim
                 default:
                     throw new NotImplementedException();
             }
+
+            if (listener != null)
+                listener.AnimationFinished();
         }
 
         /////////////////////////////////////////////////////////////////////////////
@@ -216,6 +234,13 @@ namespace asap.anim
 
             switch (tag.GetCode())
             {
+                case TagConstants.FRAME_LABEL:
+                    {
+                        FrameLabel label = (FrameLabel)tag;
+                        currentLabel = label.GetName();
+                        break;
+                    }
+
                 case TagConstants.PLACE_OBJECT:
                 case TagConstants.PLACE_OBJECT_3:
                     {
@@ -350,6 +375,11 @@ namespace asap.anim
                 frameDelay = 1.0f / frameRate;
             }
         }
+
+        public string CurrentLabel
+        {
+            get { return currentLabel; }
+        }
         
         public AnimationType AnimationType
         {
@@ -366,13 +396,13 @@ namespace asap.anim
         public void GotoAndPlay(int frameIndex)
         {
             GotoHelper(frameIndex);
-            Play();
+            state = PlayerState.PLAYING;
         }
 
         public void GotoAndStop(int frameIndex)
         {
             GotoHelper(frameIndex);
-            Stop();
+            state = PlayerState.STOPPED;
         }
 
         private void GotoHelper(int frameIndex)
@@ -405,8 +435,18 @@ namespace asap.anim
 
         public void Play()
         {            
-            state = PlayerState.PLAYING;
-            EnterFrame();
+            GotoAndPlay(startFrame);
+        }
+
+        public void Play(int start, int stop)
+        {
+            Debug.Assert(startFrame >= 0 && startFrame < FramesCount);
+            Debug.Assert(endFrame >= 0 && endFrame < FramesCount);
+
+            startFrame = start;
+            endFrame = stop;
+
+            Play();
         }
 
         public void Stop()

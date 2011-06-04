@@ -17,7 +17,8 @@ namespace asap.anim
         private int framesCount;
         private int frameRate;
 
-        private SWFFrame[] frames;        
+        private SWFFrame[] frames;
+        private Dictionary<string, int> labels;
 
         private SwfLibrary library;        
 
@@ -29,6 +30,7 @@ namespace asap.anim
             this.frameRate = document.GetFrameRate();
             frames = new SWFFrame[framesCount];
             library = new SwfLibrary();
+            labels = new Dictionary<string, int>();
         }                
 
         public void AddPartset(SwfPartset partset)
@@ -46,10 +48,23 @@ namespace asap.anim
             library.Add(tag);
         }
 
+        public void AddLabel(string label, int frameIndex)
+        {
+            labels.Add(label, frameIndex);
+        }
+
         public void SetFrameTags(List<Tag> tags, int frameIndex)
         {
             Debug.Assert(frameIndex >= 0 && frameIndex < frames.Length);
             frames[frameIndex] = SWFFrame.Create(tags);
+        }
+
+        public int GetLabelIndex(string label)
+        {
+            if (labels.ContainsKey(label))
+                return labels[label];
+
+            return -1;
         }
 
         public DefinitionTag GetCharacter(int characterId)
