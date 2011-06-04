@@ -55,9 +55,19 @@ namespace asap.visual
             player.Play();
         }
 
+        public void Play(int startFrame, int endFrame)
+        {
+            player.Play(startFrame, endFrame);
+        }
+
         public void Stop()
         {
             player.Stop();
+        }
+
+        public void SetListener(IMovieListener listener)
+        {
+            player.listener = listener;
         }
     }
 }

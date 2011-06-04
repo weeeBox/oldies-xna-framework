@@ -24,6 +24,8 @@ namespace asap.resources.readers
 
             foreach (Tag tag in tags)
             {
+                // Debug.WriteLine(tag);
+
                 int code = tag.GetCode();
                 if (code == TagConstants.DEFINE_ATLAS)
                 {
@@ -83,9 +85,24 @@ namespace asap.resources.readers
                     nextFrameTags.Clear();
                     frameIndex++;
                 }
+                else if (code == TagConstants.FRAME_LABEL)
+                {
+                    FrameLabel frameLabel = (FrameLabel)tag;
+                    movie.AddLabel(frameLabel.GetName(), frameIndex);
+                    nextFrameTags.Add(tag);
+                }
                 else
                 {
-                    nextFrameTags.Add(tag);
+                    switch (code)
+                    {
+                        case TagConstants.SET_BACKGROUND_COLOR:
+                        case TagConstants.FILE_ATTRIBUTES:
+                    	    break;
+                        default:
+                            nextFrameTags.Add(tag);
+                            break;
+                    }
+                    
                 }
             }
 
