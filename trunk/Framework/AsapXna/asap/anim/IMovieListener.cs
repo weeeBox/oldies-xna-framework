@@ -8,7 +8,7 @@ namespace asap.anim
 {
     public interface IMovieListener
     {
-        void EnterFrame(SwfPlayer player);
+        void EnterLabelFrame(SwfPlayer player, string label);        
         void AnimationFinished();
     }
 }

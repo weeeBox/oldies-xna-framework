@@ -120,26 +120,21 @@ namespace asap.anim
 
         private void EnterNextFrame()
         {
-            if (currentFrame == endFrame && !IsPlayingBackward())
+            if (currentFrame == endFrame)
             {
                 OnAnimationFinished();
             }
             else
             {
                 currentFrame++;
-
                 // Debug.WriteLine("Next: " + currentFrame);
-
                 ProcessFrame(currentFrame, FRAME_PROCESS_FORWARD);
-
-                if (listener != null)
-                    listener.EnterFrame(this);
             }
         }
 
         private void EnterPrevFrame()
         {            
-            if (currentFrame >= startFrame && currentFrame <= endFrame && Frames[currentFrame].IsDispListChange())
+            if (NeedCleanFrame(currentFrame))
             {
                 // Debug.WriteLine(" Clr: " + currentFrame);                
                 ProcessFrame(currentFrame, FRAME_PROCESS_CLEAR);
@@ -152,14 +147,14 @@ namespace asap.anim
             else
             {
                 currentFrame--;
-
                 // Debug.WriteLine("Prev: " + currentFrame);
-
                 ProcessFrame(currentFrame, FRAME_PROCESS_BACKWARD);
-
-                if (listener != null)
-                    listener.EnterFrame(this);
             }
+        }
+
+        private bool NeedCleanFrame(int frameIndex)
+        {
+            return frameIndex >= startFrame && frameIndex <= endFrame && Frames[frameIndex].IsDispListChange();
         }
 
         private void ProcessFrame(int frameIndex, int mode)
@@ -171,14 +166,9 @@ namespace asap.anim
             }
         }        
 
-        protected virtual void OnAnimationFinished()
+        protected virtual void OnAnimationFinished()        
         {
-            if (state == PlayerState.STEP)
-            {
-                GotoAndStop(startFrame);
-                state = PlayerState.STEP;
-                return;
-            }            
+            Debug.Assert(state == PlayerState.PLAYING);            
 
             switch (animationType)
             {
@@ -224,6 +214,8 @@ namespace asap.anim
                     {
                         FrameLabel label = (FrameLabel)tag;
                         currentLabel = label.GetName();
+                        if (listener != null)
+                            listener.EnterLabelFrame(this, currentLabel);
                         break;
                     }
 
@@ -443,14 +435,28 @@ namespace asap.anim
 
         public void NextFrame()
         {
-            state = PlayerState.STEP;                        
-            EnterNextFrame();                        
+            state = PlayerState.STEP;
+            if (currentFrame == endFrame && !IsPlayingBackward() || currentFrame == startFrame && IsPlayingBackward())
+            {
+                Debug.WriteLine("Can't move next frame");
+            }
+            else
+            {
+                EnterNextFrame();
+            }
         }
 
         public void PrevFrame()
         {
-            state = PlayerState.STEP;            
-            EnterPrevFrame();
+            state = PlayerState.STEP;
+            if (currentFrame == endFrame && IsPlayingBackward() || currentFrame == startFrame && !IsPlayingBackward())
+            {
+                Debug.WriteLine("Can't move prev frame");
+            }
+            else
+            {
+                EnterPrevFrame();
+            }            
         }
 
         public void Play()
