@@ -438,13 +438,13 @@ namespace asap.anim
             GotoAndPlay(startFrame);
         }
 
-        public void Play(int start, int stop)
+        public void Play(int startFrame, int endFrame)
         {
             Debug.Assert(startFrame >= 0 && startFrame < FramesCount);
             Debug.Assert(endFrame >= 0 && endFrame < FramesCount);
 
-            startFrame = start;
-            endFrame = stop;
+            this.startFrame = startFrame;
+            this.endFrame = endFrame;
 
             Play();
         }
