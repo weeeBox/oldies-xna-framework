@@ -130,11 +130,7 @@ namespace asap.anim
 
                 // Debug.WriteLine("Next: " + currentFrame);
 
-                Tag[] tags = Frames[currentFrame].Tags;
-                for (int i = 0; i < tags.Length; ++i)
-                {
-                    ProcessTag(tags[i], FRAME_PROCESS_FORWARD);
-                }
+                ProcessFrame(currentFrame, FRAME_PROCESS_FORWARD);
 
                 if (listener != null)
                     listener.EnterFrame(this);
@@ -145,7 +141,8 @@ namespace asap.anim
         {            
             if (currentFrame >= startFrame && currentFrame <= endFrame && Frames[currentFrame].IsDispListChange())
             {
-                ClearFrame(currentFrame);
+                // Debug.WriteLine(" Clr: " + currentFrame);                
+                ProcessFrame(currentFrame, FRAME_PROCESS_CLEAR);
             }            
 
             if (currentFrame == endFrame && IsPlayingBackward())
@@ -158,27 +155,21 @@ namespace asap.anim
 
                 // Debug.WriteLine("Prev: " + currentFrame);
 
-                Tag[] tags = Frames[currentFrame].Tags;
-                for (int i = tags.Length - 1; i >= 0; --i)
-                {
-                    ProcessTag(tags[i], FRAME_PROCESS_BACKWARD);
-                }
+                ProcessFrame(currentFrame, FRAME_PROCESS_BACKWARD);
 
                 if (listener != null)
                     listener.EnterFrame(this);
             }
         }
 
-        private void ClearFrame(int frameIndex)
+        private void ProcessFrame(int frameIndex, int mode)
         {
-            // Debug.WriteLine(" Clr: " + currentFrame);
-
             Tag[] tags = Frames[frameIndex].Tags;
-            for (int i = tags.Length - 1; i >= 0; --i)
+            for (int i = 0; i < tags.Length; ++i)
             {
-                ProcessTag(tags[i], FRAME_PROCESS_CLEAR);
+                ProcessTag(tags[i], mode);
             }
-        }
+        }        
 
         protected virtual void OnAnimationFinished()
         {
